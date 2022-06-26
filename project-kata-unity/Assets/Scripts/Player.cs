@@ -11,6 +11,9 @@ public class Player : CustomObject
     [SerializeField]
     private CharacterComponent.Data characterData;
 
+    [SerializeField]
+    private Transform model;
+
     private ThirdPersonComponent thirdPerson = null;
     private CharacterComponent character = null;
 
@@ -29,9 +32,12 @@ public class Player : CustomObject
         thirdPerson.HandleMouseInput(thirdPersonData, Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
         thirdPerson.HandleCameraLook(thirdPersonData);
 
-        character.UpdateMovement(characterData, thirdPerson.GetForwardVector(thirdPersonData),
-                                    Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        var dir = character.UpdateMovement(characterData, thirdPerson.GetForwardVector(thirdPersonData),
+                                                 Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
-        Debug.DrawRay(transform.position, thirdPerson.GetForwardVector(thirdPersonData), Color.red);
+        if (dir != Vector3.zero)
+            model.rotation = Quaternion.Slerp(model.rotation, Quaternion.LookRotation(dir, model.up), Time.deltaTime * 20F);
+
+        Debug.DrawRay(transform.position, thirdPerson.GetForwardVector(thirdPersonData) * 5F, Color.red);
     }
 }

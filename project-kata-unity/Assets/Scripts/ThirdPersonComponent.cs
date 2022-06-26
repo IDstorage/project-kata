@@ -48,10 +48,17 @@ public class ThirdPersonComponent : CustomComponent
     }
 
 
-    public Vector3 GetForwardVector(Data target)
+    public Quaternion GetForwardQuaternion(Data target)
     {
         return Quaternion.AngleAxis(
             CoordinationSystem.CartesianToSpherical(target.camera.position).y * Mathf.Rad2Deg,
-            Vector3.up) * Vector3.back;
+            Vector3.up);
+    }
+
+    public Vector3 GetForwardVector(Data target)
+    {
+        var pos = target.cameraHandle.position - target.camera.position;
+        pos.y = 0F;
+        return pos.normalized;
     }
 }
