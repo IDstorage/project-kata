@@ -1317,7 +1317,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 1
+  m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -1335,13 +1335,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
-  m_LocalRotation: {x: 0.82969224, y: 0.10387995, z: 0.20994055, w: 0.50669986}
+  m_LocalRotation: {x: 0.31490964, y: -0.22015846, z: 0.34375834, w: 0.8568503}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 52.863, y: 131.288, z: 140.363}
+  m_LocalEulerAnglesHint: {x: 43.711, y: -12.852, z: 38.547}
 --- !u!1 &720116867
 GameObject:
   m_ObjectHideFlags: 0
@@ -1986,7 +1986,7 @@ GameObject:
   - component: {fileID: 1149669918}
   - component: {fileID: 1149669917}
   - component: {fileID: 1149669916}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2065,7 +2065,7 @@ Transform:
   m_GameObject: {fileID: 1149669915}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -6859,7 +6859,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &7193248080946223669
 Animator:
   serializedVersion: 3

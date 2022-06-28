@@ -47,6 +47,22 @@ public class ThirdPersonComponent : CustomComponent
         target.camera.LookAt(target.lookAtTarget, Vector3.up);
     }
 
+    public void CalculateCameraDistance(Data target)
+    {
+        //if (!Physics.SphereCast(target.camera.position, 0.5f, (target.cameraHandle.position - target.camera.position).normalized, out var hit, target.radius)) return;
+        Debug.DrawRay(target.camera.position, (target.cameraHandle.position - target.camera.position).normalized * target.radius, Color.red);
+        Debug.Log(LayerMask.NameToLayer("FlexibleCameraHit"));
+        if (!Physics.Raycast(target.camera.position, (target.cameraHandle.position - target.camera.position).normalized, out var hit, target.verticalRange.y, 0)) return;//~LayerMask.NameToLayer("FlexibleCameraHit"))) return;
+
+        Debug.Log(hit.collider.name);
+
+        var spherical = CoordinationSystem.CartesianToSpherical(target.camera.localPosition);
+
+        spherical.x = Mathf.Clamp(hit.distance, target.radiusRange.x, target.radiusRange.y);
+
+        target.camera.localPosition = CoordinationSystem.SphericalToCartesian(spherical);
+    }
+
 
     public Quaternion GetForwardQuaternion(Data target)
     {

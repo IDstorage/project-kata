@@ -5,17 +5,12 @@ using Anomaly;
 
 public class Player : CustomObject
 {
-    [SerializeField]
-    private ThirdPersonComponent.Data thirdPersonData;
-
-    [SerializeField]
-    private CharacterComponent.Data characterData;
+    [SerializeField] private ThirdPersonComponent.Data thirdPersonData;
+    [SerializeField] private CharacterComponent.Data characterData;
+    [SerializeField] private AnimatorComponent.Data animatorData;
 
     [SerializeField]
     private Transform model;
-
-    [SerializeField]
-    private Animator animator;
 
     [SerializeField]
     private float animationFadeMultiplier = 1F;
@@ -23,15 +18,7 @@ public class Player : CustomObject
 
     private ThirdPersonComponent thirdPerson = null;
     private CharacterComponent character = null;
-
-    private float hFollower = 0F, vFollower = 0F;
-    private float floatCutoff = 0.005f;
-
-    private float GetSign(float value)
-    {
-        if (Mathf.Abs(value) <= floatCutoff) return 0F;
-        return Mathf.Sign(value);
-    }
+    private AnimatorComponent animator = null;
 
 
     protected override void Initialize()
@@ -44,6 +31,13 @@ public class Player : CustomObject
         thirdPerson.InitializeCamera(thirdPersonData);
 
         character = GetSharedComponent<CharacterComponent>();
+
+        animator = GetSharedComponent<AnimatorComponent>();
+    }
+
+    public void OnFixedUpdate()
+    {
+        thirdPerson.CalculateCameraDistance(thirdPersonData);
     }
 
     public void OnUpdate()
@@ -54,20 +48,15 @@ public class Player : CustomObject
         float h = Input.GetAxis("Horizontal"),
             v = Input.GetAxis("Vertical");
 
-        hFollower += GetSign(h - hFollower) * Time.deltaTime * animationFadeMultiplier;
-        if (Mathf.Abs(hFollower) <= floatCutoff) hFollower = 0F;
-
-        vFollower += GetSign(v - vFollower) * Time.deltaTime * animationFadeMultiplier;
-        if (Mathf.Abs(vFollower) <= floatCutoff) vFollower = 0F;
-
         bool isMoving = character.UpdateMovement(characterData, thirdPerson.GetForwardVector(thirdPersonData), h, v, out var dir);
 
         if (isMoving)
             model.rotation = Quaternion.Slerp(model.rotation, Quaternion.LookRotation(dir.normalized, model.up), Time.deltaTime * 10F);
 
-        animator.SetFloat("VSpeed", Mathf.Clamp01(Mathf.Abs(h) + Mathf.Abs(v)));
+        animator.SetFloat(animatorData, "VSpeed", Mathf.Clamp01(Mathf.Abs(h) + Mathf.Abs(v)));
 
-        if (Input.GetMouseButtonDown(0)) animator.SetTrigger("DefaultAttack");
+        if (Input.GetMouseButtonDown(0)) animator.SetTrigger(animatorData, "DefaultAttack");
+        animator.SetBool(animatorData, "IsBlocking", Input.GetMouseButton(1));
 
         Debug.DrawRay(transform.position, thirdPerson.GetForwardVector(thirdPersonData) * 5F, Color.red);
     }
