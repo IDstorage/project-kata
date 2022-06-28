@@ -1861,8 +1861,9 @@ MonoBehaviour:
     character: {fileID: 1104371995}
     moveSpeed: 5
     moveSpeedMultiflier: 1
+  animatorData:
+    animator: {fileID: 0}
   model: {fileID: 1635840611}
-  animator: {fileID: 1218980645}
   animationFadeMultiplier: 1
 --- !u!143 &1104371995
 CharacterController:
@@ -2387,8 +2388,9 @@ MonoBehaviour:
     character: {fileID: 1218980644}
     moveSpeed: 1.6
     moveSpeedMultiflier: 1
+  animatorData:
+    animator: {fileID: 1218980645}
   model: {fileID: 1070630264}
-  animator: {fileID: 1218980645}
   animationFadeMultiplier: 1
 --- !u!4 &1218980647
 Transform:
