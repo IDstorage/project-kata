@@ -37,13 +37,14 @@ public class Player : CustomObject
 
     public void OnFixedUpdate()
     {
-        thirdPerson.CalculateCameraDistance(thirdPersonData);
+
     }
 
     public void OnUpdate()
     {
         thirdPerson.HandleMouseInput(thirdPersonData, Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
         thirdPerson.HandleCameraLook(thirdPersonData);
+        thirdPerson.CalculateCameraDistance(thirdPersonData);
 
         float h = Input.GetAxis("Horizontal"),
             v = Input.GetAxis("Vertical");
