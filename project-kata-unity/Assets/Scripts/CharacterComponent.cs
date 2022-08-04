@@ -9,6 +9,7 @@ public class CharacterComponent : CustomComponent
     [SharedComponentData(typeof(CharacterComponent))]
     public class Data : CustomComponent.BaseData
     {
+        public Transform model;
         public CharacterController character;
 
         [Space(10)]
@@ -29,5 +30,17 @@ public class CharacterComponent : CustomComponent
         //target.character.Move((target.character.transform.forward * target.moveSpeed) * target.moveSpeedMultiflier * Time.deltaTime);
         target.character.Move((moveDir * target.moveSpeed) * target.moveSpeedMultiflier * Time.deltaTime);
         return true;
+    }
+
+    public Vector3 MoveAndRotate(Data target, Vector3 forward, float h, float v)
+    {
+        bool isMoving = UpdateMovement(target, forward, h, v, out var dir);
+
+        if (isMoving)
+        {
+            target.model.rotation = Quaternion.Slerp(target.model.rotation, Quaternion.LookRotation(dir.normalized, target.model.up), Time.deltaTime * 10F);
+        }
+
+        return dir;
     }
 }

@@ -9,6 +9,8 @@ public class Player : CustomObject
     [SerializeField] private CharacterComponent.Data characterData;
     [SerializeField] private AnimatorComponent.Data animatorData;
 
+    [SerializeField] private StateMachineComponent.Data stateMachineData;
+
     [SerializeField]
     private Transform model;
 

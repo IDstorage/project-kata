@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44864827, g: 0.49869978, b: 0.5756721, a: 1}
+  m_IndirectSpecularColor: {r: 0.4487145, g: 0.49877012, b: 0.5756833, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1556,6 +1556,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1070630264}
+  - component: {fileID: 1070630266}
+  - component: {fileID: 1070630267}
+  - component: {fileID: 1070630265}
   m_Layer: 0
   m_Name: TransformRoot
   m_TagString: Untagged
@@ -1578,6 +1581,71 @@ Transform:
   m_Father: {fileID: 1218980647}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1070630265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070630263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7a02ebb163e72945b521551a56ee1d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationEvents:
+    keyList:
+    - DoLineAttack
+    valueList:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1070630267}
+          m_TargetAssemblyTypeName: CombatEntity, Assembly-CSharp
+          m_MethodName: DoLineAttack
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!95 &1070630266
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070630263}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 5ae02fce3fd08f140888c4d8f1f2cfc3, type: 3}
+  m_Controller: {fileID: 9100000, guid: 481ccedf18913e34787956ed3186154b, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1070630267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070630263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b14751122139170449d4b0d0c095a4b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponStart: {fileID: 1877232399}
+  weaponEnd: {fileID: 1006129019}
+  weaponCollider: {fileID: 627264888}
+  mat: {fileID: 2100000, guid: 8409388ea239f59489d5a4ec828eac15, type: 2}
 --- !u!1 &1082687635
 GameObject:
   m_ObjectHideFlags: 0
@@ -2074,10 +2142,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1218980647}
   - component: {fileID: 1218980646}
-  - component: {fileID: 1218980649}
-  - component: {fileID: 1218980648}
   - component: {fileID: 1218980644}
-  - component: {fileID: 1218980645}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2103,25 +2168,6 @@ CharacterController:
   m_SkinWidth: 0.0001
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.925, z: 0}
---- !u!95 &1218980645
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1218980643}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 5ae02fce3fd08f140888c4d8f1f2cfc3, type: 3}
-  m_Controller: {fileID: 9100000, guid: 481ccedf18913e34787956ed3186154b, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &1218980646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2143,11 +2189,14 @@ MonoBehaviour:
     radiusRange: {x: 1, y: 10}
     verticalRange: {x: 15, y: 130}
   characterData:
+    model: {fileID: 0}
     character: {fileID: 1218980644}
     moveSpeed: 1.6
     moveSpeedMultiflier: 1
   animatorData:
-    animator: {fileID: 1218980645}
+    animator: {fileID: 1070630266}
+  stateMachineData:
+    caller: {fileID: 0}
   model: {fileID: 1070630264}
   animationFadeMultiplier: 1
 --- !u!4 &1218980647
@@ -2169,52 +2218,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1218980648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1218980643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7a02ebb163e72945b521551a56ee1d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animationEvents:
-    keyList:
-    - DoLineAttack
-    valueList:
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1218980649}
-          m_TargetAssemblyTypeName: CombatEntity, Assembly-CSharp
-          m_MethodName: DoLineAttack
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
---- !u!114 &1218980649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1218980643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b14751122139170449d4b0d0c095a4b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponStart: {fileID: 1877232399}
-  weaponEnd: {fileID: 1006129019}
-  weaponCollider: {fileID: 627264888}
-  mat: {fileID: 2100000, guid: 8409388ea239f59489d5a4ec828eac15, type: 2}
 --- !u!1 &1225453184
 GameObject:
   m_ObjectHideFlags: 0
