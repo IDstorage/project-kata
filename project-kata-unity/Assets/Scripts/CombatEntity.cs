@@ -87,13 +87,11 @@ public class CombatEntity : CustomBehaviour
         }
 
         inputStream.Open();
-        Debug.Log("Open");
         for (int i = 0; i < param.intParameter; ++i)
         {
             await Task.Yield();
         }
         inputStream.Close();
-        Debug.Log("Close");
     }
 
     private void OnDrawGizmos()
