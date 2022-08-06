@@ -10,71 +10,55 @@ public class PlayerLocomotionState : State
 
     private Vector3 handlePos = new Vector3(5F, 0.5f, -10F);
 
-    private CharacterComponent character;
-    private CharacterComponent.Data characterData;
 
-    private ThirdPersonComponent thirdPerson;
-    private ThirdPersonComponent.Data thirdPersonData;
-
-    private AnimatorComponent animator;
-    private AnimatorComponent.Data animatorData;
-
-
-    public override void OnEnter(CustomObject target)
+    public override void OnEnter(CustomBehaviour target)
     {
-        character = target.GetSharedComponent<CharacterComponent>();
-        characterData = target.GetComponentData<CharacterComponent.Data>();
-
-        thirdPerson = target.GetSharedComponent<ThirdPersonComponent>();
-        thirdPersonData = target.GetComponentData<ThirdPersonComponent.Data>();
-
-        animator = target.GetSharedComponent<AnimatorComponent>();
-        animatorData = target.GetComponentData<AnimatorComponent.Data>();
     }
 
-    public override void OnExit(CustomObject target)
+    public override void OnExit(CustomBehaviour target)
     {
 
     }
 
 
-    public override bool IsTransition(out Identity next)
+    public override bool IsTransition(CustomBehaviour target, out Identity next)
     {
         next = Identity.None;
         return false;
     }
 
 
-    public override void OnFixedUpdate(CustomObject target)
+    public override void OnFixedUpdate(CustomBehaviour target)
     {
 
     }
 
-    public override void OnUpdate(CustomObject target)
+    public override void OnUpdate(CustomBehaviour target)
     {
-        thirdPerson.HandleMouseInput(thirdPersonData, Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-        thirdPerson.HandleCameraLook(thirdPersonData);
-        thirdPerson.CalculateCameraDistance(thirdPersonData);
+        var player = target as Player;
+
+        player.ThirdPerson.HandleMouseInput(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+        player.ThirdPerson.HandleCameraLook();
+        player.ThirdPerson.CalculateCameraDistance();
 
         float h = Input.GetAxis("Horizontal"),
             v = Input.GetAxis("Vertical");
 
-        var moveDir = character.MoveAndRotate(characterData, thirdPerson.GetForwardVector(thirdPersonData), h, v);
+        var moveDir = player.Character.MoveAndRotate(player.ThirdPerson.GetForwardVector(), h, v);
 
-        animator.SetFloat(animatorData, "VSpeed", Mathf.Clamp01(Mathf.Abs(h) + Mathf.Abs(v)));
+        player.Animator.SetFloat("VSpeed", Mathf.Clamp01(Mathf.Abs(h) + Mathf.Abs(v)));
 
         if (Input.GetMouseButtonDown(0))
         {
-            var stateMachineData = target.GetComponentData<StateMachineComponent.Data>();
-            target.GetSharedComponent<StateMachineComponent>().ChangeState(stateMachineData, Identity.PlayerAttack);
+            player.StateMachine.ChangeState(Identity.PlayerAttack);
             //animator.SetTrigger(animatorData, "DefaultAttack");
         }
         //animator.SetBool(animatorData, "IsBlocking", Input.GetMouseButton(1));
 
-        Debug.DrawRay(target.transform.position, thirdPerson.GetForwardVector(thirdPersonData) * 5F, Color.red);
+        Debug.DrawRay(target.transform.position, player.ThirdPerson.GetForwardVector() * 5F, Color.red);
     }
 
-    public override void OnLateUpdate(CustomObject target)
+    public override void OnLateUpdate(CustomBehaviour target)
     {
 
     }

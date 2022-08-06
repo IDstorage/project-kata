@@ -1,62 +1,54 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Anomaly;
 
-public class StateMachineComponent : CustomComponent
+[System.Serializable]
+public class StateMachineComponent : CustomComponent, IFixedUpdater, IUpdater, ILateUpdater
 {
-    [System.Serializable]
-    [SharedComponentData(typeof(StateMachineComponent))]
-    public class Data : CustomComponent.BaseData
+    [SerializeField]
+    private CustomBehaviour caller;
+
+    private List<State> states = new List<State>();
+
+    public State CurrentState { get; private set; }
+
+
+    public void Run(int entryIndex = 0, params State[] states)
     {
-        public CustomObject caller;
-        [SerializeField] private List<State> states = new List<State>();
+        this.states.AddRange(states);
 
+        Debug.Assert(entryIndex >= 0 && entryIndex < this.states.Count);
+        ChangeState(entryIndex);
+    }
 
-        public List<State> States => states;
+    public void ChangeState(State.Identity id)
+    {
+        ChangeState(states.FindIndex(s => s.ID == id));
+    }
 
-        public State CurrentState { get; set; }
+    public void ChangeState(int index)
+    {
+        CurrentState?.OnExit(caller);
+        CurrentState = states[index];
+        CurrentState?.OnEnter(caller);
+    }
 
-
-        public void AddStates(params State[] states)
+    public void Update()
+    {
+        if (CurrentState != null && CurrentState.IsTransition(caller, out var next))
         {
-            this.states.AddRange(states);
+            ChangeState(next);
         }
+        CurrentState?.OnUpdate(caller);
     }
 
-
-    public void Run(Data target, int entryIndex = 0)
+    public void FixedUpdate()
     {
-        Debug.Assert(entryIndex >= 0 && entryIndex < target.States.Count);
-        ChangeState(target, entryIndex);
+        CurrentState?.OnFixedUpdate(caller);
     }
 
-    public void ChangeState(Data target, State.Identity id)
+    public void LateUpdate()
     {
-        ChangeState(target, target.States.FindIndex(s => s.ID == id));
-    }
-
-    public void ChangeState(Data target, int index)
-    {
-        target.CurrentState?.OnExit(target.caller);
-        target.CurrentState = target.States[index];
-        target.CurrentState?.OnEnter(target.caller);
-    }
-
-    public void OnFixedUpdate(Data target)
-    {
-        target.CurrentState?.OnFixedUpdate(target.caller);
-    }
-    public void OnUpdate(Data target)
-    {
-        if (target.CurrentState != null && target.CurrentState.IsTransition(out var next))
-        {
-            ChangeState(target, next);
-        }
-        target.CurrentState?.OnUpdate(target.caller);
-    }
-    public void OnLateUpdate(Data target)
-    {
-        target.CurrentState?.OnLateUpdate(target.caller);
+        CurrentState?.OnLateUpdate(caller);
     }
 }

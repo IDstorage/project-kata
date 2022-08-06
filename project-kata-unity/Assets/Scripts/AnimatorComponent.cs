@@ -4,31 +4,37 @@ using Anomaly;
 [System.Serializable]
 public class AnimatorComponent : CustomComponent
 {
-    [System.Serializable]
-    [SharedComponentData(typeof(AnimatorComponent))]
-    public class Data : CustomComponent.BaseData
+    [SerializeField]
+    private Animator animator;
+
+
+    public void SetFloat(string key, float value)
     {
-        public Animator animator;
+        animator.SetFloat(key, value);
+    }
+
+    public void SetInteger(string key, int value)
+    {
+        animator.SetInteger(key, value);
+    }
+
+    public void SetBool(string key, bool value)
+    {
+        animator.SetBool(key, value);
+    }
+
+    public void SetTrigger(string key)
+    {
+        animator.SetTrigger(key);
     }
 
 
-    public void SetFloat(Data target, string key, float value)
+    public AnimatorStateInfo GetCurrentState(int layer = 0)
     {
-        target.animator.SetFloat(key, value);
+        return animator.GetCurrentAnimatorStateInfo(layer);
     }
-
-    public void SetInteger(Data target, string key, int value)
+    public AnimatorStateInfo GetNextState(int layer = 0)
     {
-        target.animator.SetInteger(key, value);
-    }
-
-    public void SetBool(Data target, string key, bool value)
-    {
-        target.animator.SetBool(key, value);
-    }
-
-    public void SetTrigger(Data target, string key)
-    {
-        target.animator.SetTrigger(key);
+        return animator.GetNextAnimatorStateInfo(layer);
     }
 }

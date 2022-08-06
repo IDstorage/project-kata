@@ -3,74 +3,74 @@ using System.Collections.Generic;
 using UnityEngine;
 using Anomaly;
 
+[System.Serializable]
 public class ThirdPersonComponent : CustomComponent
 {
-    [System.Serializable]
-    [SharedComponentData(typeof(ThirdPersonComponent))]
-    public class Data : CustomComponent.BaseData
+    [SerializeField]
+    private Transform camera;
+    [SerializeField]
+    private Transform cameraHandle;
+
+    [Space(10), SerializeField]
+    private Transform lookAtTarget;
+
+    [Space(10), SerializeField]
+    private Vector3 distance;
+    [Space(5), SerializeField]
+    private float radius;
+    [SerializeField]
+    private Vector2 radiusRange;
+
+    [Space(10), SerializeField]
+    private Vector2 verticalRange;
+
+
+    public void InitializeCamera()
     {
-        public Transform camera;
-        public Transform cameraHandle;
-
-        [Space(10)]
-        public Transform lookAtTarget;
-
-        [Space(10)]
-        public Vector3 distance;
-        [Space(5)]
-        public float radius;
-        public Vector2 radiusRange;
-
-        [Space(10)]
-        public Vector2 verticalRange;
+        camera.position = cameraHandle.position + distance.normalized * radius;
     }
 
-    public void InitializeCamera(Data target)
+    public void HandleMouseInput(float h, float v)
     {
-        target.camera.position = target.cameraHandle.position + target.distance.normalized * target.radius;
-    }
+        var spherical = CoordinationSystem.CartesianToSpherical(camera.localPosition);
 
-    public void HandleMouseInput(Data target, float h, float v)
-    {
-        var spherical = CoordinationSystem.CartesianToSpherical(target.camera.localPosition);
-
-        spherical.x = Mathf.Clamp(target.radius, target.radiusRange.x, target.radiusRange.y);
+        spherical.x = Mathf.Clamp(radius, radiusRange.x, radiusRange.y);
         spherical.y = (spherical.y * Mathf.Rad2Deg + h) * Mathf.Deg2Rad;
-        spherical.z = Mathf.Clamp(spherical.z * Mathf.Rad2Deg - v, target.verticalRange.x, target.verticalRange.y) * Mathf.Deg2Rad;
+        spherical.z = Mathf.Clamp(spherical.z * Mathf.Rad2Deg - v, verticalRange.x, verticalRange.y) * Mathf.Deg2Rad;
 
-        target.camera.localPosition = CoordinationSystem.SphericalToCartesian(spherical);
+        camera.localPosition = CoordinationSystem.SphericalToCartesian(spherical);
     }
 
-    public void HandleCameraLook(Data target)
+    public void HandleCameraLook()
     {
-        if (target.lookAtTarget == null) return;
-        target.camera.LookAt(target.lookAtTarget, Vector3.up);
+        if (lookAtTarget == null) return;
+        camera.LookAt(lookAtTarget, Vector3.up);
     }
 
-    public void CalculateCameraDistance(Data target)
+    public void CalculateCameraDistance()
     {
-        var result = Physics.SphereCast(target.cameraHandle.position, 0.5f, (target.camera.position - target.cameraHandle.position).normalized, out var hit, target.radius, 1 << LayerMask.NameToLayer("FlexibleCameraHit"));
+        var result = Physics.SphereCast(cameraHandle.position, 0.5f, (camera.position - cameraHandle.position).normalized, out var hit, radius, 1 << LayerMask.NameToLayer("FlexibleCameraHit"));
 
         if (!result) return;
 
-        var spherical = CoordinationSystem.CartesianToSpherical(target.camera.localPosition);
+        var spherical = CoordinationSystem.CartesianToSpherical(camera.localPosition);
 
-        spherical.x = Mathf.Clamp(hit.distance, target.radiusRange.x, target.radiusRange.y);
+        spherical.x = Mathf.Clamp(hit.distance, radiusRange.x, radiusRange.y);
 
-        target.camera.localPosition = CoordinationSystem.SphericalToCartesian(spherical);
+        camera.localPosition = CoordinationSystem.SphericalToCartesian(spherical);
     }
 
 
-    public Quaternion GetForwardQuaternion(Data target)
+    public Quaternion GetForwardQuaternion()
     {
         return Quaternion.AngleAxis(
-            CoordinationSystem.CartesianToSpherical(target.camera.position).y * Mathf.Rad2Deg,
+            CoordinationSystem.CartesianToSpherical(camera.position).y * Mathf.Rad2Deg,
             Vector3.up);
     }
 
-    public Vector3 GetForwardVector(Data target)
+    public Vector3 GetForwardVector()
     {
-        var pos = target.cameraHandle.position - target.camera.position;
+        var pos = cameraHandle.position - camera.position;
         pos.y = 0F;
         return pos.normalized;
     }

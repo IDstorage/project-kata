@@ -8,44 +8,54 @@ public class PlayerAttackState : State
 {
     public override Identity ID => State.Identity.PlayerAttack;
 
-    private ThirdPersonComponent thirdPerson;
-    private ThirdPersonComponent.Data thirdPersonData;
 
-
-    public override void OnEnter(CustomObject target)
+    public override void OnEnter(CustomBehaviour target)
     {
-        thirdPerson = target.GetSharedComponent<ThirdPersonComponent>();
-        thirdPersonData = target.GetComponentData<ThirdPersonComponent.Data>();
+        (target as Player).Animator.SetTrigger("DefaultAttack");
     }
 
-    public override void OnExit(CustomObject target)
+    public override void OnExit(CustomBehaviour target)
     {
 
     }
 
 
-    public override bool IsTransition(out Identity next)
+    public override bool IsTransition(CustomBehaviour target, out Identity next)
     {
+        var player = target as Player;
+        if (player.Animator.GetNextState().IsName("Locomotion"))
+        {
+            next = Identity.PlayerLocomotion;
+            return true;
+        }
         next = Identity.None;
         return false;
     }
 
 
-    public override void OnFixedUpdate(CustomObject target)
+    public override void OnFixedUpdate(CustomBehaviour target)
     {
 
     }
 
-    public override void OnUpdate(CustomObject target)
+    public override void OnUpdate(CustomBehaviour target)
     {
-        thirdPerson.HandleMouseInput(thirdPersonData, Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-        thirdPerson.HandleCameraLook(thirdPersonData);
-        thirdPerson.CalculateCameraDistance(thirdPersonData);
+        var player = target as Player;
 
-        Debug.DrawRay(target.transform.position, thirdPerson.GetForwardVector(thirdPersonData) * 5F, Color.red);
+        player.ThirdPerson.HandleMouseInput(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+        player.ThirdPerson.HandleCameraLook();
+        player.ThirdPerson.CalculateCameraDistance();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            player.StateMachine.ChangeState(Identity.PlayerAttack);
+            //animator.SetTrigger(animatorData, "DefaultAttack");
+        }
+
+        Debug.DrawRay(target.transform.position, player.ThirdPerson.GetForwardVector() * 5F, Color.red);
     }
 
-    public override void OnLateUpdate(CustomObject target)
+    public override void OnLateUpdate(CustomBehaviour target)
     {
 
     }

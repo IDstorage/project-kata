@@ -2180,25 +2180,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acd2e2b02109ff249b9e3f169d627450, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thirdPersonData:
+  ThirdPerson:
     camera: {fileID: 269417215}
     cameraHandle: {fileID: 1510800633}
-    lookAtTarget: {fileID: 0}
-    distance: {x: 0, y: 5, z: -3}
+    lookAtTarget: {fileID: 2032933274}
+    distance: {x: 0, y: 3, z: 5}
     radius: 3
-    radiusRange: {x: 1, y: 10}
-    verticalRange: {x: 15, y: 130}
-  characterData:
-    model: {fileID: 0}
+    radiusRange: {x: 1, y: 5}
+    verticalRange: {x: 10, y: 120}
+  Character:
+    model: {fileID: 1070630264}
     character: {fileID: 1218980644}
-    moveSpeed: 1.6
+    moveSpeed: 2
     moveSpeedMultiflier: 1
-  animatorData:
+  Animator:
     animator: {fileID: 1070630266}
-  stateMachineData:
-    caller: {fileID: 0}
-  model: {fileID: 1070630264}
-  animationFadeMultiplier: 1
+  StateMachine:
+    caller: {fileID: 1218980646}
 --- !u!4 &1218980647
 Transform:
   m_ObjectHideFlags: 0
