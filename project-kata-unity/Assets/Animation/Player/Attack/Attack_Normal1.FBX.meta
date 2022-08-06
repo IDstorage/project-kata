@@ -585,6 +585,13 @@ ModelImporter:
         floatParameter: 10
         intParameter: 10
         messageOptions: 0
+      - time: 0.21502572
+        functionName: OnEvent
+        data: CollectInputEvent
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 110
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1

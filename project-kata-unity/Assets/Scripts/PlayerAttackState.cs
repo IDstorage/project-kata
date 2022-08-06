@@ -48,7 +48,7 @@ public class PlayerAttackState : State
 
         if (Input.GetMouseButtonDown(0))
         {
-            player.StateMachine.ChangeState(Identity.PlayerAttack);
+            //player.StateMachine.ChangeState(Identity.PlayerAttack);
             //animator.SetTrigger(animatorData, "DefaultAttack");
         }
 

@@ -18,9 +18,13 @@ public class CombatEntity : CustomBehaviour
 
     [SerializeField] private BoxCollider weaponCollider;
 
-    [SerializeField] private Material mat;
+    private Anomaly.Utils.Stream inputStream;
 
     private Queue<BoxCastInfo> debugQueue = new Queue<BoxCastInfo>();
+
+
+    public UnityEngine.Events.UnityEvent onAttackEventInvoked;
+
 
     public async void DoLineAttack(AnimationEvent param)
     {
@@ -45,9 +49,9 @@ public class CombatEntity : CustomBehaviour
             Debug.DrawLine(start, weaponStart.position, Color.green, 0.5f);
             Debug.DrawLine(end, weaponEnd.position, Color.green, 0.5f);
             Debug.DrawLine(weaponStart.position, weaponEnd.position, Color.green, 0.5f);
+
             start = weaponStart.position;
             end = weaponEnd.position;
-
 
             await Task.Yield();
         }
@@ -62,11 +66,35 @@ public class CombatEntity : CustomBehaviour
                 flag = hits[i].name == "Cube";
             }
             if (!flag) return;
-            mat.color = new Color(Random.Range(0F, 1F), Random.Range(0F, 1F), Random.Range(0F, 1F), 1F);
+
+            Debug.Log("Hit");
             return;
         }
     }
 
+    public async void CollectInputEvent(AnimationEvent param)
+    {
+        if (inputStream == null)
+        {
+            inputStream = Anomaly.Utils.Stream.Create(this);
+            inputStream.Select(() => Input.GetMouseButtonDown(0))
+                       .Subscribe(data =>
+                       {
+                           inputStream.Close();
+                           onAttackEventInvoked?.Invoke();
+                       });
+            inputStream.Start();
+        }
+
+        inputStream.Open();
+        Debug.Log("Open");
+        for (int i = 0; i < param.intParameter; ++i)
+        {
+            await Task.Yield();
+        }
+        inputStream.Close();
+        Debug.Log("Close");
+    }
 
     private void OnDrawGizmos()
     {
