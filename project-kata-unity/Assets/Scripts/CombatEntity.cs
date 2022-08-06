@@ -60,14 +60,8 @@ public class CombatEntity : CustomBehaviour
         {
             var hits = Physics.OverlapBox(info.center, info.size * 0.5f, info.rotation, ~(1 << LayerMask.GetMask("Hittable")));
             if (hits == null || hits.Length == 0) continue;
-            bool flag = false;
-            for (int i = 0; i < hits.Length && !flag; ++i)
-            {
-                flag = hits[i].name == "Cube";
-            }
-            if (!flag) return;
 
-            Debug.Log("Hit");
+            Debug.Log($"Hit {hits[0].name}");
             return;
         }
     }
