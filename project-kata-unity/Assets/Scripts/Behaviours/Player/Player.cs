@@ -18,7 +18,10 @@ public class Player : CustomBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
 
-        StateMachine.Run(0, new PlayerLocomotionState(), new PlayerAttackState());
+        StateMachine.Run(0,
+            new PlayerLocomotionState(),
+            new PlayerAttackState(),
+            new PlayerDefenseState());
     }
 
 

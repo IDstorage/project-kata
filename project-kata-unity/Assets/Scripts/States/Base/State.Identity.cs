@@ -9,6 +9,7 @@ public partial class State
         None,
         PlayerLocomotion,
         PlayerInteraction,
-        PlayerAttack
+        PlayerAttack,
+        PlayerDefense
     }
 }

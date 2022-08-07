@@ -46,12 +46,6 @@ public class PlayerAttackState : State
         player.ThirdPerson.HandleCameraLook();
         player.ThirdPerson.CalculateCameraDistance();
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            //player.StateMachine.ChangeState(Identity.PlayerAttack);
-            //animator.SetTrigger(animatorData, "DefaultAttack");
-        }
-
         Debug.DrawRay(target.transform.position, player.ThirdPerson.GetForwardVector() * 5F, Color.red);
     }
 

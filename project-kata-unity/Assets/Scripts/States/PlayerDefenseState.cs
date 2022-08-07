@@ -4,33 +4,27 @@ using UnityEngine;
 using Anomaly;
 
 
-public class PlayerLocomotionState : State
+public class PlayerDefenseState : State
 {
-    public override Identity ID => State.Identity.PlayerLocomotion;
-
-    private Vector3 handlePos = new Vector3(5F, 0.5f, -10F);
+    public override Identity ID => State.Identity.PlayerDefense;
 
 
     public override void OnEnter(CustomBehaviour target)
     {
+        (target as Player).Animator.SetBool("IsBlocking", true);
     }
 
     public override void OnExit(CustomBehaviour target)
     {
-
+        (target as Player).Animator.SetBool("IsBlocking", false);
     }
 
 
     public override bool IsTransition(CustomBehaviour target, out Identity next)
     {
-        if (Input.GetMouseButton(1))
+        if (!Input.GetMouseButton(1))
         {
-            next = Identity.PlayerDefense;
-            return true;
-        }
-        if (Input.GetMouseButtonDown(0))
-        {
-            next = Identity.PlayerAttack;
+            next = Identity.PlayerLocomotion;
             return true;
         }
         next = Identity.None;
