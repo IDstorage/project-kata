@@ -79,15 +79,6 @@ public class CombatEntity : CustomBehaviour
             await Task.Yield();
         }
 
-        // foreach (var info in boxCastQueue)
-        // {
-        //     var hits = Physics.OverlapBox(info.center, info.size * 0.5f, info.rotation, ~(1 << LayerMask.GetMask("Hittable")));
-        //     if (hits == null || hits.Length == 0) continue;
-
-        //     Debug.Log($"Hit {hits[0].name}");
-        //     return;
-        // }
-
         bool IsOverlap(BoxCastInfo info)
         {
             var hits = Physics.OverlapBox(info.center, info.size * 0.5f, info.rotation, ~(1 << LayerMask.GetMask("Hittable")));
