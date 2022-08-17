@@ -40,4 +40,10 @@ public class CharacterComponent : CustomComponent
 
         return dir;
     }
+
+
+    public Vector3 GetModelForward()
+    {
+        return model.forward;
+    }
 }

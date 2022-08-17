@@ -13,6 +13,11 @@ public class CombatEntity : CustomBehaviour
         public Quaternion rotation;
     }
 
+    public PhysicsComponent Physics;
+
+    [SerializeField] private CustomBehaviour rootBehaviour;
+
+    [Space(10)]
     [SerializeField] private Transform weaponStart;
     [SerializeField] private Transform weaponEnd;
 
@@ -81,7 +86,7 @@ public class CombatEntity : CustomBehaviour
 
         bool IsOverlap(BoxCastInfo info)
         {
-            var hits = Physics.OverlapBox(info.center, info.size * 0.5f, info.rotation, ~(1 << LayerMask.GetMask("Hittable")));
+            var hits = UnityEngine.Physics.OverlapBox(info.center, info.size * 0.5f, info.rotation, ~(1 << LayerMask.GetMask("Hittable")));
             if (hits == null || hits.Length == 0) return false;
 
             Debug.Log($"Hit {hits[0].name}");
@@ -110,6 +115,17 @@ public class CombatEntity : CustomBehaviour
         }
         inputStream.Close();
     }
+
+    public void AddImpulseForward(AnimationEvent param)
+    {
+        var player = rootBehaviour as Player;
+
+        var forward = player.Character.GetModelForward();
+
+        this.Physics.SetForceAttenScale(param.intParameter);
+        this.Physics.AddImpulse(forward, param.floatParameter);
+    }
+
 
     private void OnDrawGizmos()
     {

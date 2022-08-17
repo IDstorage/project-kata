@@ -12,6 +12,8 @@ public class PhysicsComponent : CustomComponent, IUpdater
     [SerializeField]
     private float forceAttenScale = 5F;
 
+    private float defaultForceAttenScale = -1F;
+
     private (Vector3 force, Vector3 impulse) extraForce = (Vector3.zero, Vector3.zero);
 
     public void AddImpulse(Vector3 direction, float power)
@@ -37,6 +39,14 @@ public class PhysicsComponent : CustomComponent, IUpdater
     public void RemoveAllImpulse(Vector3 direction, float power)
     {
         extraForce.impulse = Vector3.zero;
+    }
+
+
+    public void SetForceAttenScale(float scale)
+    {
+        if (defaultForceAttenScale < 0F) defaultForceAttenScale = forceAttenScale;
+
+        forceAttenScale = scale <= 0F ? defaultForceAttenScale : scale;
     }
 
 
