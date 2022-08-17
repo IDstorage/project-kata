@@ -1722,6 +1722,7 @@ MonoBehaviour:
     keyList:
     - DoLineAttack
     - CollectInputEvent
+    - AddImpulseForward
     valueList:
     - m_PersistentCalls:
         m_Calls:
@@ -1742,6 +1743,20 @@ MonoBehaviour:
         - m_Target: {fileID: 1070630267}
           m_TargetAssemblyTypeName: CombatEntity, Assembly-CSharp
           m_MethodName: CollectInputEvent
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1070630267}
+          m_TargetAssemblyTypeName: CombatEntity, Assembly-CSharp
+          m_MethodName: AddImpulseForward
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1782,6 +1797,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b14751122139170449d4b0d0c095a4b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Physics:
+    body: {fileID: 1218980647}
+    forceAttenScale: 25
+  rootBehaviour: {fileID: 1218980646}
   weaponStart: {fileID: 1877232399}
   weaponEnd: {fileID: 1006129019}
   weaponCollider: {fileID: 627264888}
@@ -2364,6 +2383,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b14751122139170449d4b0d0c095a4b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Physics:
+    body: {fileID: 8294191869605743860}
+    forceAttenScale: 5
+  rootBehaviour: {fileID: 0}
   weaponStart: {fileID: 11315320}
   weaponEnd: {fileID: 637558369}
   weaponCollider: {fileID: 1799591926}

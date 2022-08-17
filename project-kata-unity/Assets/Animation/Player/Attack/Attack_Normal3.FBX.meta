@@ -582,8 +582,8 @@ ModelImporter:
         functionName: OnEvent
         data: DoLineAttack
         objectReferenceParameter: {instanceID: 0}
-        floatParameter: 10
-        intParameter: 10
+        floatParameter: 3
+        intParameter: 15
         messageOptions: 0
       - time: 0.19732437
         functionName: OnEvent
@@ -591,6 +591,13 @@ ModelImporter:
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 10
         intParameter: 140
+        messageOptions: 0
+      - time: 0.13004489
+        functionName: OnEvent
+        data: AddImpulseForward
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 20
+        intParameter: 0
         messageOptions: 0
       transformMask:
       - path: 
