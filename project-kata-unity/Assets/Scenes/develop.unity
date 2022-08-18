@@ -1799,7 +1799,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Physics:
     body: {fileID: 1218980647}
-    forceAttenScale: 25
+    forceAttenScale: 20
   rootBehaviour: {fileID: 1218980646}
   weaponStart: {fileID: 1877232399}
   weaponEnd: {fileID: 1006129019}
@@ -1984,7 +1984,7 @@ GameObject:
   - component: {fileID: 1149669918}
   - component: {fileID: 1149669917}
   - component: {fileID: 1149669916}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
