@@ -86,7 +86,7 @@ public class CombatEntity : CustomBehaviour
 
         bool IsOverlap(BoxCastInfo info)
         {
-            var hits = UnityEngine.Physics.OverlapBox(info.center, info.size * 0.5f, info.rotation, ~(1 << LayerMask.GetMask("Hittable")));
+            var hits = UnityEngine.Physics.OverlapBox(info.center, info.size * 0.5f, info.rotation, 1 << LayerMask.NameToLayer("Hittable"));
             if (hits == null || hits.Length == 0) return false;
 
             Debug.Log($"Hit {hits[0].name}");
@@ -124,6 +124,16 @@ public class CombatEntity : CustomBehaviour
 
         this.Physics.SetForceAttenScale(param.intParameter);
         this.Physics.AddImpulse(forward, param.floatParameter);
+    }
+
+    public void AddImpulseBackward(AnimationEvent param)
+    {
+        var player = rootBehaviour as Player;
+
+        var backward = -player.Character.GetModelForward();
+
+        this.Physics.SetForceAttenScale(param.intParameter);
+        this.Physics.AddImpulse(backward, param.floatParameter);
     }
 
 
