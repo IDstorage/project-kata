@@ -42,9 +42,9 @@ public class PlayerAttackState : State
     {
         var player = target as Player;
 
-        player.ThirdPerson.HandleMouseInput(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-        player.ThirdPerson.HandleCameraLook();
-        player.ThirdPerson.CalculateCameraDistance();
+        player.HandleCamera();
+
+        player.Targeting();
 
         Debug.DrawRay(target.transform.position, player.ThirdPerson.GetForwardVector() * 5F, Color.red);
     }
