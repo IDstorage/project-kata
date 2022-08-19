@@ -45,6 +45,8 @@ public class CombatEntity : CustomBehaviour
         float totalLength = 0F;
         (Vector3 start, Vector3 end) previous = (weaponStart.position, weaponEnd.position);
 
+        HashSet<CustomBehaviour> hitList = new HashSet<CustomBehaviour>();
+
         boxCastQueue.Clear();
 
         while (totalLength < maximumLength)
@@ -66,9 +68,9 @@ public class CombatEntity : CustomBehaviour
                 rotation = weaponStart.rotation
             };
 
-            if (IsOverlap(castInfo))
+            if (IsOverlap(castInfo, out var hits))
             {
-
+                SendHitEvent(hits);
             }
 
             boxCastQueue.Enqueue(castInfo);
@@ -84,13 +86,33 @@ public class CombatEntity : CustomBehaviour
             await Task.Yield();
         }
 
-        bool IsOverlap(BoxCastInfo info)
+        bool IsOverlap(BoxCastInfo info, out Collider[] hits)
         {
-            var hits = UnityEngine.Physics.OverlapBox(info.center, info.size * 0.5f, info.rotation, 1 << LayerMask.NameToLayer("Hittable"));
+            hits = UnityEngine.Physics.OverlapBox(info.center, info.size * 0.5f, info.rotation, 1 << LayerMask.NameToLayer("Hittable"));
             if (hits == null || hits.Length == 0) return false;
-
-            Debug.Log($"Hit {hits[0].name}");
             return true;
+        }
+
+        void SendHitEvent(Collider[] hits)
+        {
+            for (int i = 0; i < hits.Length; ++i)
+            {
+                var root = hits[i].GetComponent<RootSelector>().Root;
+                if (root == null)
+                {
+                    Debug.Log("RootSelector: Root is Null");
+                    continue;
+                }
+
+                if (hitList.Contains(root)) continue;
+
+                hitList.Add(root);
+                EventDispatcher.Instance.Send(new HitEvent()
+                {
+                    sender = rootBehaviour,
+                    receiver = root
+                });
+            }
         }
     }
 

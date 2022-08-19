@@ -12,6 +12,10 @@ public class Player : CustomBehaviour
     public StateMachineComponent StateMachine;
 
 
+    [SerializeField]
+    private HitEventStream hitEventStream;
+
+
     protected override void Initialize()
     {
         base.Initialize();
@@ -21,12 +25,34 @@ public class Player : CustomBehaviour
         StateMachine.Run(0,
             new PlayerLocomotionState(),
             new PlayerAttackState(),
-            new PlayerDefenseState());
+            new PlayerDefenseState(),
+            new PlayerBlockState());
+
+        hitEventStream = new HitEventStream(this);
+        hitEventStream.AddListener(Hit);
     }
 
 
     public void Attack()
     {
         StateMachine.ChangeState(State.Identity.PlayerAttack);
+    }
+
+
+    public void Hit(HitEvent e)
+    {
+        if (StateMachine.CurrentState.ID == State.Identity.PlayerDefense)
+        {
+            Block();
+            return;
+        }
+
+        Debug.Log($"Hit! {e.sender.name} -> {e.receiver.name}");
+    }
+
+    public void Block()
+    {
+        Debug.Log("Block");
+        StateMachine.ChangeState(State.Identity.PlayerBlock);
     }
 }
