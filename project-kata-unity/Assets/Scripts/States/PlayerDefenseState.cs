@@ -44,6 +44,7 @@ public class PlayerDefenseState : State
     {
         var player = target as Player;
 
+        player.HandleCamera();
         player.Move();
     }
 

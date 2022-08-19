@@ -46,6 +46,8 @@ public class PlayerLocomotionState : State
     public override void OnUpdate(CustomBehaviour target)
     {
         var player = target as Player;
+
+        player.HandleCamera();
         player.Move();
     }
 

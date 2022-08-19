@@ -27,6 +27,7 @@ public class PlayerBlockState : State
     public override void OnExit(CustomBehaviour target)
     {
         var player = target as Player;
+
         player.Animator.SetFloat("VSpeed", 0);
         player.Animator.SetFloat("HSpeed", 0);
     }
@@ -43,6 +44,6 @@ public class PlayerBlockState : State
 
     public override void OnUpdate(CustomBehaviour target)
     {
-
+        (target as Player).HandleCamera();
     }
 }

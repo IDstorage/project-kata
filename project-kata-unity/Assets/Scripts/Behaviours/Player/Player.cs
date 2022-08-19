@@ -36,12 +36,15 @@ public class Player : CustomBehaviour
     }
 
 
-    public void Move()
+    public void HandleCamera()
     {
         ThirdPerson.HandleMouseInput(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
         ThirdPerson.HandleCameraLook();
         ThirdPerson.CalculateCameraDistance();
+    }
 
+    public void Move()
+    {
         float h = Input.GetAxis("Horizontal"),
             v = Input.GetAxis("Vertical");
 
