@@ -68,6 +68,15 @@ public class Player : CustomBehaviour
     }
 
 
+    public void Targeting()
+    {
+        if (!ThirdPerson.Targeting(this, out var target)) return;
+
+        Character.SetTarget(target);
+        ThirdPerson.SetTarget(target);
+    }
+
+
     public void Attack()
     {
         StateMachine.ChangeState(State.Identity.PlayerAttack);

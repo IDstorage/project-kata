@@ -30,6 +30,9 @@ public class ThirdPersonComponent : CustomComponent
     [SerializeField, Range(0F, 1F)]
     private float targetingVerticalScale = 0.375f;
 
+    [SerializeField, Range(0F, 50F)]
+    private float targetingRadius = 10F;
+
 
     public bool HasFollowTarget => followTarget != null;
 
@@ -90,5 +93,29 @@ public class ThirdPersonComponent : CustomComponent
     public void SetTarget(Transform target)
     {
         followTarget = target;
+    }
+
+
+    public bool Targeting(CustomBehaviour root, out Transform target)
+    {
+        target = null;
+
+        if (!Input.GetKeyDown(KeyCode.Q)) return false;
+
+        if (HasFollowTarget) return true;
+
+        var targets = Physics.OverlapSphere(root.transform.position, targetingRadius, 1 << LayerMask.NameToLayer("Targeting"));
+
+        float min = float.MaxValue;
+        for (int i = 0; i < targets.Length; ++i)
+        {
+            float distance = (targets[i].transform.position - root.transform.position).sqrMagnitude;
+            if (distance >= min) continue;
+
+            distance = min;
+            target = targets[i].transform;
+        }
+
+        return true;
     }
 }

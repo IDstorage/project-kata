@@ -162,12 +162,12 @@ public class CombatEntity : CustomBehaviour
     }
 
 
-    private void OnDrawGizmos()
-    {
-        foreach (var cube in boxCastQueue)
-        {
-            Gizmos.matrix = Matrix4x4.TRS(cube.center, cube.rotation, Vector3.one);
-            Gizmos.DrawWireCube(Vector3.zero, cube.size);
-        }
-    }
+    // private void OnDrawGizmos()
+    // {
+    //     foreach (var cube in boxCastQueue)
+    //     {
+    //         Gizmos.matrix = Matrix4x4.TRS(cube.center, cube.rotation, Vector3.one);
+    //         Gizmos.DrawWireCube(Vector3.zero, cube.size);
+    //     }
+    // }
 }

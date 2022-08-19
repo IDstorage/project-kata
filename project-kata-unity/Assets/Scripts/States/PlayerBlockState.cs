@@ -44,6 +44,10 @@ public class PlayerBlockState : State
 
     public override void OnUpdate(CustomBehaviour target)
     {
-        (target as Player).HandleCamera();
+        var player = target as Player;
+
+        player.HandleCamera();
+
+        player.Targeting();
     }
 }

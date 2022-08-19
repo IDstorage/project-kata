@@ -44,6 +44,8 @@ public class PlayerAttackState : State
 
         player.HandleCamera();
 
+        player.Targeting();
+
         Debug.DrawRay(target.transform.position, player.ThirdPerson.GetForwardVector() * 5F, Color.red);
     }
 

@@ -46,6 +46,8 @@ public class PlayerDefenseState : State
 
         player.HandleCamera();
         player.Move();
+
+        player.Targeting();
     }
 
     public override void OnLateUpdate(CustomBehaviour target)
