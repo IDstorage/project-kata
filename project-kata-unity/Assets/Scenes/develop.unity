@@ -618,7 +618,7 @@ Transform:
   - {fileID: 1727507171}
   m_Father: {fileID: 1510800633}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -12.133, y: 0, z: 0}
 --- !u!114 &269417216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1062,7 +1062,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1510800633}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -104.736, z: 0}
 --- !u!81 &603725023
 AudioListener:
   m_ObjectHideFlags: 0
@@ -2684,19 +2684,18 @@ MonoBehaviour:
     behaviour: {fileID: 0}
     camera: {fileID: 269417215}
     cameraHandle: {fileID: 1510800633}
-    lookAtTarget: {fileID: 2032933274}
     distance: {x: 0, y: 3, z: 5}
     radius: 4
     radiusRange: {x: 1, y: 4}
     verticalRange: {x: 10, y: 120}
-    followTarget: {fileID: 0}
+    followTarget: {fileID: 8294191869605743860}
   Character:
     behaviour: {fileID: 0}
     model: {fileID: 1070630264}
     character: {fileID: 1218980644}
     moveSpeed: 2
     moveSpeedMultiflier: 1
-    followTarget: {fileID: 0}
+    followTarget: {fileID: 8294191869605743860}
   Animator:
     behaviour: {fileID: 0}
     animator: {fileID: 1070630266}
@@ -4157,6 +4156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 1070630264}
   target: {fileID: 0}
+  detectedTargets: []
 --- !u!54 &2019721340
 Rigidbody:
   m_ObjectHideFlags: 0

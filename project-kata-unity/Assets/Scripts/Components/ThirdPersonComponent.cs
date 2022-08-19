@@ -12,9 +12,6 @@ public class ThirdPersonComponent : CustomComponent
     private Transform cameraHandle;
 
     [Space(10), SerializeField]
-    private Transform lookAtTarget;
-
-    [Space(10), SerializeField]
     private Vector3 distance;
     [Space(5), SerializeField]
     private float radius;
@@ -24,8 +21,17 @@ public class ThirdPersonComponent : CustomComponent
     [Space(10), SerializeField]
     private Vector2 verticalRange;
 
+
     [Space(10), SerializeField]
     private Transform followTarget;
+
+    [SerializeField, Range(0F, 2F)]
+    private float targetingHorizontalScale = 1F;
+    [SerializeField, Range(0F, 1F)]
+    private float targetingVerticalScale = 0.375f;
+
+
+    public bool HasFollowTarget => followTarget != null;
 
 
     public void InitializeCamera()
@@ -46,8 +52,18 @@ public class ThirdPersonComponent : CustomComponent
 
     public void HandleCameraLook()
     {
-        if (lookAtTarget == null) return;
-        camera.LookAt(lookAtTarget, Vector3.up);
+        if (!HasFollowTarget) return;
+
+        var targetDir = followTarget.position - cameraHandle.position;
+
+        var spherical = CoordinationSystem.CartesianToSpherical(camera.localPosition);
+
+        spherical.y = Mathf.Atan2(targetDir.x, targetDir.z) + Mathf.PI * targetingHorizontalScale;
+        spherical.z = Mathf.PI * targetingVerticalScale;
+
+        camera.localPosition = CoordinationSystem.SphericalToCartesian(spherical);
+
+        camera.LookAt(followTarget, Vector3.up);
     }
 
     public void CalculateCameraDistance()
@@ -61,14 +77,6 @@ public class ThirdPersonComponent : CustomComponent
         spherical.x = Mathf.Clamp(hit.distance, radiusRange.x, radiusRange.y);
 
         camera.localPosition = CoordinationSystem.SphericalToCartesian(spherical);
-    }
-
-
-    public Quaternion GetForwardQuaternion()
-    {
-        return Quaternion.AngleAxis(
-            CoordinationSystem.CartesianToSpherical(camera.position).y * Mathf.Rad2Deg,
-            Vector3.up);
     }
 
     public Vector3 GetForwardVector()
