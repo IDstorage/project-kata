@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HitEvent : Anomaly.BaseEvent
 {
+    public Collider hitPart;
 }
 
 public class HitEventStream : Anomaly.EventStream<HitEvent>

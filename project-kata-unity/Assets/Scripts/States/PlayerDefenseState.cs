@@ -9,6 +9,9 @@ public class PlayerDefenseState : State
     public override Identity ID => State.Identity.PlayerDefense;
 
 
+    private float hFollow = 0F, vFollow = 0F;
+
+
     public override void OnEnter(CustomBehaviour target)
     {
         (target as Player).Animator.SetBool("IsBlocking", true);
@@ -41,18 +44,22 @@ public class PlayerDefenseState : State
     {
         var player = target as Player;
 
-        player.ThirdPerson.HandleMouseInput(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-        player.ThirdPerson.HandleCameraLook();
-        player.ThirdPerson.CalculateCameraDistance();
+        player.Move();
+        // player.ThirdPerson.HandleMouseInput(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+        // player.ThirdPerson.HandleCameraLook();
+        // player.ThirdPerson.CalculateCameraDistance();
 
-        float h = Input.GetAxis("Horizontal"),
-            v = Input.GetAxis("Vertical");
+        // float h = Input.GetAxis("Horizontal"),
+        //     v = Input.GetAxis("Vertical");
 
-        var moveDir = player.Character.MoveAndRotate(player.ThirdPerson.GetForwardVector(), h, v);
+        // hFollow = Mathf.Lerp(hFollow, h, Time.deltaTime * 15F);
+        // vFollow = Mathf.Lerp(vFollow, v, Time.deltaTime * 15F);
 
-        player.Animator.SetFloat("VSpeed", Mathf.Clamp01(Mathf.Abs(h) + Mathf.Abs(v)));
+        // var moveDir = player.Character.MoveAndRotate(player.ThirdPerson.GetForwardVector(), hFollow, vFollow);
 
-        Debug.DrawRay(target.transform.position, player.ThirdPerson.GetForwardVector() * 5F, Color.red);
+        // player.Animator.SetFloat("VSpeed", Mathf.Clamp01(Mathf.Abs(hFollow) + Mathf.Abs(vFollow)));
+
+        // Debug.DrawRay(target.transform.position, player.ThirdPerson.GetForwardVector() * 5F, Color.red);
     }
 
     public override void OnLateUpdate(CustomBehaviour target)

@@ -97,6 +97,8 @@ public class CombatEntity : CustomBehaviour
         {
             for (int i = 0; i < hits.Length; ++i)
             {
+                if (ReferenceEquals(hits[i], weaponCollider)) continue;
+
                 var root = hits[i].GetComponent<RootSelector>().Root;
                 if (root == null)
                 {
@@ -110,7 +112,8 @@ public class CombatEntity : CustomBehaviour
                 EventDispatcher.Instance.Send(new HitEvent()
                 {
                     sender = rootBehaviour,
-                    receiver = root
+                    receiver = root,
+                    hitPart = hits[i]
                 });
             }
         }

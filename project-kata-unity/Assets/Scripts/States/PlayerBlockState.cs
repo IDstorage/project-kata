@@ -10,13 +10,13 @@ public class PlayerBlockState : State
     public override bool IsTransition(CustomBehaviour target, out Identity next)
     {
         var player = target as Player;
-        if (player.Animator.GetNextState().IsName("Locomotion"))
+        if (player.Animator.GetCurrentState().IsName("Block") || player.Animator.GetNextState().IsName("Block"))
         {
-            next = Identity.PlayerLocomotion;
-            return true;
+            next = Identity.None;
+            return false;
         }
-        next = Identity.None;
-        return false;
+        next = Identity.PlayerDefense;
+        return true;
     }
 
     public override void OnEnter(CustomBehaviour target)
@@ -26,7 +26,9 @@ public class PlayerBlockState : State
 
     public override void OnExit(CustomBehaviour target)
     {
-
+        var player = target as Player;
+        player.Animator.SetFloat("VSpeed", 0);
+        player.Animator.SetFloat("HSpeed", 0);
     }
 
     public override void OnFixedUpdate(CustomBehaviour target)

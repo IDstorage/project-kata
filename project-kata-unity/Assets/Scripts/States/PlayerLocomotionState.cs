@@ -46,19 +46,20 @@ public class PlayerLocomotionState : State
     public override void OnUpdate(CustomBehaviour target)
     {
         var player = target as Player;
+        player.Move();
 
-        player.ThirdPerson.HandleMouseInput(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-        player.ThirdPerson.HandleCameraLook();
-        player.ThirdPerson.CalculateCameraDistance();
+        // player.ThirdPerson.HandleMouseInput(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+        // player.ThirdPerson.HandleCameraLook();
+        // player.ThirdPerson.CalculateCameraDistance();
 
-        float h = Input.GetAxis("Horizontal"),
-            v = Input.GetAxis("Vertical");
+        // float h = Input.GetAxis("Horizontal"),
+        //     v = Input.GetAxis("Vertical");
 
-        var moveDir = player.Character.MoveAndRotate(player.ThirdPerson.GetForwardVector(), h, v);
+        // var moveDir = player.Character.MoveAndRotate(player.ThirdPerson.GetForwardVector(), h, v);
 
-        player.Animator.SetFloat("VSpeed", Mathf.Clamp01(Mathf.Abs(h) + Mathf.Abs(v)));
+        // player.Animator.SetFloat("VSpeed", Mathf.Clamp01(Mathf.Abs(h) + Mathf.Abs(v)));
 
-        Debug.DrawRay(target.transform.position, player.ThirdPerson.GetForwardVector() * 5F, Color.red);
+        // Debug.DrawRay(target.transform.position, player.ThirdPerson.GetForwardVector() * 5F, Color.red);
     }
 
     public override void OnLateUpdate(CustomBehaviour target)

@@ -16,6 +16,9 @@ public class Player : CustomBehaviour
     private HitEventStream hitEventStream;
 
 
+    private float hFollow = 0F, vFollow = 0F;
+
+
     protected override void Initialize()
     {
         base.Initialize();
@@ -33,6 +36,26 @@ public class Player : CustomBehaviour
     }
 
 
+    public void Move()
+    {
+        ThirdPerson.HandleMouseInput(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+        ThirdPerson.HandleCameraLook();
+        ThirdPerson.CalculateCameraDistance();
+
+        float h = Input.GetAxis("Horizontal"),
+            v = Input.GetAxis("Vertical");
+
+        hFollow = Mathf.Lerp(hFollow, h, Time.deltaTime * 15F);
+        vFollow = Mathf.Lerp(vFollow, v, Time.deltaTime * 15F);
+
+        var moveDir = Character.MoveAndRotate(ThirdPerson.GetForwardVector(), h, v);
+
+        Animator.SetFloat("VSpeed", Mathf.Clamp01(Mathf.Abs(h) + Mathf.Abs(v)));
+
+        Debug.DrawRay(transform.position, ThirdPerson.GetForwardVector() * 5F, Color.red);
+    }
+
+
     public void Attack()
     {
         StateMachine.ChangeState(State.Identity.PlayerAttack);
@@ -41,7 +64,8 @@ public class Player : CustomBehaviour
 
     public void Hit(HitEvent e)
     {
-        if (StateMachine.CurrentState.ID == State.Identity.PlayerDefense)
+        if (StateMachine.CurrentState.ID == State.Identity.PlayerDefense
+            && e.hitPart.CompareTag("Weapon"))
         {
             Block();
             return;
