@@ -60,8 +60,8 @@ public class Player : CustomBehaviour
 
         void SetAniParam(float _h, float _v)
         {
-            _h = Character.HasFollowTarget ? _h : 0F;
             _v = Character.HasFollowTarget ? _v : Mathf.Clamp01(Mathf.Abs(_h) + Mathf.Abs(_v));
+            _h = Character.HasFollowTarget ? _h : 0F;
             Animator.SetFloat("HSpeed", _h);
             Animator.SetFloat("VSpeed", _v);
         }
