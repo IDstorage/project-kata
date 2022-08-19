@@ -45,21 +45,6 @@ public class PlayerDefenseState : State
         var player = target as Player;
 
         player.Move();
-        // player.ThirdPerson.HandleMouseInput(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-        // player.ThirdPerson.HandleCameraLook();
-        // player.ThirdPerson.CalculateCameraDistance();
-
-        // float h = Input.GetAxis("Horizontal"),
-        //     v = Input.GetAxis("Vertical");
-
-        // hFollow = Mathf.Lerp(hFollow, h, Time.deltaTime * 15F);
-        // vFollow = Mathf.Lerp(vFollow, v, Time.deltaTime * 15F);
-
-        // var moveDir = player.Character.MoveAndRotate(player.ThirdPerson.GetForwardVector(), hFollow, vFollow);
-
-        // player.Animator.SetFloat("VSpeed", Mathf.Clamp01(Mathf.Abs(hFollow) + Mathf.Abs(vFollow)));
-
-        // Debug.DrawRay(target.transform.position, player.ThirdPerson.GetForwardVector() * 5F, Color.red);
     }
 
     public override void OnLateUpdate(CustomBehaviour target)

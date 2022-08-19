@@ -2689,12 +2689,14 @@ MonoBehaviour:
     radius: 4
     radiusRange: {x: 1, y: 4}
     verticalRange: {x: 10, y: 120}
+    followTarget: {fileID: 0}
   Character:
     behaviour: {fileID: 0}
     model: {fileID: 1070630264}
     character: {fileID: 1218980644}
     moveSpeed: 2
     moveSpeedMultiflier: 1
+    followTarget: {fileID: 0}
   Animator:
     behaviour: {fileID: 0}
     animator: {fileID: 1070630266}
@@ -3470,7 +3472,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 1d407a6008b748b4f9fec2ed72ffde73, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Weapon
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1d407a6008b748b4f9fec2ed72ffde73, type: 3}
       propertyPath: m_RootOrder

@@ -50,9 +50,18 @@ public class Player : CustomBehaviour
 
         var moveDir = Character.MoveAndRotate(ThirdPerson.GetForwardVector(), h, v);
 
-        Animator.SetFloat("VSpeed", Mathf.Clamp01(Mathf.Abs(h) + Mathf.Abs(v)));
+        SetAniParam(hFollow, vFollow);
 
         Debug.DrawRay(transform.position, ThirdPerson.GetForwardVector() * 5F, Color.red);
+
+
+        void SetAniParam(float _h, float _v)
+        {
+            _h = Character.HasFollowTarget ? _h : 0F;
+            _v = Character.HasFollowTarget ? _v : Mathf.Clamp01(Mathf.Abs(_h) + Mathf.Abs(_v));
+            Animator.SetFloat("HSpeed", _h);
+            Animator.SetFloat("VSpeed", _v);
+        }
     }
 
 

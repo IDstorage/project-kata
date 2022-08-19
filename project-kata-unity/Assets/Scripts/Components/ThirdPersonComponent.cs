@@ -24,6 +24,9 @@ public class ThirdPersonComponent : CustomComponent
     [Space(10), SerializeField]
     private Vector2 verticalRange;
 
+    [Space(10), SerializeField]
+    private Transform followTarget;
+
 
     public void InitializeCamera()
     {
@@ -73,5 +76,11 @@ public class ThirdPersonComponent : CustomComponent
         var pos = cameraHandle.position - camera.position;
         pos.y = 0F;
         return pos.normalized;
+    }
+
+
+    public void SetTarget(Transform target)
+    {
+        followTarget = target;
     }
 }
