@@ -13,56 +13,108 @@ public class CombatEntity : CustomBehaviour
         public Quaternion rotation;
     }
 
+    [SerializeField] private CustomBehaviour rootBehaviour;
+
+    [Space(10)]
     [SerializeField] private Transform weaponStart;
     [SerializeField] private Transform weaponEnd;
 
     [SerializeField] private BoxCollider weaponCollider;
 
+
     private Anomaly.Utils.Stream inputStream;
 
-    private Queue<BoxCastInfo> debugQueue = new Queue<BoxCastInfo>();
+    private Queue<BoxCastInfo> boxCastQueue = new Queue<BoxCastInfo>();
 
 
     public UnityEngine.Events.UnityEvent onAttackEventInvoked;
 
 
+    /* 
+     * floatParam: dividend (maximum length)
+     * intParam: plane count
+     */
     public async void DoLineAttack(AnimationEvent param)
     {
-        float damage = param.floatParameter;
+        float maximumLength = param.floatParameter;
+        float ignoreThreshold = maximumLength / param.intParameter;
 
-        float distance = (weaponEnd.position - weaponStart.position).magnitude;
+        float katanaLength = (weaponEnd.position - weaponStart.position).magnitude;
 
-        debugQueue.Clear();
+        float totalLength = 0F;
+        (Vector3 start, Vector3 end) previous = (weaponStart.position, weaponEnd.position);
 
-        Vector3 start = weaponStart.position, end = weaponEnd.position;
-        for (int i = 0; i < param.intParameter; ++i)
+        HashSet<CustomBehaviour> hitList = new HashSet<CustomBehaviour>();
+
+        boxCastQueue.Clear();
+
+        while (totalLength < maximumLength)
         {
-            var direction = weaponEnd.position - weaponStart.position;
+            (Vector3 start, Vector3 end) current = (weaponStart.position, weaponEnd.position);
 
-            debugQueue.Enqueue(new BoxCastInfo()
+            float length = current.end == previous.end ? 0F : (current.end - previous.end).magnitude;
+
+            if (current.end != previous.end && length < ignoreThreshold)
             {
-                center = weaponStart.position + direction.normalized * distance * 0.5f,
+                await Task.Yield();
+                continue;
+            }
+
+            var castInfo = new BoxCastInfo()
+            {
+                center = current.start + (current.end - current.start).normalized * katanaLength * 0.5f,
                 size = weaponCollider.size,
                 rotation = weaponStart.rotation
-            });
+            };
 
-            Debug.DrawLine(start, weaponStart.position, Color.green, 0.5f);
-            Debug.DrawLine(end, weaponEnd.position, Color.green, 0.5f);
-            Debug.DrawLine(weaponStart.position, weaponEnd.position, Color.green, 0.5f);
+            if (IsOverlap(castInfo, out var hits))
+            {
+                SendHitEvent(hits);
+            }
 
-            start = weaponStart.position;
-            end = weaponEnd.position;
+            boxCastQueue.Enqueue(castInfo);
+
+            Debug.DrawLine(previous.start, current.start, Color.green, 0.5f);
+            Debug.DrawLine(previous.end, current.end, Color.green, 0.5f);
+            Debug.DrawLine(current.start, current.end, Color.green, 0.5f);
+
+            totalLength += length;
+
+            previous = current;
 
             await Task.Yield();
         }
 
-        foreach (var info in debugQueue)
+        bool IsOverlap(BoxCastInfo info, out Collider[] hits)
         {
-            var hits = Physics.OverlapBox(info.center, info.size * 0.5f, info.rotation, ~(1 << LayerMask.GetMask("Hittable")));
-            if (hits == null || hits.Length == 0) continue;
+            hits = UnityEngine.Physics.OverlapBox(info.center, info.size * 0.5f, info.rotation, 1 << LayerMask.NameToLayer("Hittable"));
+            if (hits == null || hits.Length == 0) return false;
+            return true;
+        }
 
-            Debug.Log($"Hit {hits[0].name}");
-            return;
+        void SendHitEvent(Collider[] hits)
+        {
+            for (int i = 0; i < hits.Length; ++i)
+            {
+                if (ReferenceEquals(hits[i], weaponCollider)) continue;
+
+                var root = hits[i].GetComponent<RootSelector>().Root;
+                if (root == null)
+                {
+                    Debug.Log("RootSelector: Root is Null");
+                    continue;
+                }
+
+                if (hitList.Contains(root)) continue;
+
+                hitList.Add(root);
+                EventDispatcher.Instance.Send(new HitEvent()
+                {
+                    sender = rootBehaviour,
+                    receiver = root,
+                    hitPart = hits[i]
+                });
+            }
         }
     }
 
@@ -88,13 +140,31 @@ public class CombatEntity : CustomBehaviour
         inputStream.Close();
     }
 
-    private void OnDrawGizmos()
+    public void AddImpulseForward(AnimationEvent param)
     {
-        return;
-        foreach (var cube in debugQueue)
-        {
-            Gizmos.matrix = Matrix4x4.TRS(cube.center, cube.rotation, Vector3.one);
-            Gizmos.DrawWireCube(Vector3.zero, cube.size);
-        }
+        var actor = rootBehaviour as Actor;
+        var forward = actor.Character.GetModelForward();
+
+        actor.CharacterPhysics.SetForceAttenScale(param.intParameter);
+        actor.CharacterPhysics.AddImpulse(forward, param.floatParameter);
     }
+
+    public void AddImpulseBackward(AnimationEvent param)
+    {
+        var actor = rootBehaviour as Actor;
+        var backward = -actor.Character.GetModelForward();
+
+        actor.CharacterPhysics.SetForceAttenScale(param.intParameter);
+        actor.CharacterPhysics.AddImpulse(backward, param.floatParameter);
+    }
+
+
+    // private void OnDrawGizmos()
+    // {
+    //     foreach (var cube in boxCastQueue)
+    //     {
+    //         Gizmos.matrix = Matrix4x4.TRS(cube.center, cube.rotation, Vector3.one);
+    //         Gizmos.DrawWireCube(Vector3.zero, cube.size);
+    //     }
+    // }
 }

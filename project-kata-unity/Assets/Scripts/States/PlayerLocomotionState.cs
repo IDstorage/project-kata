@@ -47,18 +47,10 @@ public class PlayerLocomotionState : State
     {
         var player = target as Player;
 
-        player.ThirdPerson.HandleMouseInput(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-        player.ThirdPerson.HandleCameraLook();
-        player.ThirdPerson.CalculateCameraDistance();
+        player.HandleCamera();
+        player.Move();
 
-        float h = Input.GetAxis("Horizontal"),
-            v = Input.GetAxis("Vertical");
-
-        var moveDir = player.Character.MoveAndRotate(player.ThirdPerson.GetForwardVector(), h, v);
-
-        player.Animator.SetFloat("VSpeed", Mathf.Clamp01(Mathf.Abs(h) + Mathf.Abs(v)));
-
-        Debug.DrawRay(target.transform.position, player.ThirdPerson.GetForwardVector() * 5F, Color.red);
+        player.Targeting();
     }
 
     public override void OnLateUpdate(CustomBehaviour target)
