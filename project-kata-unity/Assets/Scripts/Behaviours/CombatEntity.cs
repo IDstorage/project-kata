@@ -13,8 +13,6 @@ public class CombatEntity : CustomBehaviour
         public Quaternion rotation;
     }
 
-    public PhysicsComponent Physics;
-
     [SerializeField] private CustomBehaviour rootBehaviour;
 
     [Space(10)]
@@ -22,6 +20,7 @@ public class CombatEntity : CustomBehaviour
     [SerializeField] private Transform weaponEnd;
 
     [SerializeField] private BoxCollider weaponCollider;
+
 
     private Anomaly.Utils.Stream inputStream;
 
@@ -143,22 +142,20 @@ public class CombatEntity : CustomBehaviour
 
     public void AddImpulseForward(AnimationEvent param)
     {
-        var player = rootBehaviour as Player;
+        var actor = rootBehaviour as Actor;
+        var forward = actor.Character.GetModelForward();
 
-        var forward = player.Character.GetModelForward();
-
-        this.Physics.SetForceAttenScale(param.intParameter);
-        this.Physics.AddImpulse(forward, param.floatParameter);
+        actor.CharacterPhysics.SetForceAttenScale(param.intParameter);
+        actor.CharacterPhysics.AddImpulse(forward, param.floatParameter);
     }
 
     public void AddImpulseBackward(AnimationEvent param)
     {
-        var player = rootBehaviour as Player;
+        var actor = rootBehaviour as Actor;
+        var backward = -actor.Character.GetModelForward();
 
-        var backward = -player.Character.GetModelForward();
-
-        this.Physics.SetForceAttenScale(param.intParameter);
-        this.Physics.AddImpulse(backward, param.floatParameter);
+        actor.CharacterPhysics.SetForceAttenScale(param.intParameter);
+        actor.CharacterPhysics.AddImpulse(backward, param.floatParameter);
     }
 
 

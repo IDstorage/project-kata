@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Anomaly;
 
-public class Enemy : CustomBehaviour
+public class Enemy : Actor
 {
 
 }

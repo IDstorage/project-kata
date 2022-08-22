@@ -3,13 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Anomaly;
 
-public class Player : CustomBehaviour
+public class Player : Actor
 {
     public ThirdPersonComponent ThirdPerson;
-    public CharacterComponent Character;
-    public AnimatorComponent Animator;
-
-    public StateMachineComponent StateMachine;
 
 
     [SerializeField]
