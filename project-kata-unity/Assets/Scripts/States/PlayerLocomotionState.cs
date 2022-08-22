@@ -23,12 +23,12 @@ public class PlayerLocomotionState : State
 
     public override bool IsTransition(CustomBehaviour target, out Identity next)
     {
-        if (Input.GetMouseButton(1))
+        if (InputManager.Instance.IsHeld(InputManager.Button.Defense))
         {
             next = Identity.PlayerDefense;
             return true;
         }
-        if (Input.GetMouseButtonDown(0))
+        if (InputManager.Instance.IsPressed(InputManager.Button.Attack))
         {
             next = Identity.PlayerAttack;
             return true;

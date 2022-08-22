@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Anomaly;
 
 public class Player : Actor
@@ -63,18 +64,6 @@ public class Player : Actor
         }
     }
 
-
-    public void OnTargeting(UnityEngine.InputSystem.InputAction.CallbackContext context)
-    {
-        if (!context.performed) return;
-
-        if (!ThirdPerson.Targeting(this, out var target)) return;
-
-        Character.SetTarget(target);
-        ThirdPerson.SetTarget(target);
-    }
-
-
     public void Attack()
     {
         StateMachine.ChangeState(State.Identity.PlayerAttack);
@@ -98,4 +87,19 @@ public class Player : Actor
         Debug.Log("Block");
         StateMachine.ChangeState(State.Identity.PlayerBlock);
     }
+
+
+    #region Input Action Binding
+    public void OnTargeting(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+
+        if (!ThirdPerson.Targeting(this, out var target)) return;
+
+        Debug.Log(context.action.bindings[0].path);
+
+        Character.SetTarget(target);
+        ThirdPerson.SetTarget(target);
+    }
+    #endregion
 }

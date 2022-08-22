@@ -123,7 +123,7 @@ public class CombatEntity : CustomBehaviour
         if (inputStream == null)
         {
             inputStream = Anomaly.Utils.Stream.Create(this);
-            inputStream.Select(() => Input.GetMouseButtonDown(0))
+            inputStream.Select(() => InputManager.Instance.IsPressed(InputManager.Button.Attack))
                        .Subscribe(data =>
                        {
                            inputStream.Close();

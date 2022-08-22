@@ -1,5 +1,5 @@
 {
-    "name": "InputAction",
+    "name": "IngameInputAction",
     "maps": [
         {
             "name": "Player",
@@ -9,6 +9,24 @@
                     "name": "Targeting",
                     "type": "Button",
                     "id": "a285aa96-fe50-40e5-a7fa-8f49efcb3d27",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Attack",
+                    "type": "Button",
+                    "id": "3fda9b42-b05c-41d9-adb1-cf628adf3e4d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Defense",
+                    "type": "Button",
+                    "id": "ff9b63ee-63de-4b8e-99eb-cae60bbc61dd",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -24,6 +42,28 @@
                     "processors": "",
                     "groups": "PC",
                     "action": "Targeting",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4c6f6230-f644-422c-be35-b4d5a0fd1706",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d6f8a91b-9823-4c32-a40d-ff796104b12e",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "Defense",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
