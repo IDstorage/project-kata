@@ -64,15 +64,3 @@ public class PhysicsComponent : CustomComponent, IUpdater
         body.position += CalculateForce();
     }
 }
-
-[System.Serializable]
-public class CharacterPhysicsComponent : PhysicsComponent
-{
-    [Space(10), SerializeField]
-    private CharacterController character;
-
-    public override void Update()
-    {
-        character.Move(CalculateForce());
-    }
-}
