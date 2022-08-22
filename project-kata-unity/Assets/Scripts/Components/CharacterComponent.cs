@@ -43,17 +43,18 @@ public class CharacterComponent : CustomComponent
     {
         bool isMoving = UpdateMovement(forward, h, v, out var dir);
 
-        if (HasFollowTarget)
-        {
-            model.rotation = Quaternion.LookRotation((followTarget.position - character.transform.position).normalized, character.transform.up);
-            return dir;
-        }
+        Quaternion targetQuat = model.rotation;
 
         if (isMoving)
         {
-            model.rotation = Quaternion.Slerp(model.rotation, Quaternion.LookRotation(dir.normalized, model.up), Time.deltaTime * 10F);
+            targetQuat = Quaternion.LookRotation(dir.normalized, model.up);
+        }
+        if (HasFollowTarget)
+        {
+            targetQuat = Quaternion.LookRotation((followTarget.position - character.transform.position).normalized, character.transform.up);
         }
 
+        model.rotation = Quaternion.Slerp(model.rotation, targetQuat, Time.deltaTime * 10F);
         return dir;
     }
 

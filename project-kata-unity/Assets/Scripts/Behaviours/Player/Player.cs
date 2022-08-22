@@ -64,8 +64,10 @@ public class Player : Actor
     }
 
 
-    public void Targeting()
+    public void OnTargeting(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
+        if (!context.performed) return;
+
         if (!ThirdPerson.Targeting(this, out var target)) return;
 
         Character.SetTarget(target);

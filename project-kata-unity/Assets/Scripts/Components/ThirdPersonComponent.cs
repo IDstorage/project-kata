@@ -44,6 +44,8 @@ public class ThirdPersonComponent : CustomComponent
 
     public void HandleMouseInput(float h, float v)
     {
+        if (HasFollowTarget) return;
+
         var spherical = CoordinationSystem.CartesianToSpherical(camera.localPosition);
 
         spherical.x = Mathf.Clamp(radius, radiusRange.x, radiusRange.y);
@@ -64,7 +66,7 @@ public class ThirdPersonComponent : CustomComponent
         spherical.y = Mathf.Atan2(targetDir.x, targetDir.z) + Mathf.PI * targetingHorizontalScale;
         spherical.z = Mathf.PI * targetingVerticalScale;
 
-        camera.localPosition = CoordinationSystem.SphericalToCartesian(spherical);
+        camera.localPosition = Vector3.Slerp(camera.localPosition, CoordinationSystem.SphericalToCartesian(spherical), Time.deltaTime * 10F);
 
         camera.LookAt(followTarget, Vector3.up);
     }
@@ -99,8 +101,6 @@ public class ThirdPersonComponent : CustomComponent
     public bool Targeting(CustomBehaviour root, out Transform target)
     {
         target = null;
-
-        if (!Input.GetKeyDown(KeyCode.Q)) return false;
 
         if (HasFollowTarget) return true;
 

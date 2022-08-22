@@ -432,7 +432,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8294191869605743860}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &200977262
 SphereCollider:
@@ -2722,7 +2722,7 @@ MonoBehaviour:
     character: {fileID: 1218980644}
     moveSpeed: 2
     moveSpeedMultiflier: 1
-    followTarget: {fileID: 8294191869605743860}
+    followTarget: {fileID: 0}
   CharacterPhysics:
     behaviour: {fileID: 0}
     body: {fileID: 0}
@@ -2742,9 +2742,10 @@ MonoBehaviour:
     radius: 4
     radiusRange: {x: 1, y: 4}
     verticalRange: {x: 10, y: 120}
-    followTarget: {fileID: 8294191869605743860}
+    followTarget: {fileID: 0}
     targetingHorizontalScale: 1
     targetingVerticalScale: 0.375
+    targetingRadius: 10
 --- !u!4 &1218980647
 Transform:
   m_ObjectHideFlags: 0
@@ -2762,6 +2763,7 @@ Transform:
   - {fileID: 2019721338}
   - {fileID: 1169545305}
   - {fileID: 1434522718}
+  - {fileID: 1725765236}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3680,6 +3682,83 @@ Transform:
   m_Father: {fileID: 599929449}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1725765235
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1725765236}
+  - component: {fileID: 1725765237}
+  m_Layer: 0
+  m_Name: Input
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1725765236
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725765235}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1218980647}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1725765237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725765235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: cb5867f99af0c844483c81e1d25e411c, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1218980646}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: OnTargeting
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a285aa96-fe50-40e5-a7fa-8f49efcb3d27
+    m_ActionName: Player/Targeting[/Keyboard/q]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &1727507170
 GameObject:
   m_ObjectHideFlags: 3
@@ -4920,6 +4999,7 @@ Transform:
   m_Children:
   - {fileID: 1182260601}
   - {fileID: 8294191869605743818}
+  - {fileID: 2100512814}
   - {fileID: 200977261}
   m_Father: {fileID: 0}
   m_RootOrder: 4

@@ -47,7 +47,5 @@ public class PlayerBlockState : State
         var player = target as Player;
 
         player.HandleCamera();
-
-        player.Targeting();
     }
 }
