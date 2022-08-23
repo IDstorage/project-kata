@@ -58,7 +58,7 @@ public class Player : Actor
 
         void SetAniParam(float _h, float _v)
         {
-            _v = Character.HasFollowTarget ? _v : Mathf.Clamp01(Mathf.Abs(_h) + Mathf.Abs(_v));
+            _v = Character.HasFollowTarget ? _v : Mathf.Max(Mathf.Abs(_h), Mathf.Abs(_v));
             _h = Character.HasFollowTarget ? _h : 0F;
             Animator.SetFloat("HSpeed", _h);
             Animator.SetFloat("VSpeed", _v);
