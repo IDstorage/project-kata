@@ -7,7 +7,7 @@ public class Player : Actor
 {
     public ThirdPersonComponent ThirdPerson;
 
-    public PlayerStateMachineComponent StateMachine;
+    public StateMachineComponent<Player> StateMachine;
 
 
     [SerializeField]

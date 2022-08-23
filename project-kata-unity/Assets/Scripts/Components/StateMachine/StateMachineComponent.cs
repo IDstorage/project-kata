@@ -28,27 +28,27 @@ public class StateMachineComponent<T> : CustomComponent, IFixedUpdater, IUpdater
 
     public void ChangeState(int index)
     {
-        CurrentState?.OnExit(caller as T);
+        CurrentState?.OnExit(caller);
         CurrentState = states[index];
-        CurrentState?.OnEnter(caller as T);
+        CurrentState?.OnEnter(caller);
     }
 
     public void Update()
     {
-        if (CurrentState != null && CurrentState.IsTransition(caller as T, out var next))
+        if (CurrentState != null && CurrentState.IsTransition(caller, out var next))
         {
             ChangeState(next);
         }
-        CurrentState?.OnUpdate(caller as T);
+        CurrentState?.OnUpdate(caller);
     }
 
     public void FixedUpdate()
     {
-        CurrentState?.OnFixedUpdate(caller as T);
+        CurrentState?.OnFixedUpdate(caller);
     }
 
     public void LateUpdate()
     {
-        CurrentState?.OnLateUpdate(caller as T);
+        CurrentState?.OnLateUpdate(caller);
     }
 }
