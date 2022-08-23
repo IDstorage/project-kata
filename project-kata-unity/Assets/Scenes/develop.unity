@@ -2731,9 +2731,6 @@ MonoBehaviour:
   Animator:
     behaviour: {fileID: 0}
     animator: {fileID: 1070630266}
-  StateMachine:
-    behaviour: {fileID: 0}
-    caller: {fileID: 1218980646}
   ThirdPerson:
     behaviour: {fileID: 0}
     camera: {fileID: 269417215}
@@ -2746,6 +2743,9 @@ MonoBehaviour:
     targetingHorizontalScale: 1
     targetingVerticalScale: 0.375
     targetingRadius: 10
+  StateMachine:
+    behaviour: {fileID: 0}
+    caller: {fileID: 1218980646}
 --- !u!4 &1218980647
 Transform:
   m_ObjectHideFlags: 0

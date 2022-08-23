@@ -4,50 +4,47 @@ using UnityEngine;
 using Anomaly;
 
 
-public class PlayerAttackState : State
+public class PlayerAttackState : State<Player>
 {
-    public override Identity ID => State.Identity.PlayerAttack;
+    public override StateID ID => StateID.PlayerAttack;
 
 
-    public override void OnEnter(CustomBehaviour target)
+    public override void OnEnter(Player target)
     {
-        (target as Player).Animator.SetTrigger("DefaultAttack");
+        target.Animator.SetTrigger("DefaultAttack");
     }
 
-    public override void OnExit(CustomBehaviour target)
+    public override void OnExit(Player target)
     {
 
     }
 
 
-    public override bool IsTransition(CustomBehaviour target, out Identity next)
+    public override bool IsTransition(Player target, out StateID next)
     {
-        var player = target as Player;
-        if (player.Animator.GetNextState().IsName("Locomotion"))
+        if (target.Animator.GetNextState().IsName("Locomotion"))
         {
-            next = Identity.PlayerLocomotion;
+            next = StateID.PlayerLocomotion;
             return true;
         }
-        next = Identity.None;
+        next = StateID.None;
         return false;
     }
 
 
-    public override void OnFixedUpdate(CustomBehaviour target)
+    public override void OnFixedUpdate(Player target)
     {
 
     }
 
-    public override void OnUpdate(CustomBehaviour target)
+    public override void OnUpdate(Player target)
     {
-        var player = target as Player;
+        target.HandleCamera();
 
-        player.HandleCamera();
-
-        Debug.DrawRay(target.transform.position, player.ThirdPerson.GetForwardVector() * 5F, Color.red);
+        Debug.DrawRay(target.transform.position, target.ThirdPerson.GetForwardVector() * 5F, Color.red);
     }
 
-    public override void OnLateUpdate(CustomBehaviour target)
+    public override void OnLateUpdate(Player target)
     {
 
     }

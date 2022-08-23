@@ -1,25 +1,21 @@
 using Anomaly;
 
-public abstract partial class State
+public abstract partial class State<T> where T : CustomBehaviour
 {
-    public abstract Identity ID { get; }
+    public abstract StateID ID { get; }
 
-    public abstract void OnEnter(CustomBehaviour target);
-    public abstract void OnExit(CustomBehaviour target);
+    public abstract void OnEnter(T target);
+    public abstract void OnExit(T target);
 
-    public abstract bool IsTransition(CustomBehaviour target, out Identity next);
+    public abstract bool IsTransition(T target, out StateID next);
 
-    public abstract void OnFixedUpdate(CustomBehaviour target);
-    public abstract void OnUpdate(CustomBehaviour target);
-    public abstract void OnLateUpdate(CustomBehaviour target);
+    public abstract void OnFixedUpdate(T target);
+    public abstract void OnUpdate(T target);
+    public abstract void OnLateUpdate(T target);
 
-    public static State New<T>() where T : State, new()
+
+    public static State<T> Bind(params State<T>[] states)
     {
-        return new T();
-    }
-
-    public static State Bind(params State[] states)
-    {
-        return new CompositeState(states);
+        return new CompositeState<T>(states);
     }
 }

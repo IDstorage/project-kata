@@ -3,49 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using Anomaly;
 
-public class PlayerBlockState : State
+public class PlayerBlockState : State<Player>
 {
-    public override Identity ID => Identity.PlayerBlock;
+    public override StateID ID => StateID.PlayerBlock;
 
-    public override bool IsTransition(CustomBehaviour target, out Identity next)
+    public override bool IsTransition(Player target, out StateID next)
     {
-        var player = target as Player;
-        if (player.Animator.GetCurrentState().IsName("Block") || player.Animator.GetNextState().IsName("Block"))
+        if (target.Animator.GetCurrentState().IsName("Block") || target.Animator.GetNextState().IsName("Block"))
         {
-            next = Identity.None;
+            next = StateID.None;
             return false;
         }
-        next = Identity.PlayerDefense;
+        next = StateID.PlayerDefense;
         return true;
     }
 
-    public override void OnEnter(CustomBehaviour target)
+    public override void OnEnter(Player target)
     {
-        (target as Player).Animator.SetTrigger("Block");
+        target.Animator.SetTrigger("Block");
     }
 
-    public override void OnExit(CustomBehaviour target)
+    public override void OnExit(Player target)
     {
-        var player = target as Player;
-
-        player.Animator.SetFloat("VSpeed", 0);
-        player.Animator.SetFloat("HSpeed", 0);
+        target.Animator.SetFloat("VSpeed", 0);
+        target.Animator.SetFloat("HSpeed", 0);
     }
 
-    public override void OnFixedUpdate(CustomBehaviour target)
-    {
-
-    }
-
-    public override void OnLateUpdate(CustomBehaviour target)
+    public override void OnFixedUpdate(Player target)
     {
 
     }
 
-    public override void OnUpdate(CustomBehaviour target)
+    public override void OnLateUpdate(Player target)
     {
-        var player = target as Player;
 
-        player.HandleCamera();
+    }
+
+    public override void OnUpdate(Player target)
+    {
+        target.HandleCamera();
     }
 }

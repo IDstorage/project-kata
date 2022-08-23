@@ -9,6 +9,4 @@ public class Actor : CustomBehaviour
     public CharacterPhysicsComponent CharacterPhysics;
 
     public AnimatorComponent Animator;
-
-    public StateMachineComponent StateMachine;
 }

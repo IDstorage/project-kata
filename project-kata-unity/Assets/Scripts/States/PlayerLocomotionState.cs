@@ -4,54 +4,52 @@ using UnityEngine;
 using Anomaly;
 
 
-public class PlayerLocomotionState : State
+public class PlayerLocomotionState : State<Player>
 {
-    public override Identity ID => State.Identity.PlayerLocomotion;
+    public override StateID ID => StateID.PlayerLocomotion;
 
     private Vector3 handlePos = new Vector3(5F, 0.5f, -10F);
 
 
-    public override void OnEnter(CustomBehaviour target)
+    public override void OnEnter(Player target)
     {
     }
 
-    public override void OnExit(CustomBehaviour target)
+    public override void OnExit(Player target)
     {
 
     }
 
 
-    public override bool IsTransition(CustomBehaviour target, out Identity next)
+    public override bool IsTransition(Player target, out StateID next)
     {
         if (Input.GetMouseButton(1))
         {
-            next = Identity.PlayerDefense;
+            next = StateID.PlayerDefense;
             return true;
         }
         if (Input.GetMouseButtonDown(0))
         {
-            next = Identity.PlayerAttack;
+            next = StateID.PlayerAttack;
             return true;
         }
-        next = Identity.None;
+        next = StateID.None;
         return false;
     }
 
 
-    public override void OnFixedUpdate(CustomBehaviour target)
+    public override void OnFixedUpdate(Player target)
     {
 
     }
 
-    public override void OnUpdate(CustomBehaviour target)
+    public override void OnUpdate(Player target)
     {
-        var player = target as Player;
-
-        player.HandleCamera();
-        player.Move();
+        target.HandleCamera();
+        target.Move();
     }
 
-    public override void OnLateUpdate(CustomBehaviour target)
+    public override void OnLateUpdate(Player target)
     {
 
     }

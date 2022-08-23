@@ -4,51 +4,49 @@ using UnityEngine;
 using Anomaly;
 
 
-public class PlayerDefenseState : State
+public class PlayerDefenseState : State<Player>
 {
-    public override Identity ID => State.Identity.PlayerDefense;
+    public override StateID ID => StateID.PlayerDefense;
 
 
     private float hFollow = 0F, vFollow = 0F;
 
 
-    public override void OnEnter(CustomBehaviour target)
+    public override void OnEnter(Player target)
     {
-        (target as Player).Animator.SetBool("IsBlocking", true);
+        target.Animator.SetBool("IsBlocking", true);
     }
 
-    public override void OnExit(CustomBehaviour target)
+    public override void OnExit(Player target)
     {
-        (target as Player).Animator.SetBool("IsBlocking", false);
+        target.Animator.SetBool("IsBlocking", false);
     }
 
 
-    public override bool IsTransition(CustomBehaviour target, out Identity next)
+    public override bool IsTransition(Player target, out StateID next)
     {
         if (!Input.GetMouseButton(1))
         {
-            next = Identity.PlayerLocomotion;
+            next = StateID.PlayerLocomotion;
             return true;
         }
-        next = Identity.None;
+        next = StateID.None;
         return false;
     }
 
 
-    public override void OnFixedUpdate(CustomBehaviour target)
+    public override void OnFixedUpdate(Player target)
     {
 
     }
 
-    public override void OnUpdate(CustomBehaviour target)
+    public override void OnUpdate(Player target)
     {
-        var player = target as Player;
-
-        player.HandleCamera();
-        player.Move();
+        target.HandleCamera();
+        target.Move();
     }
 
-    public override void OnLateUpdate(CustomBehaviour target)
+    public override void OnLateUpdate(Player target)
     {
 
     }

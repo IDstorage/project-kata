@@ -7,6 +7,8 @@ public class Player : Actor
 {
     public ThirdPersonComponent ThirdPerson;
 
+    public PlayerStateMachineComponent StateMachine;
+
 
     [SerializeField]
     private HitEventStream hitEventStream;
@@ -77,13 +79,13 @@ public class Player : Actor
 
     public void Attack()
     {
-        StateMachine.ChangeState(State.Identity.PlayerAttack);
+        StateMachine.ChangeState(StateID.PlayerAttack);
     }
 
 
     public void Hit(HitEvent e)
     {
-        if (StateMachine.CurrentState.ID == State.Identity.PlayerDefense
+        if (StateMachine.CurrentState.ID == StateID.PlayerDefense
             && e.hitPart.CompareTag("Weapon"))
         {
             Block();
@@ -96,6 +98,6 @@ public class Player : Actor
     public void Block()
     {
         Debug.Log("Block");
-        StateMachine.ChangeState(State.Identity.PlayerBlock);
+        StateMachine.ChangeState(StateID.PlayerBlock);
     }
 }

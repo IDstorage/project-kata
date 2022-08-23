@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 using Anomaly;
 
-public class CompositeState : State
+public class CompositeState<T> : State<T> where T : CustomBehaviour
 {
-    public override Identity ID => State.Identity.None;
+    public override StateID ID => StateID.None;
 
-    private List<State> states = new List<State>();
+    private List<State<T>> states = new List<State<T>>();
 
-    public CompositeState(params State[] states)
+    public CompositeState(params State<T>[] states)
     {
         this.states.AddRange(states);
     }
 
 
-    public override void OnEnter(CustomBehaviour target)
+    public override void OnEnter(T target)
     {
         for (int i = 0; i < states.Count; ++i)
         {
@@ -21,7 +21,7 @@ public class CompositeState : State
         }
     }
 
-    public override void OnExit(CustomBehaviour target)
+    public override void OnExit(T target)
     {
         for (int i = 0; i < states.Count; ++i)
         {
@@ -30,9 +30,9 @@ public class CompositeState : State
     }
 
 
-    public override bool IsTransition(CustomBehaviour target, out Identity next)
+    public override bool IsTransition(T target, out StateID next)
     {
-        next = Identity.None;
+        next = StateID.None;
         for (int i = 0; i < states.Count; ++i)
         {
             if (states[i].IsTransition(target, out next)) return true;
@@ -41,7 +41,7 @@ public class CompositeState : State
     }
 
 
-    public override void OnFixedUpdate(CustomBehaviour target)
+    public override void OnFixedUpdate(T target)
     {
         for (int i = 0; i < states.Count; ++i)
         {
@@ -49,7 +49,7 @@ public class CompositeState : State
         }
     }
 
-    public override void OnLateUpdate(CustomBehaviour target)
+    public override void OnLateUpdate(T target)
     {
         for (int i = 0; i < states.Count; ++i)
         {
@@ -57,7 +57,7 @@ public class CompositeState : State
         }
     }
 
-    public override void OnUpdate(CustomBehaviour target)
+    public override void OnUpdate(T target)
     {
         for (int i = 0; i < states.Count; ++i)
         {
