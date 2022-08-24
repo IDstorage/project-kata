@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Anomaly;
-
+using Anomaly.Utils;
 
 public class PlayerDefenseState : State<Player>
 {
@@ -25,7 +25,7 @@ public class PlayerDefenseState : State<Player>
 
     public override bool IsTransition(Player target, out StateID next)
     {
-        if (!Input.GetMouseButton(1))
+        if (!AInput.IsHeld(AKeyCode.MouseRight))
         {
             next = StateID.PlayerLocomotion;
             return true;

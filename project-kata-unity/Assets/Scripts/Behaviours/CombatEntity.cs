@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Anomaly;
 using System.Threading.Tasks;
+using Anomaly.Utils;
 
 public class CombatEntity : CustomBehaviour
 {
@@ -123,7 +124,7 @@ public class CombatEntity : CustomBehaviour
         if (inputStream == null)
         {
             inputStream = Anomaly.Utils.Stream.Create(this);
-            inputStream.Select(() => Input.GetMouseButtonDown(0))
+            inputStream.Select(() => AInput.IsPressed(AKeyCode.MouseLeft))
                        .Subscribe(data =>
                        {
                            inputStream.Close();

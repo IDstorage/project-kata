@@ -1,11 +1,13 @@
 {
   "dependencies": {
     "com.anomaly.framework": {
-      "version": "https://github.com/IgnorantSquad/anomaly-framework.git#v0.0.6",
+      "version": "https://github.com/IgnorantSquad/anomaly-framework.git#v0.0.7-preview.1",
       "depth": 0,
       "source": "git",
-      "dependencies": {},
-      "hash": "8cc5c24b6114b2467aaedf498d8284609e0f64ff"
+      "dependencies": {
+        "com.unity.inputsystem": "1.2.0"
+      },
+      "hash": "96f86e3203bda69dd3b329c8a8359f1b6496ea88"
     },
     "com.unity.cinemachine": {
       "version": "2.6.15",
