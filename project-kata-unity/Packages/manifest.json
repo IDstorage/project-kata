@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.anomaly.framework": "https://github.com/IgnorantSquad/anomaly-framework.git#v0.0.7-preview.1",
+    "com.anomaly.framework": "https://github.com/IgnorantSquad/anomaly-framework.git#v0.0.7-preview.2",
     "com.unity.cinemachine": "2.6.15",
     "com.unity.collab-proxy": "1.15.4",
     "com.unity.ide.rider": "2.0.7",

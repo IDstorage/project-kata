@@ -24,12 +24,12 @@ public class PlayerLocomotionState : State<Player>
 
     public override bool IsTransition(Player target, out StateID next)
     {
-        if (AInput.IsHeld(AKeyCode.MouseRight))
+        if (AInput.IsHeld(CustomKey.Current.Defense))
         {
             next = StateID.PlayerDefense;
             return true;
         }
-        if (AInput.IsPressed(AKeyCode.MouseLeft))
+        if (AInput.IsPressed(CustomKey.Current.Attack))
         {
             next = StateID.PlayerAttack;
             return true;

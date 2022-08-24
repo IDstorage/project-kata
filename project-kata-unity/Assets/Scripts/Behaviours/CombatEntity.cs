@@ -124,7 +124,7 @@ public class CombatEntity : CustomBehaviour
         if (inputStream == null)
         {
             inputStream = Anomaly.Utils.Stream.Create(this);
-            inputStream.Select(() => AInput.IsPressed(AKeyCode.MouseLeft))
+            inputStream.Select(() => AInput.IsPressed(CustomKey.Current.Attack))
                        .Subscribe(data =>
                        {
                            inputStream.Close();
