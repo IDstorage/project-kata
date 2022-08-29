@@ -1,5 +1,3 @@
-newmtl Dev_matte_grey50
-map_Kd Prefab_Grey50.png
-Kd 1 1 1
-d 1
-
+version https://git-lfs.github.com/spec/v1
+oid sha256:b51fd0c18a789e090ec6dcd8d114f6492364f0184553c2026ab332ab68d3c28a
+size 68

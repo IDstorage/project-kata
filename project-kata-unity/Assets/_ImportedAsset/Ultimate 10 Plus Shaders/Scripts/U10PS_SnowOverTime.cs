@@ -1,28 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-[RequireComponent(typeof(MeshRenderer))]
-public class U10PS_SnowOverTime : MonoBehaviour
-{
-    private MeshRenderer meshRenderer;
-
-    public float speed = 0.6f;
-    
-    private void Start(){
-        meshRenderer = this.gameObject.GetComponent<MeshRenderer>();
-
-        totalTime = (1.0f / speed) * 4.71f; // 3.0f * 3.14f / 2.0f
-    }
-
-    private float totalTime = 0.0f;
-    private void Update(){
-        Material[] mats = meshRenderer.materials;
-
-        mats[0].SetFloat("_SnowAmount", (Mathf.Sin(totalTime * speed) + 1.0f) / 2.0f);
-        totalTime += Time.deltaTime;
-        
-        // Unity does not allow meshRenderer.materials[0]...
-        meshRenderer.materials = mats;
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:194a8b96b473dd972d8e5bc46c53b2b4bdb096153158398466477d6730b26142
+size 803
