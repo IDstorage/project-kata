@@ -68,10 +68,10 @@ public class CombatEntity : CustomBehaviour
                 rotation = weaponStart.rotation
             };
 
-            if (IsOverlap(castInfo, out var hits))
-            {
-                SendHitEvent(hits);
-            }
+            // if (IsOverlap(castInfo, out var hits))
+            // {
+            //     SendHitEvent(hits);
+            // }
 
             boxCastQueue.Enqueue(castInfo);
 
@@ -84,6 +84,12 @@ public class CombatEntity : CustomBehaviour
             previous = current;
 
             await Task.Yield();
+        }
+
+        while (boxCastQueue.Count > 0)
+        {
+            if (!IsOverlap(boxCastQueue.Dequeue(), out var hits)) continue;
+            SendHitEvent(hits);
         }
 
         bool IsOverlap(BoxCastInfo info, out Collider[] hits)
