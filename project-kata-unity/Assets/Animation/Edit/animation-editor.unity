@@ -1228,6 +1228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetData: {fileID: 0}
+  targetAnimation: {fileID: 0}
   animator: {fileID: 5891353781306529013}
   weaponStart: {fileID: 5891353780258718440}
   weaponEnd: {fileID: 5891353781203618907}
