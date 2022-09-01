@@ -8,9 +8,8 @@ public class AnimationTrailData : ScriptableObject
     [System.Serializable]
     public struct Box
     {
-        public SerializableVector3 center;
-        public SerializableVector3 size;
-        public SerializableVector3 eulerAngles;
+        public SerializableVector3 start, end;
+        public float width, height;
     }
 
     [System.Serializable]

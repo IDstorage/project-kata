@@ -18,6 +18,8 @@ public class AnimationTrailGenerator : MonoBehaviour
 
     [Space(10)]
     [SerializeField] private int targetFrame = 60;
+    [SerializeField] private float deltaLength = 0.1f;
+
 
     private AnimatorOverrideController animOverride;
     private string overrideKey;
@@ -84,21 +86,21 @@ public class AnimationTrailGenerator : MonoBehaviour
         {
             SetPose(t);
 
-            AddCurrent();
+            AddCurrent(previous);
 
-            (Vector3 start, Vector3 end) current = (weaponStart.position, weaponEnd.position);
-
-            Debug.DrawLine(previous.start, current.start, Color.green, 2.5f);
-            Debug.DrawLine(previous.end, current.end, Color.green, 2.5f);
-            Debug.DrawLine(current.start, current.end, Color.green, 2.5f);
-
-            previous = current;
+            previous = (weaponStart.position, weaponEnd.position);
 
             t += dt;
         }
 
         SetPose(TrailEndTime);
-        AddCurrent();
+        AddCurrent(previous);
+
+        for (int i = 1; i < boxes.Count - 1; ++i)
+        {
+            if (((Vector3)boxes[i - 1].end - (Vector3)boxes[i].end).magnitude >= deltaLength) continue;
+            boxes.RemoveAt(i--);
+        }
 
         var track = new AnimationTrailData.Track()
         {
@@ -106,18 +108,21 @@ public class AnimationTrailGenerator : MonoBehaviour
             end = TrailEndTime,
             boxes = boxes.ToArray()
         };
+
         if (!targetData.TrySet(trackIdx, track)) return;
 
+        DrawTrail(trackIdx);
 
-        void AddCurrent()
+        void AddCurrent((Vector3 start, Vector3 end) previous)
         {
             (Vector3 start, Vector3 end) current = (weaponStart.position, weaponEnd.position);
 
             var boxInfo = new AnimationTrailData.Box()
             {
-                center = current.start + (current.end - current.start).normalized * katanaLength * 0.5f,
-                size = weaponCollider.size,
-                eulerAngles = weaponStart.eulerAngles
+                start = current.start,
+                end = current.end,
+                width = weaponCollider.size.x,
+                height = weaponCollider.size.z
             };
 
             boxes.Add(boxInfo);
@@ -129,24 +134,15 @@ public class AnimationTrailGenerator : MonoBehaviour
         if (targetData.tracks.Count <= trackIdx) return;
         if (targetData.tracks[trackIdx].boxes == null || targetData.tracks[trackIdx].boxes.Length == 0) return;
 
-        var previous = GetPositions(targetData.tracks[trackIdx].boxes[0]);
+        var previous = targetData.tracks[trackIdx].boxes[0];
 
         foreach (var box in targetData.tracks[trackIdx].boxes)
         {
-            var current = GetPositions(box);
+            Debug.DrawLine(box.start, box.end, Color.green, 2.5f);
+            Debug.DrawLine(box.start, previous.start, Color.green, 2.5f);
+            Debug.DrawLine(box.end, previous.end, Color.green, 2.5f);
 
-            Debug.DrawLine(current.start, current.end, Color.green, 2.5f);
-            Debug.DrawLine(current.start, previous.start, Color.green, 2.5f);
-            Debug.DrawLine(current.end, previous.end, Color.green, 2.5f);
-
-            previous = current;
-        }
-
-
-        (Vector3 start, Vector3 end) GetPositions(AnimationTrailData.Box box)
-        {
-            return (box.center + Quaternion.Euler(box.eulerAngles) * Vector3.down * box.size.y * 0.5f,
-                    box.center + Quaternion.Euler(box.eulerAngles) * Vector3.up * box.size.y * 0.5f);
+            previous = box;
         }
     }
 
@@ -185,8 +181,6 @@ public class AnimationTrailGenerator : MonoBehaviour
         TrailStartTime = targetData.tracks[idx].start;
         TrailEndTime = targetData.tracks[idx].end;
     }
-
-
     public void UpdateAnimation(AnimationClip clip)
     {
         targetAnimation = clip;
