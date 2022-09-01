@@ -11,6 +11,7 @@ using System.Globalization;
 public class AnimationTrailEditor : MonoBehaviour
 {
     [HideInInspector] public AnimationTrailData targetData;
+    [HideInInspector] public AnimationClip targetAnimation;
 
     [Space(10)]
     [SerializeField] private Animator animator;
@@ -23,6 +24,9 @@ public class AnimationTrailEditor : MonoBehaviour
 
     [Space(10)]
     [SerializeField] private int targetFrame = 60;
+
+    private AnimatorOverrideController animOverride;
+    private string overrideKey;
 
     private (float start, float end) trailNormalizedTime;
     public float TrailStartTime
@@ -174,6 +178,25 @@ public class AnimationTrailEditor : MonoBehaviour
         TrailStartTime = targetData.tracks[idx].start;
         TrailEndTime = targetData.tracks[idx].end;
     }
+
+
+    public void UpdateAnimation(AnimationClip clip)
+    {
+        targetAnimation = clip;
+
+        if (targetAnimation == null) return;
+
+        if (animOverride == null)
+        {
+            animOverride = new AnimatorOverrideController(animator.runtimeAnimatorController);
+            animator.runtimeAnimatorController = animOverride;
+            overrideKey = CurrentClip.name;
+        }
+
+        animOverride[overrideKey] = targetAnimation;
+
+        targetData = null;
+    }
 }
 
 #if UNITY_EDITOR
@@ -205,68 +228,80 @@ public class AnimationTrailEditorEditor : Editor
 
         Anomaly.Editor.EditorUtils.DrawHorizontalLine(Color.gray);
 
-        GUILayout.Space(20);
-
 
         var self = target as AnimationTrailEditor;
 
-        var prevData = self.targetData;
-        self.targetData = EditorGUILayout.ObjectField("Data", self.targetData, typeof(AnimationTrailData), false) as AnimationTrailData;
-        if (!ReferenceEquals(self.targetData, prevData))
+        ShowDataField(self);
+        ShowEditor(self);
+    }
+
+    private void ShowDataField(AnimationTrailEditor self)
+    {
+        GUILayout.Space(20);
+
+        self.targetAnimation = CustomObjectField<AnimationClip>("Animation", self.targetAnimation, false, (clip) => { self.UpdateAnimation(clip); });
+
+        self.targetData = CustomObjectField<AnimationTrailData>("Data", self.targetData, false, (data) =>
         {
             currentTrackIdx = 0;
-            self.UpdateTrack(currentTrackIdx);
-        }
+            self.UpdateTrack(0);
+        });
+    }
 
+    private void ShowEditor(AnimationTrailEditor self)
+    {
         GUILayout.Space(30);
 
         EditorGUILayout.BeginVertical("box");
-
-        ShowTrackBar(self);
-
-        GUILayout.Space(10);
-
-        ShowTimeBar(self);
-
-        GUILayout.Space(20);
-
-        if (GUILayout.Button("Generate", GUILayout.Height(40)))
         {
-            CheckTrailDataFile(self);
-            self.GenerateTrail(currentTrackIdx);
-            AssetDatabase.Refresh();
+            ShowTrackBar(self);
+
+            ShowTimeBar(self);
+
+            ShowEditorButtons();
         }
-
-        EditorGUILayout.BeginHorizontal();
-
-        GUI.enabled = self.IsDataValid;
-        if (GUILayout.Button("Add Track", GUILayout.Height(40)))
-        {
-            currentTrackIdx = self.AddTrack();
-            self.UpdateTrack(currentTrackIdx);
-        }
-
-        GUI.enabled = self.IsDataValid && self.TrackCount > 0;
-        if (GUILayout.Button("Remove Track", GUILayout.Height(40)))
-        {
-            currentTrackIdx = self.RemoveTrack(currentTrackIdx);
-            self.UpdateTrack(currentTrackIdx);
-        }
-        GUI.enabled = true;
-
-        EditorGUILayout.EndHorizontal();
-
-
-        GUILayout.Space(15);
-
-        GUI.enabled = self.IsDataValid;
-        if (GUILayout.Button("Show Trail", GUILayout.Height(50)))
-        {
-            self.DrawTrail(currentTrackIdx);
-        }
-        GUI.enabled = true;
-
         EditorGUILayout.EndVertical();
+
+        void ShowEditorButtons()
+        {
+            GUILayout.Space(20);
+
+            if (GUILayout.Button("Generate", GUILayout.Height(40)))
+            {
+                CheckTrailDataFile(self);
+                self.GenerateTrail(currentTrackIdx);
+                AssetDatabase.Refresh();
+            }
+
+            EditorGUILayout.BeginHorizontal();
+            {
+                GUI.enabled = self.IsDataValid;
+                if (GUILayout.Button("Add Track", GUILayout.Height(40)))
+                {
+                    currentTrackIdx = self.AddTrack();
+                    self.UpdateTrack(currentTrackIdx);
+                }
+
+                GUI.enabled = self.IsDataValid && self.TrackCount > 0;
+                if (GUILayout.Button("Remove Track", GUILayout.Height(40)))
+                {
+                    currentTrackIdx = self.RemoveTrack(currentTrackIdx);
+                    self.UpdateTrack(currentTrackIdx);
+                }
+                GUI.enabled = true;
+            }
+            EditorGUILayout.EndHorizontal();
+
+
+            GUILayout.Space(15);
+
+            GUI.enabled = self.IsDataValid;
+            if (GUILayout.Button("Show Trail", GUILayout.Height(50)))
+            {
+                self.DrawTrail(currentTrackIdx);
+            }
+            GUI.enabled = true;
+        }
     }
 
     private void ShowTrackBar(AnimationTrailEditor self)
@@ -298,6 +333,8 @@ public class AnimationTrailEditorEditor : Editor
 
     private void ShowTimeBar(AnimationTrailEditor self)
     {
+        GUILayout.Space(10);
+
         EditorGUILayout.BeginHorizontal();
 
         GUILayout.Label($"{self.TrailStartTime:F3}");
@@ -328,7 +365,8 @@ public class AnimationTrailEditorEditor : Editor
         }
     }
 
-    public void CheckTrailDataFile(AnimationTrailEditor self)
+
+    private void CheckTrailDataFile(AnimationTrailEditor self)
     {
         if (self.targetData == null)
         {
@@ -336,6 +374,15 @@ public class AnimationTrailEditorEditor : Editor
             AssetDatabase.CreateAsset(self.targetData, $"Assets/{self.CurrentClip.name}.asset");
             currentTrackIdx = 0;
         }
+    }
+
+
+    private T CustomObjectField<T>(string label, Object obj, bool allowSceneObjects, System.Action<T> onChanged = null, params GUILayoutOption[] options) where T : Object
+    {
+        T current = EditorGUILayout.ObjectField(label, obj, typeof(T), allowSceneObjects, options) as T;
+        if (ReferenceEquals(current, obj)) return current;
+        onChanged?.Invoke(current);
+        return current;
     }
 }
 #endif
