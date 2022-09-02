@@ -86,7 +86,7 @@ public class AnimationTrailGeneratorWindow : EditorWindow
             {
                 CheckTrailDataFile(self);
                 self.GenerateTrail(currentTrackIdx);
-                AssetDatabase.Refresh();
+                EditorUtility.SetDirty(self.targetData);
             }
 
             EditorGUILayout.BeginHorizontal();
