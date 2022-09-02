@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1fbf40b2c962bfe4ba575da1cd6b2576
+guid: 502154418abf9f04abede4ca128e5b0a
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
@@ -485,7 +485,10 @@ ModelImporter:
     second: root
   - first:
       74: 7400000
-    second: GhostSamurai_APose_Attack03_5_Inplace
+    second: GhostSamurai_APose_Attack02_ALL_Inplace
+  - first:
+      74: 7400002
+    second: GhostSamurai_APose_Attack02_2_Inplace
   - first:
       95: 9500000
     second: //RootNode
@@ -507,48 +510,49 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
       copied configuration does not match position in animation file:\n\t'calf_l'
-      : position error = 3.796727 mm\n\t'foot_l' : position error = 3.633235 mm\n\t'calf_r'
-      : position error = 3.996882 mm\n\t'foot_r' : position error = 4.357270 mm\n"
+      : position error = 2.004097 mm\n\t'foot_l' : position error = 1.672877 mm\n\t'calf_r'
+      : position error = 3.366883 mm\n\t'foot_r' : position error = 2.705478 mm\n"
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'GhostSamurai_APose_Attack03_5_Inplace' has
+    animationImportWarnings: "\nClip 'GhostSamurai_APose_Attack02_ALL_Inplace' has
       import animation warnings that might lower retargeting quality:\nNote: Activate
-      translation DOF on avatar to improve retargeting quality.\n\t'spine_01' has
-      translation animation that will be discarded.\n\t'spine_02' has translation
-      animation that will be discarded.\n\t'spine_03' has translation animation that
-      will be discarded.\n\t'clavicle_l' has translation animation that will be discarded.\n\t'upperarm_l'
-      has translation animation that will be discarded.\n\t'lowerarm_l' has translation
-      animation that will be discarded.\n\t'hand_l' has translation animation that
-      will be discarded.\n\t'index_01_l' has translation animation that will be discarded.\n\t'index_02_l'
-      has translation animation that will be discarded.\n\t'index_03_l' has translation
-      animation that will be discarded.\n\t'middle_01_l' has translation animation
-      that will be discarded.\n\t'middle_02_l' has translation animation that will
-      be discarded.\n\t'middle_03_l' has translation animation that will be discarded.\n\t'pinky_01_l'
-      has translation animation that will be discarded.\n\t'pinky_02_l' has translation
-      animation that will be discarded.\n\t'pinky_03_l' has translation animation
-      that will be discarded.\n\t'ring_01_l' has translation animation that will
-      be discarded.\n\t'ring_02_l' has translation animation that will be discarded.\n\t'ring_03_l'
-      has translation animation that will be discarded.\n\t'thumb_01_l' has translation
-      animation that will be discarded.\n\t'thumb_02_l' has translation animation
-      that will be discarded.\n\t'thumb_03_l' has translation animation that will
-      be discarded.\n\t'clavicle_r' has translation animation that will be discarded.\n\t'upperarm_r'
-      has translation animation that will be discarded.\n\t'lowerarm_r' has translation
-      animation that will be discarded.\n\t'hand_r' has translation animation that
-      will be discarded.\n\t'index_01_r' has translation animation that will be discarded.\n\t'index_02_r'
-      has translation animation that will be discarded.\n\t'middle_01_r' has translation
-      animation that will be discarded.\n\t'middle_03_r' has translation animation
-      that will be discarded.\n\t'pinky_01_r' has translation animation that will
-      be discarded.\n\t'pinky_02_r' has translation animation that will be discarded.\n\t'pinky_03_r'
-      has translation animation that will be discarded.\n\t'ring_01_r' has translation
-      animation that will be discarded.\n\t'ring_02_r' has translation animation
-      that will be discarded.\n\t'ring_03_r' has translation animation that will
-      be discarded.\n\t'thumb_01_r' has translation animation that will be discarded.\n\t'thumb_02_r'
-      has translation animation that will be discarded.\n\t'thumb_03_r' has translation
-      animation that will be discarded.\n\t'head' has translation animation that
-      will be discarded.\n\t'calf_l' has translation animation that will be discarded.\n\t'foot_l'
-      has translation animation that will be discarded.\n\t'ball_l' has translation
-      animation that will be discarded.\n\t'calf_r' has translation animation that
-      will be discarded.\n\t'foot_r' has translation animation that will be discarded.\n\t'ball_r'
-      has translation animation that will be discarded.\n"
+      translation DOF on avatar to improve retargeting quality.\n\t'spine_02' has
+      translation animation that will be discarded.\n\t'clavicle_l' has translation
+      animation that will be discarded.\n\t'upperarm_l' has translation animation
+      that will be discarded.\n\t'lowerarm_l' has translation animation that will
+      be discarded.\n\t'hand_l' has translation animation that will be discarded.\n\t'index_01_l'
+      has translation animation that will be discarded.\n\t'index_02_l' has translation
+      animation that will be discarded.\n\t'index_03_l' has translation animation
+      that will be discarded.\n\t'middle_01_l' has translation animation that will
+      be discarded.\n\t'middle_02_l' has translation animation that will be discarded.\n\t'middle_03_l'
+      has translation animation that will be discarded.\n\t'pinky_01_l' has translation
+      animation that will be discarded.\n\t'pinky_02_l' has translation animation
+      that will be discarded.\n\t'pinky_03_l' has translation animation that will
+      be discarded.\n\t'ring_01_l' has translation animation that will be discarded.\n\t'ring_02_l'
+      has translation animation that will be discarded.\n\t'ring_03_l' has translation
+      animation that will be discarded.\n\t'thumb_01_l' has translation animation
+      that will be discarded.\n\t'thumb_02_l' has translation animation that will
+      be discarded.\n\t'thumb_03_l' has translation animation that will be discarded.\n\t'clavicle_r'
+      has translation animation that will be discarded.\n\t'upperarm_r' has translation
+      animation that will be discarded.\n\t'lowerarm_r' has translation animation
+      that will be discarded.\n\t'hand_r' has translation animation that will be
+      discarded.\n\t'index_01_r' has translation animation that will be discarded.\n\t'index_02_r'
+      has translation animation that will be discarded.\n\t'index_03_r' has translation
+      animation that will be discarded.\n\t'middle_01_r' has translation animation
+      that will be discarded.\n\t'middle_02_r' has translation animation that will
+      be discarded.\n\t'middle_03_r' has translation animation that will be discarded.\n\t'pinky_01_r'
+      has translation animation that will be discarded.\n\t'pinky_02_r' has translation
+      animation that will be discarded.\n\t'pinky_03_r' has translation animation
+      that will be discarded.\n\t'ring_01_r' has translation animation that will
+      be discarded.\n\t'ring_02_r' has translation animation that will be discarded.\n\t'ring_03_r'
+      has translation animation that will be discarded.\n\t'thumb_01_r' has translation
+      animation that will be discarded.\n\t'thumb_02_r' has translation animation
+      that will be discarded.\n\t'thumb_03_r' has translation animation that will
+      be discarded.\n\t'head' has translation animation that will be discarded.\n\t'calf_l'
+      has translation animation that will be discarded.\n\t'foot_l' has translation
+      animation that will be discarded.\n\t'ball_l' has translation animation that
+      will be discarded.\n\t'calf_r' has translation animation that will be discarded.\n\t'foot_r'
+      has translation animation that will be discarded.\n\t'ball_r' has translation
+      animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -562,11 +566,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: GhostSamurai_APose_Attack03_5_Inplace
-      takeName: GhostSamurai_APose_Attack03_5_Inplace
+      name: GhostSamurai_APose_Attack02_2_Inplace
+      takeName: GhostSamurai_APose_Attack02_2_Inplace
       internalID: 0
-      firstFrame: 232
-      lastFrame: 564
+      firstFrame: 1240
+      lastFrame: 1420
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -586,33 +590,33 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.07623321
+      - time: 0.14492734
         functionName: OnEvent
         data: AddImpulseForward
         objectReferenceParameter: {instanceID: 0}
-        floatParameter: 30
+        floatParameter: 20
         intParameter: 0
         messageOptions: 0
-      - time: 0.13378333
+      - time: 0.18478267
         functionName: OnEvent
         data: DoLineAttack|Attack04
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.24666362
+      - time: 0.25362334
         functionName: OnEvent
-        data: AddImpulseForward
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 15
-        intParameter: 5
-        messageOptions: 0
-      - time: 0.317584
-        functionName: OnEvent
-        data: DoLineAttack|Attack04
+        data: CollectInputEvent
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
-        intParameter: 1
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.543478
+        functionName: OnEvent
+        data: StopInputEvent
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
         messageOptions: 0
       transformMask:
       - path: 

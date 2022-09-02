@@ -114,7 +114,7 @@ public class CombatEntity : CustomBehaviour
         }
     }
 
-    public async void CollectInputEvent(AnimationEvent param)
+    public void CollectInputEvent(AnimationEvent param)
     {
         if (inputStream == null)
         {
@@ -129,10 +129,9 @@ public class CombatEntity : CustomBehaviour
         }
 
         inputStream.Open();
-        for (int i = 0; i < param.intParameter; ++i)
-        {
-            await Task.Yield();
-        }
+    }
+    public void StopInputEvent(AnimationEvent param)
+    {
         inputStream.Close();
     }
 
