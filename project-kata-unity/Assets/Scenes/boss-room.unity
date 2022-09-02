@@ -974,6 +974,9 @@ MonoBehaviour:
   weaponStart: {fileID: 930099333}
   weaponEnd: {fileID: 806536196}
   weaponCollider: {fileID: 808936967}
+  trailDataLabel:
+    m_LabelString: PlayerAttack
+  trailDataPrefix: AnimationTrail_Player_
   onAttackEventInvoked:
     m_PersistentCalls:
       m_Calls: []
@@ -1426,6 +1429,9 @@ MonoBehaviour:
   weaponStart: {fileID: 1185903265}
   weaponEnd: {fileID: 1042119698}
   weaponCollider: {fileID: 1843793831}
+  trailDataLabel:
+    m_LabelString: PlayerAttack
+  trailDataPrefix: AnimationTrail_Player_
   onAttackEventInvoked:
     m_PersistentCalls:
       m_Calls:

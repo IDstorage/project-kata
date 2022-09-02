@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using Anomaly;
-using System.Threading.Tasks;
 using Anomaly.Utils;
+using System.Threading.Tasks;
 
 public class CombatEntity : CustomBehaviour
 {
@@ -22,90 +24,77 @@ public class CombatEntity : CustomBehaviour
 
     [SerializeField] private BoxCollider weaponCollider;
 
+    [Space(10)]
+    [SerializeField] private AssetLabelReference trailDataLabel;
+    [SerializeField] private string trailDataPrefix = "AnimationTrail_";
+
+    [Space(10)]
+    public UnityEngine.Events.UnityEvent onAttackEventInvoked;
+
 
     private Anomaly.Utils.Stream inputStream;
 
     private Queue<BoxCastInfo> boxCastQueue = new Queue<BoxCastInfo>();
 
 
-    public UnityEngine.Events.UnityEvent onAttackEventInvoked;
+    protected override void Initialize()
+    {
+        base.Initialize();
+
+        // Load trail data first
+        if (trailDataLabel == null) return;
+        Addressables.DownloadDependenciesAsync(trailDataLabel);
+    }
 
 
     /* 
-     * floatParam: dividend (maximum length)
-     * intParam: plane count
+     * stringParam: trail data name
+     * intParam: track index
      */
     public async void DoLineAttack(AnimationEvent param)
     {
-        float maximumLength = param.floatParameter;
-        float ignoreThreshold = maximumLength / param.intParameter;
+        string dataKey = $"{trailDataPrefix}{param.stringParameter.Split('|')[1]}";
+        var opHandle = Addressables.LoadAssetAsync<AnimationTrailData>(dataKey);
+        await opHandle.Task;
 
-        float katanaLength = (weaponEnd.position - weaponStart.position).magnitude;
+        AnimationTrailData trailData = opHandle.Result;
 
-        float totalLength = 0F;
-        (Vector3 start, Vector3 end) previous = (weaponStart.position, weaponEnd.position);
+        if (param.intParameter < 0 || trailData.tracks.Count <= param.intParameter)
+        {
+            Debug.LogError($"Wrong track index: {dataKey} / {param.intParameter}");
+            return;
+        }
+
+        var track = trailData.tracks[param.intParameter];
 
         HashSet<CustomBehaviour> hitList = new HashSet<CustomBehaviour>();
 
         boxCastQueue.Clear();
 
-        while (totalLength < maximumLength)
+        for (int i = 0; i < track.boxes.Length; ++i)
         {
-            (Vector3 start, Vector3 end) current = (weaponStart.position, weaponEnd.position);
+            var box = track.boxes[i];
 
-            float length = current.end == previous.end ? 0F : (current.end - previous.end).magnitude;
+            Vector3 dir = transform.rotation * ((Vector3)box.end - (Vector3)box.start);
+            Vector3 center = (transform.rotation * box.start + dir * 0.5f + transform.position);
+            Vector3 size = transform.rotation * new Vector3(box.width, dir.magnitude, box.height);
+            Quaternion rotation = Quaternion.FromToRotation(Vector3.up, dir.normalized);
 
-            if (current.end != previous.end && length < ignoreThreshold)
+            boxCastQueue.Enqueue(new BoxCastInfo()
             {
-                await Task.Yield();
-                continue;
-            }
+                center = center,
+                size = size,
+                rotation = rotation
+            });
 
-            var castInfo = new BoxCastInfo()
+            var hits = Physics.OverlapBox(center, new Vector3(box.width, dir.magnitude, box.height), rotation, 1 << LayerMask.NameToLayer("Hittable"));
+            if (hits == null || hits.Length == 0) continue;
+
+            for (int j = 0; j < hits.Length; ++j)
             {
-                center = current.start + (current.end - current.start).normalized * katanaLength * 0.5f,
-                size = weaponCollider.size,
-                rotation = weaponStart.rotation
-            };
+                if (ReferenceEquals(hits[j], weaponCollider)) continue;
 
-            // if (IsOverlap(castInfo, out var hits))
-            // {
-            //     SendHitEvent(hits);
-            // }
-
-            boxCastQueue.Enqueue(castInfo);
-
-            Debug.DrawLine(previous.start, current.start, Color.green, 0.5f);
-            Debug.DrawLine(previous.end, current.end, Color.green, 0.5f);
-            Debug.DrawLine(current.start, current.end, Color.green, 0.5f);
-
-            totalLength += length;
-
-            previous = current;
-
-            await Task.Yield();
-        }
-
-        while (boxCastQueue.Count > 0)
-        {
-            if (!IsOverlap(boxCastQueue.Dequeue(), out var hits)) continue;
-            SendHitEvent(hits);
-        }
-
-        bool IsOverlap(BoxCastInfo info, out Collider[] hits)
-        {
-            hits = UnityEngine.Physics.OverlapBox(info.center, info.size * 0.5f, info.rotation, 1 << LayerMask.NameToLayer("Hittable"));
-            if (hits == null || hits.Length == 0) return false;
-            return true;
-        }
-
-        void SendHitEvent(Collider[] hits)
-        {
-            for (int i = 0; i < hits.Length; ++i)
-            {
-                if (ReferenceEquals(hits[i], weaponCollider)) continue;
-
-                var root = hits[i].GetComponent<RootSelector>().Root;
+                var root = hits[j].GetComponent<RootSelector>().Root;
                 if (root == null)
                 {
                     Debug.Log("RootSelector: Root is Null");
@@ -113,13 +102,13 @@ public class CombatEntity : CustomBehaviour
                 }
 
                 if (hitList.Contains(root)) continue;
+                hitList.Contains(root);
 
-                hitList.Add(root);
                 EventDispatcher.Instance.Send(new HitEvent()
                 {
                     sender = rootBehaviour,
                     receiver = root,
-                    hitPart = hits[i]
+                    hitPart = hits[j]
                 });
             }
         }
@@ -165,13 +154,12 @@ public class CombatEntity : CustomBehaviour
         actor.CharacterPhysics.AddImpulse(backward, param.floatParameter);
     }
 
-
-    // private void OnDrawGizmos()
-    // {
-    //     foreach (var cube in boxCastQueue)
-    //     {
-    //         Gizmos.matrix = Matrix4x4.TRS(cube.center, cube.rotation, Vector3.one);
-    //         Gizmos.DrawWireCube(Vector3.zero, cube.size);
-    //     }
-    // }
+    private void OnDrawGizmos()
+    {
+        foreach (var cube in boxCastQueue)
+        {
+            Gizmos.matrix = Matrix4x4.TRS(cube.center, cube.rotation, Vector3.one);
+            Gizmos.DrawWireCube(Vector3.zero, cube.size);
+        }
+    }
 }

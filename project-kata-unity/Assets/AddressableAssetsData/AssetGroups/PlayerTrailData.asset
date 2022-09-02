@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: PlayerTrailData
+  m_EditorClassIdentifier: 
+  m_GroupName: PlayerTrailData
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 601b9f7d9044b4646b90959a469a72ed
+  m_SerializeEntries:
+  - m_GUID: 3f300fcecbe65f946874e870a493b860
+    m_Address: AnimationTrail_Player_Attack01
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PlayerAttack
+  - m_GUID: c8e9e54fa4c8f7c4391b46f585d7ba8c
+    m_Address: AnimationTrail_Player_Attack02
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PlayerAttack
+  - m_GUID: 0a58d3e5ca1e5e3409811827ef45835a
+    m_Address: AnimationTrail_Player_Attack03
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PlayerAttack
+  - m_GUID: 65738e37d1b276c458d051b04143585b
+    m_Address: AnimationTrail_Player_Attack04
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PlayerAttack
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 327f168726c60e24b9064c2a56f94798, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: f2b429833d5fe5f4284ba8b976700377, type: 2}
+    - {fileID: 11400000, guid: 8809e440c1c72e4429a3dad112255eaa, type: 2}

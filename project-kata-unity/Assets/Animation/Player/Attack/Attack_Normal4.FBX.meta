@@ -595,10 +595,10 @@ ModelImporter:
         messageOptions: 0
       - time: 0.13378333
         functionName: OnEvent
-        data: DoLineAttack
+        data: DoLineAttack|Attack04
         objectReferenceParameter: {instanceID: 0}
-        floatParameter: 2
-        intParameter: 15
+        floatParameter: 0
+        intParameter: 0
         messageOptions: 0
       - time: 0.24666362
         functionName: OnEvent
@@ -609,10 +609,10 @@ ModelImporter:
         messageOptions: 0
       - time: 0.317584
         functionName: OnEvent
-        data: DoLineAttack
+        data: DoLineAttack|Attack04
         objectReferenceParameter: {instanceID: 0}
-        floatParameter: 3
-        intParameter: 10
+        floatParameter: 0
+        intParameter: 1
         messageOptions: 0
       transformMask:
       - path: 
