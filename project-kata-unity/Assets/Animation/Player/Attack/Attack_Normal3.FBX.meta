@@ -578,6 +578,13 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
+      - time: 0.13004489
+        functionName: OnEvent
+        data: AddImpulseForward
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 20
+        intParameter: 0
+        messageOptions: 0
       - time: 0.19065864
         functionName: OnEvent
         data: DoLineAttack|Attack03
@@ -585,18 +592,18 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.19732437
+      - time: 0.21282825
         functionName: OnEvent
         data: CollectInputEvent
         objectReferenceParameter: {instanceID: 0}
-        floatParameter: 10
-        intParameter: 140
+        floatParameter: 0
+        intParameter: 0
         messageOptions: 0
-      - time: 0.13004489
+      - time: 0.5507245
         functionName: OnEvent
-        data: AddImpulseForward
+        data: StopInputEvent
         objectReferenceParameter: {instanceID: 0}
-        floatParameter: 20
+        floatParameter: 0
         intParameter: 0
         messageOptions: 0
       transformMask:
