@@ -85,11 +85,14 @@ public class Player : Actor
 
     public void Hit(HitEvent e)
     {
-        if (StateMachine.CurrentState.ID == StateID.PlayerDefense
-            && e.hitPart.CompareTag("Weapon"))
+        if (StateMachine.CurrentState.ID == StateID.PlayerDefense)
         {
-            Block();
-            return;
+            foreach (var part in e.hitParts)
+            {
+                if (!part.CompareTag("Weapon")) continue;
+                Block();
+                return;
+            }
         }
 
         Debug.Log($"Hit! {e.sender.name} -> {e.receiver.name}");
