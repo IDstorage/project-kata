@@ -30,9 +30,9 @@ MonoBehaviour:
   m_MonoScriptBundleNaming: 0
   m_MonoScriptBundleCustomNaming: 
   m_RemoteCatalogBuildPath:
-    m_Id: 
+    m_Id: b8ccbd30511e1404aa550adb942c46ae
   m_RemoteCatalogLoadPath:
-    m_Id: 
+    m_Id: 26aba1370190e784da8e8cc2a749869b
   m_ContentStateBuildPath: 
   m_overridePlayerVersion: 
   m_GroupAssets:
@@ -80,6 +80,7 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
+    - PlayerAttack
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: a874ebf4702f1c84ea60d4b62fdff599, type: 2}

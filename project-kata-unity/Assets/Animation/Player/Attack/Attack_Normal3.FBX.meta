@@ -580,10 +580,10 @@ ModelImporter:
       events:
       - time: 0.19065864
         functionName: OnEvent
-        data: DoLineAttack
+        data: DoLineAttack|Attack03
         objectReferenceParameter: {instanceID: 0}
-        floatParameter: 3
-        intParameter: 15
+        floatParameter: 0
+        intParameter: 0
         messageOptions: 0
       - time: 0.19732437
         functionName: OnEvent
