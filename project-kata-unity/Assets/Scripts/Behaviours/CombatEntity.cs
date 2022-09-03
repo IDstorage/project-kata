@@ -75,6 +75,11 @@ public class CombatEntity : CustomBehaviour
         {
             var box = track.boxes[i];
 
+            box.start = (Vector3)box.start * transform.lossyScale.x;
+            box.end = (Vector3)box.end * transform.lossyScale.x;
+            box.width *= transform.lossyScale.x;
+            box.height *= transform.lossyScale.x;
+
             Vector3 dir = transform.rotation * ((Vector3)box.end - (Vector3)box.start);
             Vector3 center = (transform.rotation * box.start + dir * 0.5f + transform.position);
             Vector3 size = transform.rotation * new Vector3(box.width, dir.magnitude, box.height);
