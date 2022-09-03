@@ -3022,3 +3022,4 @@ project-kata-unity/Assets/_ImportedAsset/JapaneseDoJo/Saves/Scene/Lightmap-5_com
 project-kata-unity/Assets/_ImportedAsset/JapaneseDoJo/Textures/Roughwood.meta filter=lfs diff=lfs merge=lfs -text
 project-kata-unity/Assets/_ImportedAsset/JapaneseDoJo/Prefabs/WallPanel.prefab.meta filter=lfs diff=lfs merge=lfs -text
 project-kata-unity/Assets/_ImportedAsset/JapaneseDoJo/Saves/Scene/Lightmap-29_comp_light.exr filter=lfs diff=lfs merge=lfs -text
+project-kata-unity/Assets/Scenes/boss-room/LightingData.asset filter=lfs diff=lfs merge=lfs -text

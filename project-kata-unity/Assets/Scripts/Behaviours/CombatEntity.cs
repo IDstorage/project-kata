@@ -67,13 +67,18 @@ public class CombatEntity : CustomBehaviour
 
         var track = trailData.tracks[param.intParameter];
 
-        HashSet<CustomBehaviour> hitList = new HashSet<CustomBehaviour>();
+        Dictionary<CustomBehaviour, HashSet<Collider>> hitList = new Dictionary<CustomBehaviour, HashSet<Collider>>();
 
         boxCastQueue.Clear();
 
         for (int i = 0; i < track.boxes.Length; ++i)
         {
             var box = track.boxes[i];
+
+            box.start = (Vector3)box.start * transform.lossyScale.x;
+            box.end = (Vector3)box.end * transform.lossyScale.x;
+            box.width *= transform.lossyScale.x;
+            box.height *= transform.lossyScale.x;
 
             Vector3 dir = transform.rotation * ((Vector3)box.end - (Vector3)box.start);
             Vector3 center = (transform.rotation * box.start + dir * 0.5f + transform.position);
@@ -92,25 +97,38 @@ public class CombatEntity : CustomBehaviour
 
             for (int j = 0; j < hits.Length; ++j)
             {
-                if (ReferenceEquals(hits[j], weaponCollider)) continue;
+                var hit = hits[j];
+                if (ReferenceEquals(hit, weaponCollider)) continue;
 
-                var root = hits[j].GetComponent<RootSelector>().Root;
-                if (root == null)
+                var selector = hit.GetComponent<RootSelector>();
+                if (selector == null) continue;
+                if (selector.Root == null)
                 {
                     Debug.Log("RootSelector: Root is Null");
                     continue;
                 }
 
-                if (hitList.Contains(root)) continue;
-                hitList.Contains(root);
+                if (ReferenceEquals(selector.Root, rootBehaviour)) continue;
 
-                EventDispatcher.Instance.Send(new HitEvent()
+                if (!hitList.ContainsKey(selector.Root))
                 {
-                    sender = rootBehaviour,
-                    receiver = root,
-                    hitPart = hits[j]
-                });
+                    hitList.Add(selector.Root, new HashSet<Collider>());
+                }
+
+                if (hitList[selector.Root].Contains(hit)) continue;
+
+                hitList[selector.Root].Add(hit);
             }
+        }
+
+        foreach (var hits in hitList)
+        {
+            EventDispatcher.Instance.Send(new HitEvent()
+            {
+                sender = rootBehaviour,
+                receiver = hits.Key,
+                hitParts = hits.Value
+            });
         }
     }
 
