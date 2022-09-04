@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Anomaly;
 
-public class Player : Actor
+public class Player : Actor, ICombat
 {
     public ThirdPersonComponent ThirdPerson;
 
     public StateMachineComponent<Player> StateMachine;
 
-
-    [SerializeField]
-    private HitEventStream hitEventStream;
+    public CombatComponent Combat;
 
 
     private float hFollow = 0F, vFollow = 0F;
@@ -29,8 +27,7 @@ public class Player : Actor
             new PlayerDefenseState(),
             new PlayerBlockState());
 
-        hitEventStream = new HitEventStream(this);
-        hitEventStream.AddListener(Hit);
+        Combat.Initialize();
     }
 
 
@@ -77,17 +74,56 @@ public class Player : Actor
     }
 
 
+    #region Animation Event
+    public void TrailCast(AnimationEvent param)
+    {
+        Combat.TrailCast(param.stringParameter.Split('|')[1].Trim(), param.intParameter);
+    }
+
+    public void CollectInputEvent(AnimationEvent param)
+    {
+        Combat.CollectInputEvent();
+    }
+    public void StopInputEvent(AnimationEvent param)
+    {
+        Combat.StopInputEvent();
+    }
+
+    public void AddImpulseForward(AnimationEvent param)
+    {
+        CharacterPhysics.SetForceAttenScale(param.intParameter);
+        CharacterPhysics.AddImpulse(Character.GetModelForward(), param.floatParameter);
+    }
+    public void AddImpulseBackward(AnimationEvent param)
+    {
+        CharacterPhysics.SetForceAttenScale(param.intParameter);
+        CharacterPhysics.AddImpulse(-Character.GetModelForward(), param.floatParameter);
+    }
+    #endregion
+
+
+    #region Combat
     public void Attack()
     {
         StateMachine.ChangeState(StateID.PlayerAttack);
     }
 
+    public void Block()
+    {
+        Debug.Log($"{this.name}: Block");
+        StateMachine.ChangeState(StateID.PlayerBlock);
+    }
 
-    public void Hit(HitEvent e)
+    public void Parry()
+    {
+    }
+
+
+    public void OnHit(CustomBehaviour other, params Collider[] hitParts)
     {
         if (StateMachine.CurrentState.ID == StateID.PlayerDefense)
         {
-            foreach (var part in e.hitParts)
+            foreach (var part in hitParts)
             {
                 if (!part.CompareTag("Weapon")) continue;
                 Block();
@@ -95,12 +131,15 @@ public class Player : Actor
             }
         }
 
-        Debug.Log($"Hit! {e.sender.name} -> {e.receiver.name}");
+        Debug.Log($"{this.name}: Hit by {other.name}");
     }
 
-    public void Block()
+    public void OnBlocked(CustomBehaviour other)
     {
-        Debug.Log("Block");
-        StateMachine.ChangeState(StateID.PlayerBlock);
     }
+
+    public void OnParried(CustomBehaviour other)
+    {
+    }
+    #endregion
 }
