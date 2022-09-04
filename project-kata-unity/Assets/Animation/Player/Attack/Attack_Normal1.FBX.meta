@@ -587,7 +587,7 @@ ModelImporter:
         messageOptions: 0
       - time: 0.16430855
         functionName: OnEvent
-        data: DoLineAttack|Attack01
+        data: TrailCast|Attack01
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0

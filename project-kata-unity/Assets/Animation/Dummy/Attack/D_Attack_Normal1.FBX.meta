@@ -580,17 +580,10 @@ ModelImporter:
       events:
       - time: 0.16430855
         functionName: OnEvent
-        data: DoLineAttack|Attack01
+        data: TrailCast|Attack01
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
-        messageOptions: 0
-      - time: 0.21502572
-        functionName: OnEvent
-        data: CollectInputEvent
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 110
         messageOptions: 0
       transformMask:
       - path: 

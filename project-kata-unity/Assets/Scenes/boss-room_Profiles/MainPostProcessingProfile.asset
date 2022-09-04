@@ -24,7 +24,7 @@ MonoBehaviour:
     value: 1
   color:
     overrideState: 1
-    value: {r: 0.21698111, g: 0.090749964, b: 0.027634388, a: 1}
+    value: {r: 0.4056604, g: 0.4056604, b: 0.4056604, a: 1}
   ambientOnly:
     overrideState: 0
     value: 1
@@ -105,7 +105,7 @@ MonoBehaviour:
     value: 1
   focusDistance:
     overrideState: 1
-    value: 5
+    value: 3.5
   aperture:
     overrideState: 0
     value: 5.6

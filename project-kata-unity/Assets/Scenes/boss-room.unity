@@ -15,9 +15,9 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.47837368, g: 0.49180582, b: 0.5808823, a: 1}
+  m_FogColor: {r: 0.5754717, g: 0.28233543, b: 0.21987364, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.01
+  m_FogDensity: 0.015
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -885,7 +885,6 @@ GameObject:
   m_Component:
   - component: {fileID: 40083832}
   - component: {fileID: 40083829}
-  - component: {fileID: 40083831}
   - component: {fileID: 40083830}
   m_Layer: 0
   m_Name: TransformRoot
@@ -927,14 +926,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationEvents:
     keyList:
-    - DoLineAttack
+    - TrailCast
     - CollectInputEvent
+    - StopInputEvent
     valueList:
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 40083831}
-          m_TargetAssemblyTypeName: CombatEntity, Assembly-CSharp
-          m_MethodName: DoLineAttack
+        - m_Target: {fileID: 1187963734}
+          m_TargetAssemblyTypeName: DummyAnimationTester, Assembly-CSharp
+          m_MethodName: TrailCast
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -946,8 +946,8 @@ MonoBehaviour:
           m_CallState: 2
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 40083831}
-          m_TargetAssemblyTypeName: CombatEntity, Assembly-CSharp
+        - m_Target: {fileID: 1187963734}
+          m_TargetAssemblyTypeName: DummyAnimationTester, Assembly-CSharp
           m_MethodName: CollectInputEvent
           m_Mode: 0
           m_Arguments:
@@ -958,28 +958,20 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!114 &40083831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 40083828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b14751122139170449d4b0d0c095a4b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rootBehaviour: {fileID: 1187963734}
-  weaponStart: {fileID: 930099333}
-  weaponEnd: {fileID: 806536196}
-  weaponCollider: {fileID: 808936967}
-  trailDataLabel:
-    m_LabelString: PlayerAttack
-  trailDataPrefix: AnimationTrail_Player_
-  onAttackEventInvoked:
-    m_PersistentCalls:
-      m_Calls: []
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1187963734}
+          m_TargetAssemblyTypeName: DummyAnimationTester, Assembly-CSharp
+          m_MethodName: StopInputEvent
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!4 &40083832
 Transform:
   m_ObjectHideFlags: 0
@@ -1310,7 +1302,6 @@ GameObject:
   m_Component:
   - component: {fileID: 70821055}
   - component: {fileID: 70821052}
-  - component: {fileID: 70821054}
   - component: {fileID: 70821053}
   m_Layer: 0
   m_Name: TransformRoot
@@ -1352,17 +1343,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationEvents:
     keyList:
-    - DoLineAttack
+    - TrailCast
     - CollectInputEvent
+    - StopInputEvent
     - AddImpulseForward
     - AddImpulseBackward
-    - StopInputEvent
     valueList:
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 70821054}
-          m_TargetAssemblyTypeName: CombatEntity, Assembly-CSharp
-          m_MethodName: DoLineAttack
+        - m_Target: {fileID: 1230045095}
+          m_TargetAssemblyTypeName: Player, Assembly-CSharp
+          m_MethodName: TrailCast
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1374,8 +1365,8 @@ MonoBehaviour:
           m_CallState: 2
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 70821054}
-          m_TargetAssemblyTypeName: CombatEntity, Assembly-CSharp
+        - m_Target: {fileID: 1230045095}
+          m_TargetAssemblyTypeName: Player, Assembly-CSharp
           m_MethodName: CollectInputEvent
           m_Mode: 0
           m_Arguments:
@@ -1388,8 +1379,22 @@ MonoBehaviour:
           m_CallState: 2
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 70821054}
-          m_TargetAssemblyTypeName: CombatEntity, Assembly-CSharp
+        - m_Target: {fileID: 1230045095}
+          m_TargetAssemblyTypeName: Player, Assembly-CSharp
+          m_MethodName: StopInputEvent
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1230045095}
+          m_TargetAssemblyTypeName: Player, Assembly-CSharp
           m_MethodName: AddImpulseForward
           m_Mode: 0
           m_Arguments:
@@ -1402,8 +1407,8 @@ MonoBehaviour:
           m_CallState: 2
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 70821054}
-          m_TargetAssemblyTypeName: CombatEntity, Assembly-CSharp
+        - m_Target: {fileID: 1230045095}
+          m_TargetAssemblyTypeName: Player, Assembly-CSharp
           m_MethodName: AddImpulseBackward
           m_Mode: 0
           m_Arguments:
@@ -1414,54 +1419,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 70821054}
-          m_TargetAssemblyTypeName: CombatEntity, Assembly-CSharp
-          m_MethodName: StopInputEvent
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
---- !u!114 &70821054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 70821051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b14751122139170449d4b0d0c095a4b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rootBehaviour: {fileID: 1230045095}
-  weaponStart: {fileID: 1185903265}
-  weaponEnd: {fileID: 1042119698}
-  weaponCollider: {fileID: 1843793831}
-  trailDataLabel:
-    m_LabelString: PlayerAttack
-  trailDataPrefix: AnimationTrail_Player_
-  onAttackEventInvoked:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1230045095}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: Attack
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!4 &70821055
 Transform:
   m_ObjectHideFlags: 0
@@ -23954,6 +23911,15 @@ MonoBehaviour:
   animator:
     behaviour: {fileID: 0}
     animator: {fileID: 40083829}
+  combat:
+    behaviour: {fileID: 0}
+    model: {fileID: 40083832}
+    weaponStart: {fileID: 930099333}
+    weaponEnd: {fileID: 806536196}
+    weaponCollider: {fileID: 808936967}
+    trailDataLabel:
+      m_LabelString: PlayerAttack
+    trailDataPrefix: AnimationTrail_Player_
 --- !u!4 &1187963735
 Transform:
   m_ObjectHideFlags: 0
@@ -24714,6 +24680,15 @@ MonoBehaviour:
   StateMachine:
     behaviour: {fileID: 0}
     caller: {fileID: 1230045095}
+  Combat:
+    behaviour: {fileID: 0}
+    model: {fileID: 70821055}
+    weaponStart: {fileID: 1185903265}
+    weaponEnd: {fileID: 1042119698}
+    weaponCollider: {fileID: 1843793831}
+    trailDataLabel:
+      m_LabelString: PlayerAttack
+    trailDataPrefix: AnimationTrail_Player_
 --- !u!4 &1230045096
 Transform:
   m_ObjectHideFlags: 0
