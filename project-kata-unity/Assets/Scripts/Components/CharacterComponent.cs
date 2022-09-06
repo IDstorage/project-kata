@@ -7,14 +7,12 @@ using Anomaly;
 public class CharacterComponent : CustomComponent
 {
     [SerializeField]
+    private Actor statusTarget;
+
+    [Space(10), SerializeField]
     private Transform model;
     [SerializeField]
     private CharacterController character;
-
-    [Space(10), SerializeField]
-    private float moveSpeed;
-    [SerializeField]
-    private float moveSpeedMultiflier;
 
 
     [Space(10), SerializeField]
@@ -33,7 +31,7 @@ public class CharacterComponent : CustomComponent
         bool isMoving = Mathf.Abs(h) >= Mathf.Epsilon || Mathf.Abs(v) >= Mathf.Epsilon;
         if (!isMoving) return false;
 
-        var moveVector = moveDir * moveSpeed * moveSpeedMultiflier;
+        var moveVector = moveDir * statusTarget.Status.moveSpeed * statusTarget.Status.moveSpeedMultiflier;
 
         character.Move(moveVector * Time.deltaTime);
         return true;
