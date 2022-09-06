@@ -31,15 +31,14 @@ public class PostureUI : CustomBehaviour
 
         bgUI.sizeDelta = new Vector2(rootUI.rect.width * scale, bgUI.sizeDelta.y);
 
-        gaugeUI.color = gaugeColor.Evaluate(value);
+        var c = gaugeColor.Evaluate(value);
+        c.a = Anomaly.Utils.Math.IsZero(value) ? 0F : 1F;
+        gaugeUI.color = c;
     }
 
 #if UNITY_EDITOR
     public void UpdateValue()
     {
-        var c = gaugeUI.color;
-        c.a = Anomaly.Utils.Math.IsZero(value) ? 0F : 1F;
-        gaugeUI.color = c;
         SetValue(value);
     }
 #endif
