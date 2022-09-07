@@ -739,6 +739,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1105610224}
     m_Modifications:
+    - target: {fileID: 2238224177870255685, guid: 35a4a88ebc5e98547aec3ea798347f9a, type: 3}
+      propertyPath: targetActor
+      value: 
+      objectReference: {fileID: 1230045095}
     - target: {fileID: 4159578753499920077, guid: 35a4a88ebc5e98547aec3ea798347f9a, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1207,6 +1211,10 @@ PrefabInstance:
       propertyPath: value
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2719199043097947603, guid: e3fd48574cde0704299fe9fb6f51c572, type: 3}
+      propertyPath: targetActor
+      value: 
+      objectReference: {fileID: 1230045095}
     - target: {fileID: 2719199043097947605, guid: e3fd48574cde0704299fe9fb6f51c572, type: 3}
       propertyPath: m_Name
       value: PlayerPosture
@@ -6646,7 +6654,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &318896885
 GameObject:
@@ -16142,50 +16150,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
---- !u!1 &793227511
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 793227513}
-  - component: {fileID: 793227512}
-  m_Layer: 0
-  m_Name: CustomKeySelector
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &793227512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 793227511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9dd457ea74703ba49b88b4dba4501b51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keyMap: {fileID: 11400000, guid: a8d6b007bdc3c8a40bfda1e8dd49bb0f, type: 2}
---- !u!4 &793227513
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 793227511}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &793451294
 GameObject:
   m_ObjectHideFlags: 0
@@ -23020,7 +22984,7 @@ GameObject:
   - component: {fileID: 1105610222}
   - component: {fileID: 1105610221}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: HUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23103,7 +23067,7 @@ RectTransform:
   - {fileID: 1157850618}
   - {fileID: 550094612}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -25172,10 +25136,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Character:
     behaviour: {fileID: 0}
+    statusTarget: {fileID: 1230045095}
     model: {fileID: 70821055}
     character: {fileID: 1230045094}
-    moveSpeed: 4
-    moveSpeedMultiflier: 1
     followTarget: {fileID: 0}
   CharacterPhysics:
     behaviour: {fileID: 0}
@@ -25185,6 +25148,7 @@ MonoBehaviour:
   Animator:
     behaviour: {fileID: 0}
     animator: {fileID: 70821052}
+  status: {fileID: 11400000, guid: bf7b32d42a4b7b641b7da29506ae48cc, type: 2}
   ThirdPerson:
     behaviour: {fileID: 0}
     camera: {fileID: 1986945778}

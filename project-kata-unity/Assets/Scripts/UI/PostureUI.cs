@@ -9,6 +9,9 @@ using UnityEditor;
 
 public class PostureUI : CustomBehaviour
 {
+    [SerializeField] private Actor targetActor;
+
+    [Space(10)]
     [SerializeField] private RectTransform rootUI;
     [SerializeField] private RectTransform bgUI;
     [SerializeField] private Image gaugeUI;
@@ -31,21 +34,31 @@ public class PostureUI : CustomBehaviour
 
         bgUI.sizeDelta = new Vector2(rootUI.rect.width * scale, bgUI.sizeDelta.y);
 
-        gaugeUI.color = gaugeColor.Evaluate(value);
+        var c = gaugeColor.Evaluate(value);
+        c.a = Anomaly.Utils.Math.IsZero(value) ? 0F : 1F;
+        gaugeUI.color = c;
     }
 
 #if UNITY_EDITOR
-    public void UpdateValue()
+    public void UpdateValue(float v = 0F)
     {
-        var c = gaugeUI.color;
-        c.a = Anomaly.Utils.Math.IsZero(value) ? 0F : 1F;
-        gaugeUI.color = c;
-        SetValue(value);
+        if (targetActor == null) return;
+        targetActor.AddPosture(v);
     }
 #endif
 
-    protected override void Initialize()
+    public void OnUpdate()
     {
+        if (targetActor == null) return;
+
+        var status = targetActor.Status;
+
+        float scale = 1F - status.posture;
+        bool valueChanged = value != scale;
+
+        if (!valueChanged) return;
+
+        SetValue(scale);
     }
 }
 
@@ -56,12 +69,22 @@ public class PostureUIEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        EditorGUI.BeginChangeCheck();
         base.OnInspectorGUI();
-        if (EditorGUI.EndChangeCheck())
+
+        if (!EditorApplication.isPlaying) return;
+
+        GUILayout.Space(10);
+
+        EditorGUILayout.BeginHorizontal("box");
+        if (GUILayout.Button("+", GUILayout.Height(30)))
         {
-            (target as PostureUI).UpdateValue();
+            (target as PostureUI).UpdateValue(-Random.Range(0.05f, 0.2f));
         }
+        if (GUILayout.Button("-", GUILayout.Height(30)))
+        {
+            (target as PostureUI).UpdateValue(Random.Range(0.05f, 0.2f));
+        }
+        EditorGUILayout.EndHorizontal();
     }
 }
 #endif
