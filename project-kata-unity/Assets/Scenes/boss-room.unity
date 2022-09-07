@@ -739,6 +739,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1105610224}
     m_Modifications:
+    - target: {fileID: 2238224177870255685, guid: 35a4a88ebc5e98547aec3ea798347f9a, type: 3}
+      propertyPath: targetActor
+      value: 
+      objectReference: {fileID: 1230045095}
     - target: {fileID: 4159578753499920077, guid: 35a4a88ebc5e98547aec3ea798347f9a, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1207,6 +1211,10 @@ PrefabInstance:
       propertyPath: value
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2719199043097947603, guid: e3fd48574cde0704299fe9fb6f51c572, type: 3}
+      propertyPath: targetActor
+      value: 
+      objectReference: {fileID: 1230045095}
     - target: {fileID: 2719199043097947605, guid: e3fd48574cde0704299fe9fb6f51c572, type: 3}
       propertyPath: m_Name
       value: PlayerPosture

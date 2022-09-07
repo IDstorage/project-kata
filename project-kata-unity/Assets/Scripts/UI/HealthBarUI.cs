@@ -10,6 +10,9 @@ using UnityEditor;
 
 public class HealthBarUI : CustomBehaviour
 {
+    [SerializeField] private Actor targetActor;
+
+    [Space(10)]
     [SerializeField] private Image gaugeUI;
     [SerializeField] private Image gaugeFollowerUI;
 
@@ -62,12 +65,23 @@ public class HealthBarUI : CustomBehaviour
 #if UNITY_EDITOR
     public void UpdateValue(float v = 0F)
     {
-        SetValue(value + v);
+        if (targetActor == null) return;
+        targetActor.AddHP(v);
     }
 #endif
 
-    protected override void Initialize()
+    public void OnUpdate()
     {
+        if (targetActor == null) return;
+
+        var status = targetActor.Status;
+
+        float scale = status.hp / status.maximumHP;
+        bool valueChanged = gaugeUI.fillAmount != scale;
+
+        if (!valueChanged) return;
+
+        SetValue(scale);
     }
 }
 
@@ -87,11 +101,11 @@ public class HealthBarUIEditor : Editor
         EditorGUILayout.BeginHorizontal("box");
         if (GUILayout.Button("+", GUILayout.Height(30)))
         {
-            (target as HealthBarUI).UpdateValue(0.1f);
+            (target as HealthBarUI).UpdateValue(Random.Range(5F, 20F));
         }
         if (GUILayout.Button("-", GUILayout.Height(30)))
         {
-            (target as HealthBarUI).UpdateValue(-0.1f);
+            (target as HealthBarUI).UpdateValue(-Random.Range(5F, 20F));
         }
         EditorGUILayout.EndHorizontal();
     }
