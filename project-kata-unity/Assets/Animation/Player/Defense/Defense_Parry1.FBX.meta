@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8fa953e1fd56b0f47a0711f45119cc02
+guid: 2556c49b5f5251e40b6cc12c5c40e4e1
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -163,8 +163,8 @@ ModelImporter:
     400154: Weapon_l
     400156: Weapon_r
     400158: root
-    7400000: GhostSamurai_DefenseR_Parry
-    7400002: GhostSamurai_DefenseR_Parry01_Inplace
+    7400000: GhostSamurai_DefenseL_Parry
+    7400002: GhostSamurai_DefenseL_Parry01_Inplace
     9500000: //RootNode
     2186277476908879412: ImportLogs
   externalObjects: {}
@@ -182,28 +182,25 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
       copied configuration does not match position in animation file:\n\t'calf_l'
-      : position error = 1.654540 mm\n\t'foot_l' : position error = 1.766867 mm\n\t'calf_r'
-      : position error = 1.948054 mm\n\t'foot_r' : position error = 2.365936 mm\n"
+      : position error = 1.906649 mm\n\t'foot_l' : position error = 2.470902 mm\n\t'calf_r'
+      : position error = 1.709123 mm\n\t'foot_r' : position error = 1.919810 mm\n"
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'GhostSamurai_DefenseR_Parry' has import animation
+    animationImportWarnings: "\nClip 'GhostSamurai_DefenseL_Parry' has import animation
       warnings that might lower retargeting quality:\nNote: Activate translation DOF
       on avatar to improve retargeting quality.\n\t'spine_02' has translation animation
-      that will be discarded.\n\t'clavicle_l' has translation animation that will
-      be discarded.\n\t'upperarm_l' has translation animation that will be discarded.\n\t'lowerarm_l'
-      has translation animation that will be discarded.\n\t'hand_l' has translation
-      animation that will be discarded.\n\t'middle_01_l' has translation animation
-      that will be discarded.\n\t'pinky_01_l' has translation animation that will
-      be discarded.\n\t'pinky_02_l' has translation animation that will be discarded.\n\t'ring_01_l'
-      has translation animation that will be discarded.\n\t'thumb_01_l' has translation
-      animation that will be discarded.\n\t'clavicle_r' has translation animation
-      that will be discarded.\n\t'upperarm_r' has translation animation that will
-      be discarded.\n\t'lowerarm_r' has translation animation that will be discarded.\n\t'hand_r'
-      has translation animation that will be discarded.\n\t'head' has translation
-      animation that will be discarded.\n\t'calf_l' has translation animation that
-      will be discarded.\n\t'foot_l' has translation animation that will be discarded.\n\t'ball_l'
-      has translation animation that will be discarded.\n\t'calf_r' has translation
-      animation that will be discarded.\n\t'foot_r' has translation animation that
-      will be discarded.\n\t'ball_r' has translation animation that will be discarded.\n"
+      that will be discarded.\n\t'spine_03' has translation animation that will be
+      discarded.\n\t'clavicle_l' has translation animation that will be discarded.\n\t'upperarm_l'
+      has translation animation that will be discarded.\n\t'lowerarm_l' has translation
+      animation that will be discarded.\n\t'hand_l' has translation animation that
+      will be discarded.\n\t'clavicle_r' has translation animation that will be discarded.\n\t'upperarm_r'
+      has translation animation that will be discarded.\n\t'lowerarm_r' has translation
+      animation that will be discarded.\n\t'hand_r' has translation animation that
+      will be discarded.\n\t'head' has translation animation that will be discarded.\n\t'calf_l'
+      has translation animation that will be discarded.\n\t'foot_l' has translation
+      animation that will be discarded.\n\t'ball_l' has translation animation that
+      will be discarded.\n\t'calf_r' has translation animation that will be discarded.\n\t'foot_r'
+      has translation animation that will be discarded.\n\t'ball_r' has translation
+      animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -217,10 +214,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: GhostSamurai_DefenseR_Parry01_Inplace
-      takeName: GhostSamurai_DefenseR_Parry01_Inplace
-      firstFrame: 280
-      lastFrame: 372
+      name: GhostSamurai_DefenseL_Parry01_Inplace
+      takeName: GhostSamurai_DefenseL_Parry01_Inplace
+      firstFrame: 120
+      lastFrame: 216
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

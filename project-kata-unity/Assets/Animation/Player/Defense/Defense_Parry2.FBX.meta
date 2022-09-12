@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3a0dc7464c017c34ab9c4599b8cf8ad8
+guid: 7a248353a743656459b3cd312c803d3a
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -163,8 +163,8 @@ ModelImporter:
     400154: Weapon_l
     400156: Weapon_r
     400158: root
-    7400000: GhostSamurai_DefenseR_Parry
-    7400002: GhostSamurai_DefenseR_Parry02_Inplace
+    7400000: GhostSamurai_DefenseL_Parry
+    7400002: GhostSamurai_DefenseL_Parry03_Inplace
     9500000: //RootNode
     2186277476908879412: ImportLogs
   externalObjects: {}
@@ -182,19 +182,15 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
       copied configuration does not match position in animation file:\n\t'calf_l'
-      : position error = 1.654580 mm\n\t'foot_l' : position error = 1.766791 mm\n\t'calf_r'
-      : position error = 1.948043 mm\n\t'foot_r' : position error = 2.366011 mm\n"
+      : position error = 1.906651 mm\n\t'foot_l' : position error = 2.470985 mm\n\t'calf_r'
+      : position error = 1.709150 mm\n\t'foot_r' : position error = 1.919737 mm\n"
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'GhostSamurai_DefenseR_Parry' has import animation
+    animationImportWarnings: "\nClip 'GhostSamurai_DefenseL_Parry' has import animation
       warnings that might lower retargeting quality:\nNote: Activate translation DOF
       on avatar to improve retargeting quality.\n\t'spine_02' has translation animation
       that will be discarded.\n\t'clavicle_l' has translation animation that will
       be discarded.\n\t'upperarm_l' has translation animation that will be discarded.\n\t'lowerarm_l'
       has translation animation that will be discarded.\n\t'hand_l' has translation
-      animation that will be discarded.\n\t'middle_01_l' has translation animation
-      that will be discarded.\n\t'pinky_01_l' has translation animation that will
-      be discarded.\n\t'pinky_02_l' has translation animation that will be discarded.\n\t'ring_01_l'
-      has translation animation that will be discarded.\n\t'thumb_01_l' has translation
       animation that will be discarded.\n\t'clavicle_r' has translation animation
       that will be discarded.\n\t'upperarm_r' has translation animation that will
       be discarded.\n\t'lowerarm_r' has translation animation that will be discarded.\n\t'hand_r'
@@ -217,10 +213,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: GhostSamurai_DefenseR_Parry02_Inplace
-      takeName: GhostSamurai_DefenseR_Parry02_Inplace
-      firstFrame: 160
-      lastFrame: 232
+      name: GhostSamurai_DefenseL_Parry03_Inplace
+      takeName: GhostSamurai_DefenseL_Parry03_Inplace
+      firstFrame: 400
+      lastFrame: 492
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
