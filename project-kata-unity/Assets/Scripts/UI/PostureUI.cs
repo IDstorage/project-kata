@@ -42,12 +42,12 @@ public class PostureUI : CustomBehaviour
 
             while (targetActor.Status.posture < 1F)
             {
-                targetActor.AddPosture(targetActor.Status.GetPostureIncreaseSpeed(hpScale), false);
+                targetActor.Status.AddPosture(targetActor.Status.GetPostureIncreaseSpeed(hpScale), false);
                 SetGauge(1F - targetActor.Status.posture);
                 yield return null;
             }
 
-            targetActor.SetPosture(1F, false);
+            targetActor.Status.SetPosture(1F, false);
         }
     }
 
@@ -72,7 +72,7 @@ public class PostureUI : CustomBehaviour
     public void UpdateValue(float v = 0F)
     {
         if (targetActor == null) return;
-        targetActor.AddPosture(v, false);
+        targetActor.Status.AddPosture(v, false);
     }
 #endif
 

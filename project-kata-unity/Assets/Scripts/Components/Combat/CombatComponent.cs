@@ -29,9 +29,13 @@ public class CombatComponent : CustomComponent
     [SerializeField] private string trailDataPrefix = "AnimationTrail_";
 
 
-    private Anomaly.Utils.Stream inputStream;
+    private Stream inputStream;
+    private SmartCoroutine parryTriggerCoroutine;
 
     private Queue<BoxCastInfo> boxCastQueue = new Queue<BoxCastInfo>();
+
+
+    public bool CanParry { get; set; } = false;
 
 
     public void Initialize()
@@ -128,19 +132,22 @@ public class CombatComponent : CustomComponent
 
     public void CollectInputEvent()
     {
-        if (inputStream == null)
+        if (inputStream != null)
         {
-            inputStream = Anomaly.Utils.Stream.Create(behaviour);
-            inputStream.Select(() => AInput.IsPressed(CustomKey.Current.Attack))
-                       .Subscribe(data =>
-                       {
-                           inputStream.Close();
-                           var combat = behaviour as ICombat;
-                           if (combat == null) return;
-                           combat.Attack();
-                       });
-            inputStream.Start();
+            inputStream.Open();
+            return;
         }
+
+        inputStream = Anomaly.Utils.Stream.Create(behaviour);
+        inputStream.Select(() => AInput.IsPressed(CustomKey.Current.Attack))
+                    .Subscribe(data =>
+                    {
+                        inputStream.Close();
+                        var combat = behaviour as ICombat;
+                        if (combat == null) return;
+                        combat.Attack();
+                    });
+        inputStream.Start();
 
         inputStream.Open();
     }
@@ -149,6 +156,28 @@ public class CombatComponent : CustomComponent
         inputStream.Close();
     }
 
+    public void TryParry(float delay, float parryTiming)
+    {
+        if (parryTriggerCoroutine == null)
+        {
+            parryTriggerCoroutine = SmartCoroutine.Create(CoTryParry)
+                                                  .OnAborted(() => { CanParry = false; });
+        }
+
+        parryTriggerCoroutine.Stop();
+        parryTriggerCoroutine.Start();
+
+        IEnumerator CoTryParry()
+        {
+            CanParry = false;
+            yield return new WaitForSeconds(delay);
+            Debug.Log("Parry Start");
+            CanParry = true;
+            yield return new WaitForSeconds(parryTiming);
+            Debug.Log("Parry End");
+            CanParry = false;
+        }
+    }
 
     private void OnDrawGizmos()
     {

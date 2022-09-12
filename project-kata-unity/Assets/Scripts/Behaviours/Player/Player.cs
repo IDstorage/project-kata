@@ -25,7 +25,8 @@ public class Player : Actor, ICombat
             new PlayerLocomotionState(),
             new PlayerAttackState(),
             new PlayerDefenseState(),
-            new PlayerBlockState());
+            new PlayerBlockState(),
+            new PlayerParryState());
 
         Combat.Initialize();
     }
@@ -111,30 +112,43 @@ public class Player : Actor, ICombat
     public void Block()
     {
         Debug.Log($"{this.name}: Block");
+
         StateMachine.ChangeState(StateID.PlayerBlock);
-        AddPosture(-0.1f);
+
+        Status.AddPosture(-0.075f);
+        Status.ResetParryTiming();
     }
 
     public void Parry()
     {
+        Debug.Log($"{this.name}: Parry!");
+
+        StateMachine.ChangeState(StateID.PlayerParry);
+
+        Status.AddPosture(-0.05f);
+        Status.DecreaseParryTiming();
     }
 
 
     public void OnHit(CustomBehaviour other, params Collider[] hitParts)
     {
-        if (StateMachine.CurrentState.ID == StateID.PlayerDefense)
+        if (StateMachine.CurrentState.ID != StateID.PlayerDefense)
         {
-            foreach (var part in hitParts)
-            {
-                if (!part.CompareTag("Weapon")) continue;
-                Block();
-                return;
-            }
+            Status.AddHP(-10F);
+            Status.AddPosture(-0.125f);
+            Debug.Log($"{this.name}: Hit by {other.name}");
+            return;
         }
 
-        AddHP(-10F);
-        AddPosture(-0.05f);
-        Debug.Log($"{this.name}: Hit by {other.name}");
+        foreach (var part in hitParts)
+        {
+            if (!part.CompareTag("Weapon")) continue;
+
+            if (Combat.CanParry) Parry();
+            else Block();
+
+            break;
+        }
     }
 
     public void OnBlocked(CustomBehaviour other)
@@ -143,6 +157,11 @@ public class Player : Actor, ICombat
 
     public void OnParried(CustomBehaviour other)
     {
+    }
+
+    public void TryParry()
+    {
+        Combat.TryParry(status.defenseToParryInterval, status.currentParryTiming);
     }
     #endregion
 }

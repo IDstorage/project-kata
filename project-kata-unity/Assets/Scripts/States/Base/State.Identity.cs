@@ -5,5 +5,6 @@ public enum StateID
     PlayerInteraction,
     PlayerAttack,
     PlayerDefense,
-    PlayerBlock
+    PlayerBlock,
+    PlayerParry
 }

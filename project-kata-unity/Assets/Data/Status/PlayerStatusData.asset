@@ -65,6 +65,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  parryTimingRange: {x: 0.1, y: 0.5}
+  defenseToParryInterval: 0
+  currentParryTiming: 0.5
+  parryTimingDecreaseCount: 5
   moveSpeed: 4
   moveSpeedMultiflier: 1
   bindingKeyMap: {fileID: 11400000, guid: a8d6b007bdc3c8a40bfda1e8dd49bb0f, type: 2}

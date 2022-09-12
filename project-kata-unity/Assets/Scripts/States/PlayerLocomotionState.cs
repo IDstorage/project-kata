@@ -27,6 +27,7 @@ public class PlayerLocomotionState : State<Player>
         if (AInput.IsHeld(CustomKey.Current.Defense))
         {
             next = StateID.PlayerDefense;
+            target.TryParry();
             return true;
         }
         if (AInput.IsPressed(CustomKey.Current.Attack))

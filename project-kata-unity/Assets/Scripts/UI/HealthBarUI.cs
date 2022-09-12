@@ -66,7 +66,7 @@ public class HealthBarUI : CustomBehaviour
     public void UpdateValue(float v = 0F)
     {
         if (targetActor == null) return;
-        targetActor.AddHP(v);
+        targetActor.Status.AddHP(v);
     }
 #endif
 
