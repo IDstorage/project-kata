@@ -112,6 +112,7 @@ public class Player : Actor, ICombat
     {
         Debug.Log($"{this.name}: Block");
         StateMachine.ChangeState(StateID.PlayerBlock);
+        AddPosture(-0.1f);
     }
 
     public void Parry()
@@ -131,6 +132,8 @@ public class Player : Actor, ICombat
             }
         }
 
+        AddHP(-10F);
+        AddPosture(-0.05f);
         Debug.Log($"{this.name}: Hit by {other.name}");
     }
 

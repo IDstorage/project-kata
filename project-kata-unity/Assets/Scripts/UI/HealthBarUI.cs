@@ -70,18 +70,20 @@ public class HealthBarUI : CustomBehaviour
     }
 #endif
 
-    public void OnUpdate()
+
+    private void OnEnable()
     {
         if (targetActor == null) return;
+        targetActor.Status.onHPChanged += SetValue;
+    }
+    private void OnDisable()
+    {
+        if (targetActor == null) return;
+        targetActor.Status.onHPChanged -= SetValue;
+    }
 
-        var status = targetActor.Status;
-
-        float scale = status.hp / status.maximumHP;
-        bool valueChanged = gaugeUI.fillAmount != scale;
-
-        if (!valueChanged) return;
-
-        SetValue(scale);
+    protected override void Initialize()
+    {
     }
 }
 

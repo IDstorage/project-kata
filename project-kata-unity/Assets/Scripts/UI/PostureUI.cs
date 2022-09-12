@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Anomaly;
+using Anomaly.Utils;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -20,16 +21,44 @@ public class PostureUI : CustomBehaviour
     [SerializeField] private Gradient gaugeColor;
     [SerializeField, Range(0F, 1F)] private float value = 0F;
 
+    private SmartCoroutine coroutineInstance;
+
     public void SetValue(float percent)
     {
         if (rootUI == null || gaugeUI == null || bgUI == null) return;
 
+        SetGauge(percent);
+
+        if (coroutineInstance == null) coroutineInstance = SmartCoroutine.Create(CoAnimate);
+        else coroutineInstance.Stop();
+
+        coroutineInstance.Start();
+
+        IEnumerator CoAnimate()
+        {
+            float hpScale = targetActor.Status.hp / targetActor.Status.maximumHP;
+
+            yield return new WaitForSeconds(targetActor.Status.GetPostureIncreaseDelay(hpScale));
+
+            while (targetActor.Status.posture < 1F)
+            {
+                targetActor.AddPosture(targetActor.Status.GetPostureIncreaseSpeed(hpScale), false);
+                SetGauge(1F - targetActor.Status.posture);
+                yield return null;
+            }
+
+            targetActor.SetPosture(1F, false);
+        }
+    }
+
+    private void SetGauge(float percent)
+    {
         value = Mathf.Clamp01(percent);
 
         float scale = gaugeUI.rectTransform.rect.height / rootUI.rect.height;
 
         var size = gaugeUI.rectTransform.sizeDelta;
-        size.x = Mathf.Lerp(246F, rootUI.rect.width * scale, percent);
+        size.x = Mathf.Lerp(246F, rootUI.rect.width * scale, value);
         gaugeUI.rectTransform.sizeDelta = size;
 
         bgUI.sizeDelta = new Vector2(rootUI.rect.width * scale, bgUI.sizeDelta.y);
@@ -43,22 +72,24 @@ public class PostureUI : CustomBehaviour
     public void UpdateValue(float v = 0F)
     {
         if (targetActor == null) return;
-        targetActor.AddPosture(v);
+        targetActor.AddPosture(v, false);
     }
 #endif
 
-    public void OnUpdate()
+
+    private void OnEnable()
     {
         if (targetActor == null) return;
+        targetActor.Status.onPostureChanged += SetValue;
+    }
+    private void OnDisable()
+    {
+        if (targetActor == null) return;
+        targetActor.Status.onPostureChanged -= SetValue;
+    }
 
-        var status = targetActor.Status;
-
-        float scale = 1F - status.posture;
-        bool valueChanged = value != scale;
-
-        if (!valueChanged) return;
-
-        SetValue(scale);
+    protected override void Initialize()
+    {
     }
 }
 

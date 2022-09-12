@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerStatusData", menuName = "Status/Player")]
 public class PlayerStatus : ActorStatus
 {
+    [Header("Key Binding")]
     public CustomKey bindingKeyMap;
 
     public override void Initialize()
