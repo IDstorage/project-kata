@@ -15,11 +15,15 @@ public class PlayerDefenseState : State<Player>
     public override void OnEnter(Player target)
     {
         target.Animator.SetBool("IsBlocking", true);
+
+        target.Combat.AddPose(CombatComponent.Pose.Defense);
     }
 
     public override void OnExit(Player target)
     {
         target.Animator.SetBool("IsBlocking", false);
+
+        target.Combat.ReleasePose(CombatComponent.Pose.Defense);
     }
 
 

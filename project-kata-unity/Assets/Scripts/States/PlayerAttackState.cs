@@ -12,11 +12,13 @@ public class PlayerAttackState : State<Player>
     public override void OnEnter(Player target)
     {
         target.Animator.SetTrigger("DefaultAttack");
+
+        target.Combat.AddPose(CombatComponent.Pose.Attack);
     }
 
     public override void OnExit(Player target)
     {
-
+        target.Combat.ReleasePose(CombatComponent.Pose.Attack);
     }
 
 

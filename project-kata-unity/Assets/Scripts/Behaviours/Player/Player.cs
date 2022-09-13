@@ -132,7 +132,7 @@ public class Player : Actor, ICombat
 
     public void OnHit(CustomBehaviour other, params Collider[] hitParts)
     {
-        if (StateMachine.CurrentState.ID != StateID.PlayerDefense)
+        if (Combat.IsNotPose(CombatComponent.Pose.Defense))
         {
             Status.AddHP(-10F);
             Status.AddPosture(-0.125f);
@@ -144,7 +144,7 @@ public class Player : Actor, ICombat
         {
             if (!part.CompareTag("Weapon")) continue;
 
-            if (Combat.CanParry) Parry();
+            if (Combat.Parryable) Parry();
             else Block();
 
             break;

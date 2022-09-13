@@ -21,12 +21,16 @@ public class PlayerBlockState : State<Player>
     public override void OnEnter(Player target)
     {
         target.Animator.SetTrigger("Block");
+
+        target.Combat.AddPose(CombatComponent.Pose.Block);
     }
 
     public override void OnExit(Player target)
     {
         target.Animator.SetFloat("VSpeed", 0);
         target.Animator.SetFloat("HSpeed", 0);
+
+        target.Combat.ReleasePose(CombatComponent.Pose.Block);
     }
 
     public override void OnFixedUpdate(Player target)

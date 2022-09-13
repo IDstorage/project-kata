@@ -9,6 +9,20 @@ using System.Linq;
 [System.Serializable]
 public class CombatComponent : CustomComponent
 {
+    public enum Pose
+    {
+        Skipable = 1 << 9,
+        Idle = 1 << 1,
+        Attack = 1 << 2,
+        Defense = 1 << 3,
+        Block = 1 << 4,
+        Blocked = 1 << 5,
+        Parryable = 1 << 6,
+        Parry = 1 << 7,
+        Parried = 1 << 8
+    }
+
+
     public struct BoxCastInfo
     {
         public Vector3 center;
@@ -35,7 +49,27 @@ public class CombatComponent : CustomComponent
     private Queue<BoxCastInfo> boxCastQueue = new Queue<BoxCastInfo>();
 
 
-    public bool CanParry { get; set; } = false;
+    private Pose currentPose = Pose.Idle;
+
+    public bool IsPose(Pose pose) => (currentPose & pose) != 0;
+    public bool IsNotPose(Pose pose) => (currentPose & pose) == 0;
+
+    public bool Parryable => IsPose(Pose.Parryable);
+    public bool Skipable => IsPose(Pose.Skipable);
+
+    public void SetPose(Pose pose)
+    {
+        currentPose = pose;
+    }
+    public void AddPose(Pose pose)
+    {
+        currentPose |= pose;
+    }
+    public void ReleasePose(Pose pose)
+    {
+        if (IsNotPose(pose)) return;
+        currentPose ^= pose;
+    }
 
 
     public void Initialize()
@@ -161,7 +195,7 @@ public class CombatComponent : CustomComponent
         if (parryTriggerCoroutine == null)
         {
             parryTriggerCoroutine = SmartCoroutine.Create(CoTryParry)
-                                                  .OnAborted(() => { CanParry = false; });
+                                                  .OnAborted(() => ReleasePose(Pose.Parryable));
         }
 
         parryTriggerCoroutine.Stop();
@@ -169,13 +203,10 @@ public class CombatComponent : CustomComponent
 
         IEnumerator CoTryParry()
         {
-            CanParry = false;
             yield return new WaitForSeconds(delay);
-            Debug.Log("Parry Start");
-            CanParry = true;
+            AddPose(Pose.Parryable);
             yield return new WaitForSeconds(parryTiming);
-            Debug.Log("Parry End");
-            CanParry = false;
+            ReleasePose(Pose.Parryable);
         }
     }
 
