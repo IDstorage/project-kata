@@ -26,13 +26,13 @@ public class PlayerLocomotionState : State<Player>
     {
         if (AInput.IsHeld(CustomKey.Current.Defense))
         {
-            next = StateID.PlayerDefense;
+            next = StateID.Defense;
             target.TryParry();
             return true;
         }
         if (AInput.IsPressed(CustomKey.Current.Attack))
         {
-            next = StateID.PlayerAttack;
+            next = StateID.Attack;
             return true;
         }
         next = StateID.None;

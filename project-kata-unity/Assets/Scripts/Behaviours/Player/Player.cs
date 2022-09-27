@@ -106,14 +106,14 @@ public class Player : Actor, ICombat
     #region Combat
     public void Attack()
     {
-        StateMachine.ChangeState(StateID.PlayerAttack);
+        StateMachine.ChangeState(StateID.Attack);
     }
 
     public void Block()
     {
         Debug.Log($"{this.name}: Block");
 
-        StateMachine.ChangeState(StateID.PlayerBlock);
+        StateMachine.ChangeState(StateID.Block);
 
         Status.AddPosture(-0.075f);
         Status.ResetParryTiming();
@@ -123,7 +123,7 @@ public class Player : Actor, ICombat
     {
         Debug.Log($"{this.name}: Parry!");
 
-        StateMachine.ChangeState(StateID.PlayerParry);
+        StateMachine.ChangeState(StateID.Parry);
 
         Status.AddPosture(-0.05f);
         Status.DecreaseParryTiming();
@@ -132,7 +132,7 @@ public class Player : Actor, ICombat
 
     public void OnHit(CustomBehaviour other, params Collider[] hitParts)
     {
-        if (StateMachine.CurrentState.ID != StateID.PlayerDefense)
+        if (StateMachine.CurrentState.ID != StateID.Defense)
         {
             Status.AddHP(-10F);
             Status.AddPosture(-0.125f);

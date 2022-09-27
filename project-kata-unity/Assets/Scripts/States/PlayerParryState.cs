@@ -5,7 +5,7 @@ using Anomaly;
 
 public class PlayerParryState : State<Player>
 {
-    public override StateID ID => StateID.PlayerParry;
+    public override StateID ID => StateID.Parry;
 
     public override bool IsTransition(Player target, out StateID next)
     {
@@ -14,7 +14,7 @@ public class PlayerParryState : State<Player>
             next = StateID.None;
             return false;
         }
-        next = StateID.PlayerDefense;
+        next = StateID.Defense;
         return true;
     }
 

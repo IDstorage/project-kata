@@ -6,7 +6,7 @@ using Anomaly.Utils;
 
 public class PlayerDefenseState : State<Player>
 {
-    public override StateID ID => StateID.PlayerDefense;
+    public override StateID ID => StateID.Defense;
 
 
     private float hFollow = 0F, vFollow = 0F;
