@@ -109,7 +109,7 @@ public class Player : Actor, ICombat
         StateMachine.ChangeState(StateID.Attack);
     }
 
-    public void Block()
+    public void Block(CustomBehaviour other)
     {
         Debug.Log($"{this.name}: Block");
 
@@ -119,7 +119,7 @@ public class Player : Actor, ICombat
         Status.ResetParryTiming();
     }
 
-    public void Parry()
+    public void Parry(CustomBehaviour other)
     {
         Debug.Log($"{this.name}: Parry!");
 
@@ -127,6 +127,8 @@ public class Player : Actor, ICombat
 
         Status.AddPosture(-0.05f);
         Status.DecreaseParryTiming();
+
+        this.SendEvent<ParryEvent>(to: other);
     }
 
 
@@ -144,8 +146,8 @@ public class Player : Actor, ICombat
         {
             if (!part.CompareTag("Weapon")) continue;
 
-            if (Combat.CanParry) Parry();
-            else Block();
+            if (Combat.CanParry) Parry(other);
+            else Block(other);
 
             break;
         }

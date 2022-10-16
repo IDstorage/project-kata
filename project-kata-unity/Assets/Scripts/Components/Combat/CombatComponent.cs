@@ -126,7 +126,9 @@ public class CombatComponent : CustomComponent
         {
             ICombat combat = hits.Key as ICombat;
             if (combat == null) continue;
-            combat.OnHit(behaviour, hits.Value.ToArray());
+            //combat.OnHit(behaviour, hits.Value.ToArray());
+
+            behaviour.SendEvent<HitEvent>(hits.Key, new HitEvent() { hitParts = hits.Value });
         }
     }
 

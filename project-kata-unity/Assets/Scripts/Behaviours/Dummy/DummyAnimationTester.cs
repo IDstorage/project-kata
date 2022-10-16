@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Anomaly;
 
-public class DummyAnimationTester : CustomBehaviour
+public class DummyAnimationTester : CustomBehaviour, ICombat
 {
     [SerializeField]
     private AnimatorComponent animator;
@@ -33,6 +33,31 @@ public class DummyAnimationTester : CustomBehaviour
     public void StopInputEvent(AnimationEvent param)
     {
         combat.StopInputEvent();
+    }
+
+    public void Attack()
+    {
+    }
+
+    public void Block(CustomBehaviour other)
+    {
+    }
+
+    public void Parry(CustomBehaviour other)
+    {
+    }
+
+    public void OnHit(CustomBehaviour other, params Collider[] hitParts)
+    {
+    }
+
+    public void OnBlocked(CustomBehaviour other)
+    {
+    }
+
+    public void OnParried(CustomBehaviour other)
+    {
+        Debug.Log("Parried!");
     }
     #endregion
 }

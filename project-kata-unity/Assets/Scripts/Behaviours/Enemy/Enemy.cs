@@ -80,7 +80,7 @@ public class Enemy : Actor, ICombat
         //StateMachine.ChangeState(StateID.Attack);
     }
 
-    public void Block()
+    public void Block(CustomBehaviour other)
     {
         // Debug.Log($"{this.name}: Block");
 
@@ -90,7 +90,7 @@ public class Enemy : Actor, ICombat
         // Status.ResetParryTiming();
     }
 
-    public void Parry()
+    public void Parry(CustomBehaviour other)
     {
         // Debug.Log($"{this.name}: Parry!");
 
@@ -128,6 +128,7 @@ public class Enemy : Actor, ICombat
 
     public void OnParried(CustomBehaviour other)
     {
+        Debug.Log("Parried!");
     }
 
     public void TryParry()

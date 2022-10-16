@@ -6,8 +6,8 @@ using UnityEngine;
 public interface ICombat
 {
     void Attack();
-    void Block();
-    void Parry();
+    void Block(CustomBehaviour other);
+    void Parry(CustomBehaviour other);
 
     void OnHit(CustomBehaviour other, params Collider[] hitParts);
     void OnBlocked(CustomBehaviour other);
