@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc8480b5546e92b44b55b804a36a8a49, type: 3}
-  m_Name: AnimationTrail_Player_Attack04
+  m_Name: AnimationTrail_Common_Attack04
   m_EditorClassIdentifier: 
   tracks:
   - start: 0.18978101

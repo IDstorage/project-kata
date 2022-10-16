@@ -26,7 +26,6 @@ public class CombatComponent : CustomComponent
 
     [Space(10)]
     [SerializeField] private AssetLabelReference trailDataLabel;
-    [SerializeField] private string trailDataPrefix = "AnimationTrail_";
 
 
     private Stream inputStream;
@@ -52,7 +51,7 @@ public class CombatComponent : CustomComponent
      */
     public async void TrailCast(string trailDataName, int trackIdx)
     {
-        string dataKey = $"{trailDataPrefix}{trailDataName}";
+        string dataKey = $"{trailDataLabel.labelString}_{trailDataName}";
         var opHandle = Addressables.LoadAssetAsync<AnimationTrailData>(dataKey);
         await opHandle.Task;
 

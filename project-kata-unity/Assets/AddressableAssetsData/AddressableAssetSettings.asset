@@ -80,7 +80,7 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
-    - PlayerAttack
+    - AnimationTrail_Common
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: a874ebf4702f1c84ea60d4b62fdff599, type: 2}

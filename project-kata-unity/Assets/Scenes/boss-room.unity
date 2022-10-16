@@ -24402,8 +24402,7 @@ MonoBehaviour:
     weaponEnd: {fileID: 806536196}
     weaponCollider: {fileID: 808936967}
     trailDataLabel:
-      m_LabelString: PlayerAttack
-    trailDataPrefix: AnimationTrail_Player_
+      m_LabelString: AnimationTrail_Common
 --- !u!4 &1187963735
 Transform:
   m_ObjectHideFlags: 0
@@ -25171,8 +25170,7 @@ MonoBehaviour:
     weaponEnd: {fileID: 1042119698}
     weaponCollider: {fileID: 1843793831}
     trailDataLabel:
-      m_LabelString: PlayerAttack
-    trailDataPrefix: AnimationTrail_Player_
+      m_LabelString: AnimationTrail_Common
 --- !u!4 &1230045096
 Transform:
   m_ObjectHideFlags: 0
