@@ -6,7 +6,7 @@ using Anomaly;
 
 public class PlayerAttackState : State<Player>
 {
-    public override StateID ID => StateID.PlayerAttack;
+    public override StateID ID => StateID.Attack;
 
 
     public override void OnEnter(Player target)

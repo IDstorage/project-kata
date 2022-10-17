@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc8480b5546e92b44b55b804a36a8a49, type: 3}
+  m_Name: AnimationTrail_Common_Attack03
+  m_EditorClassIdentifier: 
+  tracks:
+  - start: 0.16058396
+    end: 0.2189781
+    boxes:
+    - start:
+        x: 0.4236038
+        y: 0.8240943
+        z: 0.15854019
+      end:
+        x: 1.043359
+        y: 0.50792885
+        z: -0.3684535
+      width: 0.1
+      height: 0.3
+    - start:
+        x: 0.3204034
+        y: 0.81124794
+        z: 0.28828192
+      end:
+        x: 1.0760214
+        y: 0.4516124
+        z: 0.04032457
+      width: 0.1
+      height: 0.3
+    - start:
+        x: 0.18125568
+        y: 0.83565164
+        z: 0.4228006
+      end:
+        x: 0.9545812
+        y: 0.4370625
+        z: 0.4926089
+      width: 0.1
+      height: 0.3
+    - start:
+        x: 0.057021312
+        y: 0.9077351
+        z: 0.5576133
+      end:
+        x: 0.73446834
+        y: 0.479621
+        z: 0.90339243
+      width: 0.1
+      height: 0.3
+    - start:
+        x: -0.04807852
+        y: 1.0448016
+        z: 0.67910963
+      end:
+        x: 0.47534463
+        y: 0.65731573
+        z: 1.2601969
+      width: 0.1
+      height: 0.3
+    - start:
+        x: -0.16684574
+        y: 1.2296894
+        z: 0.7281376
+      end:
+        x: 0.20085628
+        y: 0.97512794
+        z: 1.4776525
+      width: 0.1
+      height: 0.3
+    - start:
+        x: -0.31652683
+        y: 1.4376568
+        z: 0.6781412
+      end:
+        x: -0.14073925
+        y: 1.379971
+        z: 1.5311071
+      width: 0.1
+      height: 0.3
+    - start:
+        x: -0.40260997
+        y: 1.6089139
+        z: 0.578681
+      end:
+        x: -0.36850467
+        y: 1.7270031
+        z: 1.4427823
+      width: 0.1
+      height: 0.3
+    - start:
+        x: -0.4029127
+        y: 1.6098385
+        z: 0.57804775
+      end:
+        x: -0.36939415
+        y: 1.7288135
+        z: 1.4420502
+      width: 0.1
+      height: 0.3

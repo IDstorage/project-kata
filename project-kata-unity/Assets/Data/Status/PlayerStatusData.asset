@@ -13,8 +13,62 @@ MonoBehaviour:
   m_Name: PlayerStatusData
   m_EditorClassIdentifier: 
   hp: 100
-  maximumHP: 100
   posture: 1
+  maximumHP: 100
+  postureIncreaseSpeed: 1
+  postureIncreaseSpeedScale:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  postureIncreaseDelay: 10
+  postureIncreaseDelayScale:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.32811508
+      outSlope: -0.32811508
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.11458407
+    - serializedVersion: 3
+      time: 1
+      value: 0.1
+      inSlope: -1.3509959
+      outSlope: -1.3509959
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.064992726
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  parryTimingRange: {x: 0.1, y: 0.225}
+  defenseToParryInterval: 0
+  currentParryTiming: 0.225
+  parryTimingDecreaseCount: 4
   moveSpeed: 4
   moveSpeedMultiflier: 1
   bindingKeyMap: {fileID: 11400000, guid: a8d6b007bdc3c8a40bfda1e8dd49bb0f, type: 2}

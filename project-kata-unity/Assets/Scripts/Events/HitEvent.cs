@@ -1,15 +1,16 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class HitEvent : Anomaly.BaseEvent
 {
     public HashSet<Collider> hitParts;
-}
 
-public class HitEventStream : Anomaly.EventStream<HitEvent>
-{
-    public HitEventStream(MonoBehaviour mono) : base(mono)
+    public override void Invoke()
     {
+        var combat = receiver as ICombat;
+        if (combat == null) return;
+
+        combat.OnHit(sender, hitParts.ToArray());
     }
 }

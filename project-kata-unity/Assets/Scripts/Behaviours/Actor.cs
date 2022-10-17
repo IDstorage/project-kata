@@ -23,17 +23,4 @@ public class Actor : CustomBehaviour
 
         Status?.Initialize();
     }
-
-
-    public void SetHP(float hp)
-    {
-        Status.hp = Mathf.Clamp(hp, 0F, Status.maximumHP);
-    }
-    public void AddHP(float value) => SetHP(Status.hp + value);
-
-    public void SetPosture(float posture)
-    {
-        Status.posture = Mathf.Clamp01(posture);
-    }
-    public void AddPosture(float value) => SetPosture(Status.posture + value);
 }
