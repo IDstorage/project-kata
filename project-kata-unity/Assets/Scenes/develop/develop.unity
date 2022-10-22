@@ -1136,13 +1136,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 258090407}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cb57648e7c6afe4f9a9015159683371, type: 3}
+  m_Script: {fileID: 11500000, guid: 18fe713de6ffa654aac228e922d99893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator:
+  Character:
+    behaviour: {fileID: 0}
+    statusTarget: {fileID: 258090409}
+    model: {fileID: 608866227}
+    character: {fileID: 258090408}
+    followTarget: {fileID: 0}
+  CharacterPhysics:
+    behaviour: {fileID: 0}
+    body: {fileID: 0}
+    forceAttenScale: 20
+    character: {fileID: 258090408}
+  Animator:
     behaviour: {fileID: 0}
     animator: {fileID: 608866229}
-  combat:
+  status: {fileID: 0}
+  BehaviorTree:
+    behaviour: {fileID: 0}
+    targetAI: {fileID: 258090407}
+    targetBehaviorTree: {}
+  Combat:
     behaviour: {fileID: 0}
     model: {fileID: 608866227}
     weaponStart: {fileID: 450109857}
@@ -1894,7 +1910,7 @@ GameObject:
   - component: {fileID: 498460806}
   - component: {fileID: 498460805}
   - component: {fileID: 498460804}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2317,7 +2333,7 @@ MonoBehaviour:
     valueList:
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 258090409}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: DummyAnimationTester, Assembly-CSharp
           m_MethodName: TrailCast
           m_Mode: 0
@@ -2331,7 +2347,7 @@ MonoBehaviour:
           m_CallState: 2
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 258090409}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: DummyAnimationTester, Assembly-CSharp
           m_MethodName: CollectInputEvent
           m_Mode: 0
@@ -2345,7 +2361,7 @@ MonoBehaviour:
           m_CallState: 2
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 258090409}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: DummyAnimationTester, Assembly-CSharp
           m_MethodName: StopInputEvent
           m_Mode: 0
