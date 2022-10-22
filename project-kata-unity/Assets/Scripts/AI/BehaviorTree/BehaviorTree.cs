@@ -16,7 +16,7 @@ namespace UnityBehaviorTree
             return new BehaviorTree() { sequence = seq };
         }
 
-        public ReturnState Update(GameObject obj, float dt)
+        public ReturnState Update(Anomaly.CustomBehaviour obj, float dt)
         {
             callStack.Clear();
             callStack.Push(sequence);

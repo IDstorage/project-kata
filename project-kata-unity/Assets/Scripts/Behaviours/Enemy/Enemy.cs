@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Anomaly;
+using UnityBehaviorTree;
 
 public class Enemy : Actor, ICombat
 {
@@ -10,6 +11,7 @@ public class Enemy : Actor, ICombat
 
     private float hFollow = 0F, vFollow = 0F;
 
+    [SerializeField] private CustomBehaviour target;
 
     protected override void Initialize()
     {
@@ -18,6 +20,17 @@ public class Enemy : Actor, ICombat
         Cursor.lockState = CursorLockMode.Locked;
 
         Combat.Initialize();
+
+
+        BehaviorTree.SetBehaviorTree(
+        UnityBehaviorTree.BehaviorTree.Create(
+            Sequence.Create(
+                If.Create(
+                    Action.Create<EnemyIfTargetIsNear>(),
+                    Action.Create<EnemyDoAttack>()
+                )
+            )
+        ));
     }
 
 
@@ -44,6 +57,16 @@ public class Enemy : Actor, ICombat
         //     Animator.SetFloat("VSpeed", _v);
         // }
     }
+
+
+    #region Enemy
+    public Vector3 GetTargetDirection()
+    {
+        if (target == null) return Vector3.positiveInfinity;
+
+        return target.transform.position - transform.position;
+    }
+    #endregion
 
 
     #region Animation Event
@@ -128,7 +151,7 @@ public class Enemy : Actor, ICombat
 
     public void OnParried(CustomBehaviour other)
     {
-        Debug.Log("Parried!");
+        Debug.Log($"{this.name}: Parried!");
     }
 
     public void TryParry()

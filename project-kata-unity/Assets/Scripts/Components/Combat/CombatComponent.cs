@@ -172,10 +172,8 @@ public class CombatComponent : CustomComponent
         {
             CanParry = false;
             yield return new WaitForSeconds(delay);
-            Debug.Log("Parry Start");
             CanParry = true;
             yield return new WaitForSeconds(parryTiming);
-            Debug.Log("Parry End");
             CanParry = false;
         }
     }

@@ -7,7 +7,7 @@ using UnityBehaviorTree;
 public class BehaviorTreeComponent : CustomComponent, IUpdater
 {
     [SerializeField]
-    private GameObject targetAI;
+    private CustomBehaviour targetAI;
 
     [SerializeField]
     private BehaviorTree targetBehaviorTree;

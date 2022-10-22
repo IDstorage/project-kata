@@ -19,7 +19,7 @@ namespace UnityBehaviorTree
             return i;
         }
 
-        public override ReturnState Update(Stack<Action> callStack, GameObject obj, float dt)
+        public override ReturnState Update(Stack<Action> callStack, Anomaly.CustomBehaviour obj, float dt)
         {
             var ret = child.Update(callStack, obj, dt);
             callStack.Push(child);

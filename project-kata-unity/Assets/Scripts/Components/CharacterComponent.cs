@@ -37,7 +37,7 @@ public class CharacterComponent : CustomComponent
         return true;
     }
 
-    public Vector3 MoveAndRotate(Vector3 forward, float h, float v)
+    public Vector3 MoveAndRotate(Vector3 forward, float h, float v, bool isRunning)
     {
         bool isMoving = UpdateMovement(forward, h, v, out var dir);
 

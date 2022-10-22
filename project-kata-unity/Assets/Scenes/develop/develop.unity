@@ -638,6 +638,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Katana
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1d407a6008b748b4f9fec2ed72ffde73, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1d407a6008b748b4f9fec2ed72ffde73, type: 3}
+      propertyPath: m_TagString
+      value: Weapon
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1d407a6008b748b4f9fec2ed72ffde73, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -711,10 +719,23 @@ BoxCollider:
   m_GameObject: {fileID: 171941838}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.03, y: 1.1987958, z: 0.3}
   m_Center: {x: 0, y: -0.38854185, z: 0.0138554005}
+--- !u!114 &171941841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171941838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6da3364e8c276a942920a4778d5f6b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  root: {fileID: 258090409}
 --- !u!1 &185962747
 GameObject:
   m_ObjectHideFlags: 0
@@ -1136,13 +1157,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 258090407}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cb57648e7c6afe4f9a9015159683371, type: 3}
+  m_Script: {fileID: 11500000, guid: 18fe713de6ffa654aac228e922d99893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator:
+  Character:
+    behaviour: {fileID: 0}
+    statusTarget: {fileID: 258090409}
+    model: {fileID: 608866227}
+    character: {fileID: 258090408}
+    followTarget: {fileID: 0}
+  CharacterPhysics:
+    behaviour: {fileID: 0}
+    body: {fileID: 0}
+    forceAttenScale: 20
+    character: {fileID: 258090408}
+  Animator:
     behaviour: {fileID: 0}
     animator: {fileID: 608866229}
-  combat:
+  status: {fileID: 11400000, guid: 7835c906820ee4b40ab588147a6d30ec, type: 2}
+  BehaviorTree:
+    behaviour: {fileID: 0}
+    targetAI: {fileID: 258090409}
+    targetBehaviorTree: {}
+  Combat:
     behaviour: {fileID: 0}
     model: {fileID: 608866227}
     weaponStart: {fileID: 450109857}
@@ -1150,6 +1187,7 @@ MonoBehaviour:
     weaponCollider: {fileID: 171941840}
     trailDataLabel:
       m_LabelString: AnimationTrail_Common
+  target: {fileID: 435883182}
 --- !u!4 &258090410
 Transform:
   m_ObjectHideFlags: 0
@@ -1894,7 +1932,7 @@ GameObject:
   - component: {fileID: 498460806}
   - component: {fileID: 498460805}
   - component: {fileID: 498460804}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2318,7 +2356,7 @@ MonoBehaviour:
     - m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 258090409}
-          m_TargetAssemblyTypeName: DummyAnimationTester, Assembly-CSharp
+          m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
           m_MethodName: TrailCast
           m_Mode: 0
           m_Arguments:
@@ -2332,7 +2370,7 @@ MonoBehaviour:
     - m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 258090409}
-          m_TargetAssemblyTypeName: DummyAnimationTester, Assembly-CSharp
+          m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
           m_MethodName: CollectInputEvent
           m_Mode: 0
           m_Arguments:
@@ -2346,7 +2384,7 @@ MonoBehaviour:
     - m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 258090409}
-          m_TargetAssemblyTypeName: DummyAnimationTester, Assembly-CSharp
+          m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
           m_MethodName: StopInputEvent
           m_Mode: 0
           m_Arguments:
@@ -2367,7 +2405,7 @@ Animator:
   m_GameObject: {fileID: 608866226}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 6275a86f0b42486459dc1f17ad6647f4, type: 3}
-  m_Controller: {fileID: 22100000, guid: f36172ddcedb62e46a7ba32560bc59b6, type: 2}
+  m_Controller: {fileID: 22100000, guid: 3a993230549b57c4596f3305f6534caa, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
