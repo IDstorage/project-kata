@@ -44,14 +44,18 @@ public class Player : Actor, ICombat
         float h = Input.GetAxis("Horizontal"),
             v = Input.GetAxis("Vertical");
 
+        bool isRunning = Anomaly.Utils.AInput.IsHeld(CustomKey.Current.Sprint);
+        float followerMultiplier = isRunning ? 2F : 1F;
+
+        h *= followerMultiplier;
+        v *= followerMultiplier;
+
         hFollow = Mathf.Lerp(hFollow, h, Time.deltaTime * 15F);
         vFollow = Mathf.Lerp(vFollow, v, Time.deltaTime * 15F);
 
-        var moveDir = Character.MoveAndRotate(ThirdPerson.GetForwardVector(), h, v);
+        var moveDir = Character.MoveAndRotate(ThirdPerson.GetForwardVector(), h, v, isRunning);
 
         SetAniParam(hFollow, vFollow);
-
-        Debug.DrawRay(transform.position, ThirdPerson.GetForwardVector() * 5F, Color.red);
 
 
         void SetAniParam(float _h, float _v)
@@ -159,6 +163,7 @@ public class Player : Actor, ICombat
 
     public void OnParried(CustomBehaviour other)
     {
+        Debug.Log($"{this.name}: Parried!");
     }
 
     public void TryParry()

@@ -6,7 +6,7 @@ namespace UnityBehaviorTree
     [System.Serializable]
     public class ForceFailure : Action
     {
-        public override ReturnState Update(Stack<Action> callStack, GameObject obj, float dt)
+        public override ReturnState Update(Stack<Action> callStack, Anomaly.CustomBehaviour obj, float dt)
         {
             return ReturnState.FAILURE;
         }
@@ -15,7 +15,7 @@ namespace UnityBehaviorTree
     [System.Serializable]
     public class ForceSuccess : Action
     {
-        public override ReturnState Update(Stack<Action> callStack, GameObject obj, float dt)
+        public override ReturnState Update(Stack<Action> callStack, Anomaly.CustomBehaviour obj, float dt)
         {
             return ReturnState.SUCCESS;
         }

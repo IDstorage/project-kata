@@ -1,7 +1,7 @@
 namespace UnityBehaviorTree
 {
     using System.Collections.Generic;
-    using UnityEngine;
+    using Anomaly;
 
     // BehaviorTree return value
     public enum ReturnState
@@ -21,7 +21,7 @@ namespace UnityBehaviorTree
         public static Action Failure() { return new ForceFailure(); }
         public static Action Success() { return new ForceSuccess(); }
 
-        public abstract ReturnState Update(Stack<Action> callStack, GameObject obj, float dt);
+        public abstract ReturnState Update(Stack<Action> callStack, CustomBehaviour obj, float dt);
 
         public virtual string Name { get; } = "Action";
         public virtual string Description { get; } = string.Empty;

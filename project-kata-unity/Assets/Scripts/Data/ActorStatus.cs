@@ -38,16 +38,16 @@ public class ActorStatus : ScriptableObject
     public System.Action<float> onHPChanged, onPostureChanged;
 
 
-    public void SetHP(float hp, bool notify = true)
+    public void SetHP(float v, bool notify = true)
     {
-        hp = Mathf.Clamp(hp, 0F, maximumHP);
+        hp = Mathf.Clamp(v, 0F, maximumHP);
         if (notify) onHPChanged?.Invoke(hp / maximumHP);
     }
     public void AddHP(float value, bool notify = true) => SetHP(hp + value, notify);
 
-    public void SetPosture(float posture, bool notify = true)
+    public void SetPosture(float v, bool notify = true)
     {
-        posture = Mathf.Clamp01(posture);
+        posture = Mathf.Clamp01(v);
         if (notify) onPostureChanged?.Invoke(1F - posture);
     }
     public void AddPosture(float value, bool notify = true) => SetPosture(posture + value, notify);

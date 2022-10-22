@@ -11,5 +11,7 @@ public class CustomKey : ScriptableObject
     public AKeyCode Attack = AKeyCode.MouseLeft;
     public AKeyCode Defense = AKeyCode.MouseRight;
 
+    public AKeyCode Sprint = AKeyCode.LeftShift;
+
     public AKeyCode Targeting = AKeyCode.Q;
 }

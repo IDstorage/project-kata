@@ -23,7 +23,7 @@ namespace UnityBehaviorTree
             return i;
         }
 
-        public override ReturnState Update(Stack<Action> callStack, GameObject obj, float dt)
+        public override ReturnState Update(Stack<Action> callStack, Anomaly.CustomBehaviour obj, float dt)
         {
             bool ret = condition.Update(callStack, obj, dt) != ReturnState.FAILURE;
 
