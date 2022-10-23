@@ -23,6 +23,6 @@ public class EnemyDoAttack : Action
     private IEnumerator CoAttackLoop()
     {
         enemy.Animator.SetTrigger("DefaultAttack");
-        yield return new WaitForSeconds(1F);
+        yield return new WaitForSeconds(3F);
     }
 }
