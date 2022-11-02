@@ -11,6 +11,8 @@ public class Player : Actor, ICombat
 
     public CombatComponent Combat;
 
+    public TrailComponent Trail;
+
 
     private float hFollow = 0F, vFollow = 0F;
 
@@ -103,6 +105,15 @@ public class Player : Actor, ICombat
     {
         CharacterPhysics.SetForceAttenScale(param.intParameter);
         CharacterPhysics.AddImpulse(-Character.GetModelForward(), param.floatParameter);
+    }
+
+    public void StartTrail(AnimationEvent param)
+    {
+        Trail.Create(TrailComponent.Type.Test);
+    }
+    public void EndTrail(AnimationEvent param)
+    {
+        Trail.Destroy();
     }
     #endregion
 
