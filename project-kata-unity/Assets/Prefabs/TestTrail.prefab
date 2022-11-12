@@ -44,8 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9092f868cdf535b489256e4e044c32cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uniqueName: TestTrail
-  state: 0
   trailRenderer: {fileID: 4390428746937230311}
 --- !u!96 &4390428746937230311
 TrailRenderer:
@@ -88,7 +86,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 0.2
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -106,7 +104,7 @@ TrailRenderer:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 0
+        value: 0.41142273
         inSlope: -1.5987579
         outSlope: -1.5987579
         tangentMode: 0
@@ -118,7 +116,7 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0, g: 1, b: 0, a: 1}
+      key0: {r: 1, g: 1, b: 1, a: 0.60784316}
       key1: {r: 1, g: 1, b: 1, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
