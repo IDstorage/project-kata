@@ -18,6 +18,10 @@ public class AnimationTrailData : ScriptableObject
         public float start;
         public float end;
         public Box[] boxes;
+
+        public int divX, divY;
+        public Vector3[] vertices;
+        public int[] indices;
     }
 
     public List<Track> tracks;
