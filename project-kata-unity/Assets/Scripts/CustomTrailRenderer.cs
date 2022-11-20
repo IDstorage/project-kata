@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Anomaly;
 
-[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class CustomTrailRenderer : CustomBehaviour
 {
     [SerializeField] private int xSize = 30, ySize = 1;
@@ -11,6 +10,7 @@ public class CustomTrailRenderer : CustomBehaviour
     [SerializeField] private float gap = 1F;
     [SerializeField] private float duration;
 
+    private GameObject target;
     private Mesh mesh;
 
     private Vector3 previousPosition;
@@ -21,6 +21,11 @@ public class CustomTrailRenderer : CustomBehaviour
 
     public void InitializeMesh(Transform standard)
     {
+        target = new GameObject("Mesh");
+        //target.transform.SetParent(transform, false);
+        var meshFilter = target.AddComponent<MeshFilter>();
+        target.AddComponent<MeshRenderer>();
+
         mesh = new Mesh();
 
         var vertices = new Vector3[(xSize + 1) * (ySize + 1)];
@@ -58,7 +63,7 @@ public class CustomTrailRenderer : CustomBehaviour
         }
         mesh.normals = normals;
 
-        GetComponent<MeshFilter>().mesh = mesh;
+        meshFilter.mesh = mesh;
     }
 
     public void UpdateVertices(Transform standard)
@@ -79,11 +84,9 @@ public class CustomTrailRenderer : CustomBehaviour
             if (delta.magnitude >= gap) updatePosition = true;
         }
 
-        if (!updatePosition) return;
+        //if (!updatePosition) return;
 
         Length = Mathf.Min(Length + 1, xSize - 1);
-
-        Debug.Log($"Update: {Length}");
 
         for (int i = verts.Length - 1; i >= (ySize + 1) * 2; --i)
         {
@@ -111,15 +114,7 @@ public class CustomTrailRenderer : CustomBehaviour
     {
         if (mesh == null) return;
 
-        var normals = mesh.normals;
-        for (int i = 0; i < xSize; ++i)
-        {
-            var normal = mesh.vertices[(ySize + 1) * i] - mesh.vertices[(ySize + 1) * i + 1];
-            for (int j = 0; j < ySize; ++j)
-            {
-                normals[i * (ySize + 1) + j] = -standard.forward;
-            }
-        }
+        mesh.RecalculateNormals();
     }
 
     public void UpdateTangents()
@@ -143,6 +138,7 @@ public class CustomTrailRenderer : CustomBehaviour
 
         while (true)
         {
+            target.transform.position = transform.position;
             UpdateVertices(transform);
             UpdateNormals(transform);
             UpdateTangents();
