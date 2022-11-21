@@ -9,11 +9,11 @@ public class CustomTrailRenderer : CustomBehaviour
     [SerializeField] private float size = 1F;
     [SerializeField] private float gap = 1F;
     [SerializeField] private float duration;
+    [SerializeField] private Material[] materials;
 
     private GameObject target;
     private Mesh mesh;
 
-    private Vector3 previousPosition;
     private Vector3[] previousPositions;
 
     public int Length { get; private set; }
@@ -24,10 +24,18 @@ public class CustomTrailRenderer : CustomBehaviour
         target = new GameObject("Mesh");
         //target.transform.SetParent(transform, false);
         var meshFilter = target.AddComponent<MeshFilter>();
-        target.AddComponent<MeshRenderer>();
+        var meshRenderer = target.AddComponent<MeshRenderer>();
 
         mesh = new Mesh();
 
+        InitMeshProperties();
+
+        meshFilter.mesh = mesh;
+        meshRenderer.materials = materials;
+    }
+
+    public void InitMeshProperties()
+    {
         var vertices = new Vector3[(xSize + 1) * (ySize + 1)];
         for (int i = 0; i < vertices.Length; ++i)
         {
@@ -48,13 +56,7 @@ public class CustomTrailRenderer : CustomBehaviour
         }
         mesh.triangles = triangles;
 
-        Vector3 top = standard.up * size * 0.5f;
-        Vector3 bottom = -standard.up * size * 0.5f;
         previousPositions = new Vector3[ySize + 1];
-        for (int i = 0; i <= ySize; ++i)
-        {
-            mesh.vertices[i] = Vector3.Lerp(top, bottom, (float)i / ySize);
-        }
 
         var normals = new Vector3[vertices.Length];
         for (int i = 0; i < normals.Length; ++i)
@@ -63,7 +65,12 @@ public class CustomTrailRenderer : CustomBehaviour
         }
         mesh.normals = normals;
 
-        meshFilter.mesh = mesh;
+        var uvs = new Vector2[vertices.Length];
+        for (int i = 0; i < uvs.Length; ++i)
+        {
+            uvs[i] = new Vector2((i / (ySize + 1)) / (float)xSize, (i % (ySize + 1)) / (float)ySize);
+        }
+        mesh.uv = uvs;
     }
 
     public void UpdateVertices(Transform standard)
@@ -144,11 +151,6 @@ public class CustomTrailRenderer : CustomBehaviour
             UpdateTangents();
             yield return null;
         }
-    }
-
-    private void OnUpdate()
-    {
-
     }
 
 

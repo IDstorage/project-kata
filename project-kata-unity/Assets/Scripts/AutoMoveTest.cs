@@ -17,7 +17,7 @@ public class AutoMoveTest : MonoBehaviour
     void Update()
     {
         transform.position = new Vector3(Mathf.Cos(angle) * radius, 0F, Mathf.Sin(angle) * radius);
-        transform.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.right);
+        //transform.eulerAngles = new Vector3(-90F, 45F, -angle * Mathf.Rad2Deg + 90F);//Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.up);
 
         angle += Mathf.PI * 2 * Time.deltaTime * speed;
         if (angle > Mathf.PI * 2)
