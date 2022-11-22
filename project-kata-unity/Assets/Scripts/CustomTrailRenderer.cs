@@ -11,6 +11,8 @@ public class CustomTrailRenderer : CustomBehaviour
     [SerializeField] private float duration;
     [SerializeField] private Material[] materials;
 
+    [SerializeField] private List<Vector3> offsets = new List<Vector3>();
+
     private GameObject target;
     private Mesh mesh;
 
@@ -71,6 +73,11 @@ public class CustomTrailRenderer : CustomBehaviour
             uvs[i] = new Vector2((i / (ySize + 1)) / (float)xSize, (i % (ySize + 1)) / (float)ySize);
         }
         mesh.uv = uvs;
+
+        for (int i = 0; i <= ySize; ++i)
+        {
+            offsets.Add(Vector3.zero);
+        }
     }
 
     public void UpdateVertices(Transform standard)
@@ -85,7 +92,7 @@ public class CustomTrailRenderer : CustomBehaviour
         bool updatePosition = false;
         for (int i = 0; i <= ySize; ++i)
         {
-            var comparePos = standard.position + Vector3.Lerp(top, bottom, (float)i / ySize);
+            var comparePos = standard.position + Vector3.Lerp(top, bottom, (float)i / ySize);// + offsets[i];
             var delta = comparePos - previousPositions[i];
 
             if (delta.magnitude >= gap) updatePosition = true;
@@ -98,20 +105,21 @@ public class CustomTrailRenderer : CustomBehaviour
         for (int i = verts.Length - 1; i >= (ySize + 1) * 2; --i)
         {
             var initial = Vector3.Lerp(top, bottom, (float)(i % (ySize + 1)) / ySize);
-            verts[i] = verts[i - (ySize + 1)] - (standard.position + initial - previousPositions[i % (ySize + 1)]);
+            verts[i] = verts[i - (ySize + 1)] - (standard.position + initial - previousPositions[i % (ySize + 1)]);// + offsets[i % (ySize + 1)];
         }
 
         for (int i = ySize + 1; i < (ySize + 1) * 2; ++i)
         {
             var initial = Vector3.Lerp(top, bottom, (float)i / ySize);
-            verts[i] = previousPositions[i - (ySize + 1)] - standard.position;
+            verts[i] = previousPositions[i - (ySize + 1)] - standard.position;// + offsets[i - (ySize + 1)];
         }
 
         // Update
         for (int i = 0; i <= ySize; ++i)
         {
             verts[i] = Vector3.Lerp(top, bottom, (float)i / ySize);
-            previousPositions[i] = standard.position + verts[i];
+            previousPositions[i] = standard.position + verts[i];// + offsets[i];
+            verts[i] += offsets[i];
         }
 
         mesh.vertices = verts;
