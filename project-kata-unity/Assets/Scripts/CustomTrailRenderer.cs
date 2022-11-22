@@ -44,14 +44,14 @@ public class CustomTrailRenderer : CustomBehaviour
         mesh.vertices = vertices;
 
         var triangles = new int[xSize * ySize * 6];
-        for (int i = 0, vIdx = 0; i < triangles.Length; i += 6, ++vIdx)
+        for (int i = 0, tIdx = 0, vIdx = 0; tIdx < triangles.Length; ++i, ++vIdx)
         {
-            for (int j = 0; j < ySize; ++j, ++vIdx)
+            for (int j = 0; j < ySize; ++j, ++vIdx, tIdx += 6)
             {
-                triangles[i] = vIdx;
-                triangles[i + 1] = triangles[i + 4] = vIdx + 1;
-                triangles[i + 2] = triangles[i + 3] = ySize + vIdx + 1;
-                triangles[i + 5] = ySize + vIdx + 2;
+                triangles[tIdx] = vIdx;
+                triangles[tIdx + 1] = triangles[tIdx + 4] = vIdx + 1;
+                triangles[tIdx + 2] = triangles[tIdx + 3] = ySize + vIdx + 1;
+                triangles[tIdx + 5] = ySize + vIdx + 2;
             }
         }
         mesh.triangles = triangles;
