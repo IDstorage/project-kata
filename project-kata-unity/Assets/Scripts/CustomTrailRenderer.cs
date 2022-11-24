@@ -5,6 +5,28 @@ using Anomaly;
 
 public class CustomTrailRenderer : CustomBehaviour
 {
+    public class VertexLine
+    {
+        public List<Vector3> Vertices { get; private set; } = new List<Vector3>();
+
+        public Transform Header { get; set; }
+        public Vector3 Offset { get; set; }
+
+        public int Length { get; private set; }
+
+        public bool Freeze { get; set; }
+
+        void SetHeaderPosition(Vector3 pos)
+        {
+
+        }
+
+        void Clear()
+        {
+
+        }
+    }
+
     [SerializeField] private int xSize = 30, ySize = 1;
     [SerializeField] private float size = 1F;
     [SerializeField] private float gap = 1F;
