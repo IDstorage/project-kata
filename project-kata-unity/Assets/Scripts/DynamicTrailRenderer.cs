@@ -98,12 +98,12 @@ public class DynamicTrailRenderer : CustomBehaviour
         var triangles = new int[(xCount - 1) * (yCount - 1) * 6];
         for (int i = 0, tIdx = 0, vIdx = 0; tIdx < triangles.Length; ++i, ++vIdx)
         {
-            for (int j = 0; j < yCount - 1; ++j, ++vIdx, tIdx += 6)
+            for (int j = 0; j < xCount - 1; ++j, ++vIdx, tIdx += 6)
             {
-                triangles[tIdx] = vIdx;
-                triangles[tIdx + 1] = triangles[tIdx + 4] = vIdx + 1;
-                triangles[tIdx + 2] = triangles[tIdx + 3] = yCount + vIdx;
-                triangles[tIdx + 5] = yCount + vIdx + 1;
+                triangles[tIdx] = triangles[tIdx + 3] = vIdx;
+                triangles[tIdx + 1] = triangles[tIdx + 5] = vIdx + xCount + 1;
+                triangles[tIdx + 2] = vIdx + xCount;
+                triangles[tIdx + 4] = vIdx + 1;
             }
         }
         mesh.triangles = triangles;
