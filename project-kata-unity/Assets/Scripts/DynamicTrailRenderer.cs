@@ -66,6 +66,8 @@ public class DynamicTrailRenderer : CustomBehaviour
 
     [SerializeField] private Material[] materials;
 
+    [SerializeField] private float interpolateThreshold = 1F;
+
     private List<VertexLine> vertexLines = new List<VertexLine>();
 
     private GameObject meshAttach;
@@ -118,7 +120,7 @@ public class DynamicTrailRenderer : CustomBehaviour
         var uvs = new Vector2[vertices.Length];
         for (int i = 0; i < uvs.Length; ++i)
         {
-            uvs[i] = new Vector2((i / (yCount + 1)) / (float)xCount, (i % (yCount + 1)) / (float)yCount);
+            uvs[i] = new Vector2((float)(i % xCount) / (xCount - 1), (float)(i / xCount) / (yCount - 1));
         }
         mesh.uv = uvs;
 
@@ -167,6 +169,7 @@ public class DynamicTrailRenderer : CustomBehaviour
     private IEnumerator CoUpdate()
     {
         WaitForSeconds ws = null;//new WaitForSeconds(1F);
+        (Vector3 pos, Quaternion quat) previous = (transform.position, transform.rotation);
 
         while (true)
         {
@@ -176,6 +179,31 @@ public class DynamicTrailRenderer : CustomBehaviour
                 continue;
             }
 
+            bool needInterpolate = (transform.position - previous.pos).sqrMagnitude >= interpolateThreshold * interpolateThreshold;
+            if (needInterpolate)
+            {
+                (Vector3 pos, Quaternion quat) temp = (transform.position, transform.rotation);
+
+                transform.position = Vector3.Slerp(previous.pos, transform.position, 0.5f);
+                transform.rotation = Quaternion.Slerp(previous.quat, transform.rotation, 0.5f);
+
+                UpdateVertex();
+
+                transform.position = temp.pos;
+                transform.rotation = temp.quat;
+            }
+
+            UpdateVertex();
+
+            previous.pos = transform.position;
+            previous.quat = transform.rotation;
+
+            yield return ws;
+        }
+
+
+        void UpdateVertex()
+        {
             anchorLine = Mathf.Clamp(anchorLine, 0, yCount);
 
             float deltaDistance = (float)width / (yCount - 1);
@@ -188,21 +216,36 @@ public class DynamicTrailRenderer : CustomBehaviour
             }
 
             mesh.vertices = vertexLines[0].vertices;
-            yield return ws;
         }
     }
 
+    public void Clear()
+    {
+        for (int i = 0; i < vertexLines.Count; ++i)
+        {
+            vertexLines[i].Clear();
+        }
+    }
+
+
+#if UNITY_EDITOR
+    [System.NonSerialized] public bool showGizmos;
+
     private void OnDrawGizmos()
     {
+        if (!showGizmos) return;
+
         if (mesh == null) return;
+
         for (int i = 0; i < mesh.vertices.Length; ++i)
         {
             Color prev = Gizmos.color;
             float c = (float)(i % xCount) / (xCount - 1);
             if (i % xCount == 0) Gizmos.color = Color.red;
             else Gizmos.color = new Color(c, c, c, 1F);
-            Gizmos.DrawSphere(mesh.vertices[i], i <= yCount ? 0.2f : 0.1f);
+            Gizmos.DrawSphere(mesh.vertices[i], i % xCount == 0 ? 0.2f : 0.1f);
             Gizmos.color = prev;
         }
     }
+#endif
 }
