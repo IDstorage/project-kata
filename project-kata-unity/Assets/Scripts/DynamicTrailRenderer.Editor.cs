@@ -12,6 +12,16 @@ public class DynamicTrailRendererEditor : Editor
         var self = target as DynamicTrailRenderer;
         base.OnInspectorGUI();
 
+        GUILayout.Label("Offset");
+        EditorGUI.indentLevel++;
+        {
+            for (int i = self.Lines.Count - 1; i >= 0; --i)
+            {
+                self.Lines[i].offset = EditorGUILayout.Vector3Field($"{i + 1}", self.Lines[i].offset);
+            }
+        }
+        EditorGUI.indentLevel--;
+
         GUILayout.Space(20);
 
         EditorGUILayout.BeginHorizontal("box");

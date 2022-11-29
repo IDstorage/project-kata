@@ -31,7 +31,7 @@ public class DynamicTrailRenderer : CustomBehaviour
 
             for (int i = 0; i < indices.size; ++i)
             {
-                vertices[indices.size * indices.line + i] = header != null ? header.position + direction * distance + offset : Vector3.zero;
+                vertices[indices.size * indices.line + i] = header != null ? header.position + direction * distance + header.rotation * offset : Vector3.zero;
             }
         }
 
@@ -46,7 +46,7 @@ public class DynamicTrailRenderer : CustomBehaviour
                 vertices[indices.size * indices.line + i] = vertices[indices.size * indices.line + i - 1];
             }
 
-            vertices[indices.size * indices.line] = header.position + direction * distance + offset;
+            vertices[indices.size * indices.line] = header.position + direction * distance + header.rotation * offset;
         }
 
         public void Clear()
@@ -227,6 +227,8 @@ public class DynamicTrailRenderer : CustomBehaviour
 #if UNITY_EDITOR
     [System.NonSerialized] public bool showHandles;
     [System.NonSerialized] public bool showGizmos;
+
+    public List<VertexLine> Lines => vertexLines;
 
     private void ShowOffsetHandles()
     {
