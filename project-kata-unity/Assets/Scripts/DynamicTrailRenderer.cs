@@ -225,7 +225,25 @@ public class DynamicTrailRenderer : CustomBehaviour
 
 
 #if UNITY_EDITOR
+    [System.NonSerialized] public bool showHandles;
     [System.NonSerialized] public bool showGizmos;
+
+    private void ShowOffsetHandles()
+    {
+        for (int i = 0; i < vertexLines.Count; ++i)
+        {
+            var line = vertexLines[i];
+            //line.offset = UnityEditor.Handles.PositionHandle(line.vertices[0], line.header.rotation) - line.vertices[0];
+            UnityEditor.Handles.PositionHandle(line.vertices[0], line.header.rotation);
+        }
+    }
+
+    private void OnSceneGUI()
+    {
+        if (!showHandles) return;
+
+        ShowOffsetHandles();
+    }
 
     private void OnDrawGizmos()
     {

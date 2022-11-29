@@ -16,14 +16,19 @@ public class DynamicTrailRendererEditor : Editor
 
         EditorGUILayout.BeginHorizontal("box");
 
-        GUILayout.FlexibleSpace();
+        if (GUILayout.Button($"{(self.showHandles ? "Hide" : "Show")} Handles", GUILayout.Width(160), GUILayout.Height(30)))
+        {
+            self.showHandles = !self.showHandles;
+        }
+
+        GUILayout.Space(5);
 
         if (GUILayout.Button($"{(self.showGizmos ? "Hide" : "Show")} Gizmos", GUILayout.Width(120), GUILayout.Height(30)))
         {
             self.showGizmos = !self.showGizmos;
         }
 
-        GUILayout.Space(5);
+        GUILayout.FlexibleSpace();
 
         if (GUILayout.Button("Clear", GUILayout.Width(60), GUILayout.Height(30)))
         {
