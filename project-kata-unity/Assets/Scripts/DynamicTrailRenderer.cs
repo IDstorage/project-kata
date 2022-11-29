@@ -102,10 +102,10 @@ public class DynamicTrailRenderer : CustomBehaviour
         {
             for (int j = 0; j < xCount - 1; ++j, ++vIdx, tIdx += 6)
             {
-                triangles[tIdx] = triangles[tIdx + 3] = vIdx;
-                triangles[tIdx + 1] = triangles[tIdx + 5] = vIdx + xCount + 1;
-                triangles[tIdx + 2] = vIdx + xCount;
-                triangles[tIdx + 4] = vIdx + 1;
+                triangles[tIdx] = triangles[tIdx + 4] = vIdx;
+                triangles[tIdx + 2] = triangles[tIdx + 5] = vIdx + xCount + 1;
+                triangles[tIdx + 1] = vIdx + xCount;
+                triangles[tIdx + 3] = vIdx + 1;
             }
         }
         mesh.triangles = triangles;
@@ -168,16 +168,14 @@ public class DynamicTrailRenderer : CustomBehaviour
 
     private IEnumerator CoUpdate()
     {
-        WaitForSeconds ws = null;//new WaitForSeconds(1F);
+        WaitForEndOfFrame wf = new WaitForEndOfFrame();
         (Vector3 pos, Quaternion quat) previous = (transform.position, transform.rotation);
 
         while (true)
         {
-            if (!transform.hasChanged)
-            {
-                yield return ws;
-                continue;
-            }
+            yield return wf;
+
+            if (!transform.hasChanged) continue;
 
             bool needInterpolate = (transform.position - previous.pos).sqrMagnitude >= interpolateThreshold * interpolateThreshold;
             if (needInterpolate)
@@ -197,8 +195,6 @@ public class DynamicTrailRenderer : CustomBehaviour
 
             previous.pos = transform.position;
             previous.quat = transform.rotation;
-
-            yield return ws;
         }
 
 
