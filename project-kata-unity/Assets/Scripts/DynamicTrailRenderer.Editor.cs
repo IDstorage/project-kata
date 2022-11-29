@@ -47,5 +47,21 @@ public class DynamicTrailRendererEditor : Editor
 
         EditorGUILayout.EndHorizontal();
     }
+
+
+    private void OnSceneGUI()
+    {
+        var self = target as DynamicTrailRenderer;
+        if (!self.showHandles) return;
+
+        for (int i = 0; i < self.Lines.Count; ++i)
+        {
+            if (i == self.AnchorLine) continue;
+
+            var line = self.Lines[i];
+            //line.offset = UnityEditor.Handles.PositionHandle(line.vertices[0], line.header.rotation) - line.vertices[0];
+            line.offset += UnityEditor.Handles.PositionHandle(line.GetVertex(0), line.header.rotation) - line.GetVertex(0);
+        }
+    }
 }
 #endif

@@ -22,6 +22,8 @@ public class DynamicTrailRenderer : CustomBehaviour
 
         public bool freeze = false;
 
+        public Vector3 GetVertex(int index) => vertices[indices.size * indices.line + Mathf.Clamp(index, 0, indices.size - 1)];
+
         public void InitializePoints(Vector3[] vertices, int lineNumber, int size)
         {
             this.vertices = vertices;
@@ -229,23 +231,7 @@ public class DynamicTrailRenderer : CustomBehaviour
     [System.NonSerialized] public bool showGizmos;
 
     public List<VertexLine> Lines => vertexLines;
-
-    private void ShowOffsetHandles()
-    {
-        for (int i = 0; i < vertexLines.Count; ++i)
-        {
-            var line = vertexLines[i];
-            //line.offset = UnityEditor.Handles.PositionHandle(line.vertices[0], line.header.rotation) - line.vertices[0];
-            UnityEditor.Handles.PositionHandle(line.vertices[0], line.header.rotation);
-        }
-    }
-
-    private void OnSceneGUI()
-    {
-        if (!showHandles) return;
-
-        ShowOffsetHandles();
-    }
+    public int AnchorLine => anchorLine;
 
     private void OnDrawGizmos()
     {
