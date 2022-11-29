@@ -153,6 +153,8 @@ public class AnimationTrailGeneratorWindow : EditorWindow
     {
         GUILayout.Space(10);
 
+        EditorGUILayout.BeginVertical("box");
+
         EditorGUILayout.BeginHorizontal();
 
         GUILayout.Label($"{self.TrailStartTime:F3}");
@@ -181,6 +183,13 @@ public class AnimationTrailGeneratorWindow : EditorWindow
         {
             self.SetPose(self.TrailEndTime);
         }
+
+        EditorGUILayout.EndVertical();
+    }
+
+    private void ShowVertexField(AnimationTrailGenerator self)
+    {
+
     }
 
     private void CheckTrailDataFile(AnimationTrailGenerator self)

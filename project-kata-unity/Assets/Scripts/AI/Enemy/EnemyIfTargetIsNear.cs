@@ -10,6 +10,6 @@ public class EnemyIfTargetIsNear : Action
         var enemy = obj as Enemy;
         if (enemy == null) return ReturnState.FAILURE;
 
-        return enemy.GetTargetDirection().sqrMagnitude < 16F ? ReturnState.SUCCESS : ReturnState.FAILURE;
+        return enemy.GetTargetDirection().sqrMagnitude < 49F ? ReturnState.SUCCESS : ReturnState.FAILURE;
     }
 }

@@ -152,6 +152,7 @@ public class Enemy : Actor, ICombat
     public void OnParried(CustomBehaviour other)
     {
         Debug.Log($"{this.name}: Parried!");
+        Animator.SetTrigger("Parried");
     }
 
     public void TryParry()
