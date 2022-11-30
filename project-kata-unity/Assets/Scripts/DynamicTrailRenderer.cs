@@ -7,9 +7,9 @@ public class DynamicTrailRenderer : CustomBehaviour
 {
     public class VertexLine
     {
-        //public List<Vector3> vertices = new List<Vector3>();
         public Vector3[] vertices;
-        //public List<int> indices = new List<int>();
+        public Color[] colors;
+
         public (int line, int size) indices;
 
         public Transform header;
@@ -68,6 +68,8 @@ public class DynamicTrailRenderer : CustomBehaviour
 
     [SerializeField] private Material[] materials;
 
+    [SerializeField] private Gradient color;
+
     [SerializeField] private float interpolateThreshold = 1F;
 
     private List<VertexLine> vertexLines = new List<VertexLine>();
@@ -93,11 +95,18 @@ public class DynamicTrailRenderer : CustomBehaviour
     private void InitializeMeshElements()
     {
         var vertices = new Vector3[xCount * yCount];
+        var normals = new Vector3[vertices.Length];
+        var uvs = new Vector2[vertices.Length];
+        var colors = new Color[vertices.Length];
+
         for (int i = 0; i < vertices.Length; ++i)
         {
             vertices[i] = Vector3.zero;
+            normals[i] = Vector3.back;
+            uvs[i] = new Vector2((float)(i % xCount) / (xCount - 1), (float)(i / xCount) / (yCount - 1));
+            colors[i] = color.Evaluate(uvs[i].x);
         }
-        mesh.vertices = vertices;
+
 
         var triangles = new int[(xCount - 1) * (yCount - 1) * 6];
         for (int i = 0, tIdx = 0, vIdx = 0; tIdx < triangles.Length; ++i, ++vIdx)
@@ -110,21 +119,12 @@ public class DynamicTrailRenderer : CustomBehaviour
                 triangles[tIdx + 3] = vIdx + 1;
             }
         }
+
+        mesh.vertices = vertices;
         mesh.triangles = triangles;
-
-        var normals = new Vector3[vertices.Length];
-        for (int i = 0; i < normals.Length; ++i)
-        {
-            normals[i] = Vector3.back;
-        }
         mesh.normals = normals;
-
-        var uvs = new Vector2[vertices.Length];
-        for (int i = 0; i < uvs.Length; ++i)
-        {
-            uvs[i] = new Vector2((float)(i % xCount) / (xCount - 1), (float)(i / xCount) / (yCount - 1));
-        }
         mesh.uv = uvs;
+        mesh.colors = colors;
 
 
         vertexLines.Clear();
@@ -141,6 +141,7 @@ public class DynamicTrailRenderer : CustomBehaviour
             vl.distance = deltaDistance * i;
 
             vl.InitializePoints(vertices, i, xCount);
+            vl.colors = colors;
         }
     }
 
