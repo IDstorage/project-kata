@@ -12,6 +12,16 @@ public class DynamicTrailRendererEditor : Editor
         var self = target as DynamicTrailRenderer;
         base.OnInspectorGUI();
 
+        GUILayout.Label("Offset");
+        EditorGUI.indentLevel++;
+        {
+            for (int i = self.Lines.Count - 1; i >= 0; --i)
+            {
+                self.Lines[i].offset = EditorGUILayout.Vector3Field($"{i + 1}", self.Lines[i].offset);
+            }
+        }
+        EditorGUI.indentLevel--;
+
         GUILayout.Space(20);
 
         EditorGUILayout.BeginHorizontal("box");
@@ -36,6 +46,22 @@ public class DynamicTrailRendererEditor : Editor
         }
 
         EditorGUILayout.EndHorizontal();
+    }
+
+
+    private void OnSceneGUI()
+    {
+        var self = target as DynamicTrailRenderer;
+        if (!self.showHandles) return;
+
+        for (int i = 0; i < self.Lines.Count; ++i)
+        {
+            if (i == self.AnchorLine) continue;
+
+            var line = self.Lines[i];
+            //line.offset = UnityEditor.Handles.PositionHandle(line.vertices[0], line.header.rotation) - line.vertices[0];
+            line.offset += UnityEditor.Handles.PositionHandle(line.GetVertex(0), line.header.rotation) - line.GetVertex(0);
+        }
     }
 }
 #endif

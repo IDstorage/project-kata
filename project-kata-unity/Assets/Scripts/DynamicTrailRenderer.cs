@@ -7,9 +7,9 @@ public class DynamicTrailRenderer : CustomBehaviour
 {
     public class VertexLine
     {
-        //public List<Vector3> vertices = new List<Vector3>();
         public Vector3[] vertices;
-        //public List<int> indices = new List<int>();
+        public Color[] colors;
+
         public (int line, int size) indices;
 
         public Transform header;
@@ -22,6 +22,8 @@ public class DynamicTrailRenderer : CustomBehaviour
 
         public bool freeze = false;
 
+        public Vector3 GetVertex(int index) => vertices[indices.size * indices.line + Mathf.Clamp(index, 0, indices.size - 1)];
+
         public void InitializePoints(Vector3[] vertices, int lineNumber, int size)
         {
             this.vertices = vertices;
@@ -31,7 +33,7 @@ public class DynamicTrailRenderer : CustomBehaviour
 
             for (int i = 0; i < indices.size; ++i)
             {
-                vertices[indices.size * indices.line + i] = header != null ? header.position + direction * distance + offset : Vector3.zero;
+                vertices[indices.size * indices.line + i] = header != null ? header.position + direction * distance + header.rotation * offset : Vector3.zero;
             }
         }
 
@@ -46,7 +48,7 @@ public class DynamicTrailRenderer : CustomBehaviour
                 vertices[indices.size * indices.line + i] = vertices[indices.size * indices.line + i - 1];
             }
 
-            vertices[indices.size * indices.line] = header.position + direction * distance + offset;
+            vertices[indices.size * indices.line] = header.position + direction * distance + header.rotation * offset;
         }
 
         public void Clear()
@@ -59,12 +61,14 @@ public class DynamicTrailRenderer : CustomBehaviour
     }
 
     [SerializeField, Min(0F)] private float width = 1F;
-    [SerializeField, Range(10, 50)] private int xCount = 10;
+    [SerializeField, Range(10, 100)] private int xCount = 10;
     [SerializeField, Range(2, 7)] private int yCount = 2;
 
     [SerializeField] private int anchorLine = 0;
 
     [SerializeField] private Material[] materials;
+
+    [SerializeField] private Gradient color;
 
     [SerializeField] private float interpolateThreshold = 1F;
 
@@ -91,11 +95,18 @@ public class DynamicTrailRenderer : CustomBehaviour
     private void InitializeMeshElements()
     {
         var vertices = new Vector3[xCount * yCount];
+        var normals = new Vector3[vertices.Length];
+        var uvs = new Vector2[vertices.Length];
+        var colors = new Color[vertices.Length];
+
         for (int i = 0; i < vertices.Length; ++i)
         {
             vertices[i] = Vector3.zero;
+            normals[i] = Vector3.back;
+            uvs[i] = new Vector2((float)(i % xCount) / (xCount - 1), (float)(i / xCount) / (yCount - 1));
+            colors[i] = color.Evaluate(uvs[i].x);
         }
-        mesh.vertices = vertices;
+
 
         var triangles = new int[(xCount - 1) * (yCount - 1) * 6];
         for (int i = 0, tIdx = 0, vIdx = 0; tIdx < triangles.Length; ++i, ++vIdx)
@@ -108,21 +119,12 @@ public class DynamicTrailRenderer : CustomBehaviour
                 triangles[tIdx + 3] = vIdx + 1;
             }
         }
+
+        mesh.vertices = vertices;
         mesh.triangles = triangles;
-
-        var normals = new Vector3[vertices.Length];
-        for (int i = 0; i < normals.Length; ++i)
-        {
-            normals[i] = Vector3.back;
-        }
         mesh.normals = normals;
-
-        var uvs = new Vector2[vertices.Length];
-        for (int i = 0; i < uvs.Length; ++i)
-        {
-            uvs[i] = new Vector2((float)(i % xCount) / (xCount - 1), (float)(i / xCount) / (yCount - 1));
-        }
         mesh.uv = uvs;
+        mesh.colors = colors;
 
 
         vertexLines.Clear();
@@ -139,6 +141,7 @@ public class DynamicTrailRenderer : CustomBehaviour
             vl.distance = deltaDistance * i;
 
             vl.InitializePoints(vertices, i, xCount);
+            vl.colors = colors;
         }
     }
 
@@ -200,15 +203,17 @@ public class DynamicTrailRenderer : CustomBehaviour
 
         void UpdateVertex()
         {
-            anchorLine = Mathf.Clamp(anchorLine, 0, yCount);
+            anchorLine = Mathf.Clamp(anchorLine, 0, yCount - 1);
 
             float deltaDistance = (float)width / (yCount - 1);
 
             for (int i = 0; i < vertexLines.Count; ++i)
             {
-                vertexLines[i].direction = transform.up;
-                vertexLines[i].distance = deltaDistance * (i - anchorLine);
-                vertexLines[i].Update();
+                var vl = vertexLines[i];
+                vl.direction = transform.up;
+                vl.distance = deltaDistance * (i - anchorLine);
+
+                vl.Update();
             }
 
             mesh.vertices = vertexLines[0].vertices;
@@ -228,22 +233,8 @@ public class DynamicTrailRenderer : CustomBehaviour
     [System.NonSerialized] public bool showHandles;
     [System.NonSerialized] public bool showGizmos;
 
-    private void ShowOffsetHandles()
-    {
-        for (int i = 0; i < vertexLines.Count; ++i)
-        {
-            var line = vertexLines[i];
-            //line.offset = UnityEditor.Handles.PositionHandle(line.vertices[0], line.header.rotation) - line.vertices[0];
-            UnityEditor.Handles.PositionHandle(line.vertices[0], line.header.rotation);
-        }
-    }
-
-    private void OnSceneGUI()
-    {
-        if (!showHandles) return;
-
-        ShowOffsetHandles();
-    }
+    public List<VertexLine> Lines => vertexLines;
+    public int AnchorLine => anchorLine;
 
     private void OnDrawGizmos()
     {
