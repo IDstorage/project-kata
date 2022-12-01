@@ -61,7 +61,7 @@ public class DynamicTrailRenderer : CustomBehaviour
     }
 
     [SerializeField, Min(0F)] private float width = 1F;
-    [SerializeField, Range(10, 50)] private int xCount = 10;
+    [SerializeField, Range(10, 100)] private int xCount = 10;
     [SerializeField, Range(2, 7)] private int yCount = 2;
 
     [SerializeField] private int anchorLine = 0;
@@ -203,15 +203,17 @@ public class DynamicTrailRenderer : CustomBehaviour
 
         void UpdateVertex()
         {
-            anchorLine = Mathf.Clamp(anchorLine, 0, yCount);
+            anchorLine = Mathf.Clamp(anchorLine, 0, yCount - 1);
 
             float deltaDistance = (float)width / (yCount - 1);
 
             for (int i = 0; i < vertexLines.Count; ++i)
             {
-                vertexLines[i].direction = transform.up;
-                vertexLines[i].distance = deltaDistance * (i - anchorLine);
-                vertexLines[i].Update();
+                var vl = vertexLines[i];
+                vl.direction = transform.up;
+                vl.distance = deltaDistance * (i - anchorLine);
+
+                vl.Update();
             }
 
             mesh.vertices = vertexLines[0].vertices;
