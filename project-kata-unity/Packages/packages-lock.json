@@ -1,13 +1,13 @@
 {
   "dependencies": {
     "com.anomaly.framework": {
-      "version": "https://github.com/IgnorantSquad/anomaly-framework.git#v0.0.12",
+      "version": "https://github.com/IgnorantSquad/anomaly-framework.git#v0.0.13",
       "depth": 0,
       "source": "git",
       "dependencies": {
         "com.unity.inputsystem": "1.2.0"
       },
-      "hash": "e36068d464446d044af7c0b8feb05f6fad22992d"
+      "hash": "8553fc77e5c6438673d8111fe0d5a75d14f14032"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
