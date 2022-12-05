@@ -322,7 +322,11 @@ public class PatternSequenceEditorWindow : EditorWindow
             if (ReferenceEquals(target, compare)) return;
 
             if (target.y >= compare.y && !justHorizontal) target.y++;
-            if (target.x >= compare.x && target.y == compare.y) target.x++;
+            if (target.x >= compare.x && target.y == compare.y)
+            {
+                if (target.IsBranch) target.alternative.x++;
+                target.x++;
+            }
 
             Arrange(target.next, compare, justHorizontal);
             Arrange(target.alternative, compare, justHorizontal);
