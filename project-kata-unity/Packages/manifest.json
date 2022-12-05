@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.anomaly.framework": "https://github.com/IgnorantSquad/anomaly-framework.git#v0.0.12",
+    "com.anomaly.framework": "https://github.com/IgnorantSquad/anomaly-framework.git#v0.0.13",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.addressables": "1.18.19",
     "com.unity.cinemachine": "2.6.15",
