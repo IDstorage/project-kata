@@ -3,14 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class PatternSequenceEditor : EditorWindow
+public class PatternSequenceEditorWindow : EditorWindow
 {
-    private static PatternSequenceEditor window;
+    private class WindowInfo
+    {
+        public int id;
+
+        public int x, y;
+        public string title = System.Guid.NewGuid().ToString();
+        public GUI.WindowFunction func;
+
+        public Rect windowRect;
+        public (int x, int y) margin;
+
+        public Rect Rect => new Rect(windowRect.x + (windowRect.width + margin.x) * x, windowRect.y + (windowRect.height + margin.y) * y, windowRect.width, windowRect.height);
+
+        public bool IsBranch => node is PatternSequence.Branch;
+
+        public PatternSequence.Node node;
+        public WindowInfo next, alternative;
+    }
+
+    private static PatternSequenceEditorWindow window;
     private static Vector2 mainFormSize, snbSize;
 
-    private PatternSequence targetSequence;
+    private Vector2 rootSpace = Vector2.zero;
 
+    private PatternSequence targetSequence;
     private string sequenceName;
+
+    private int globalID = 100000;
+    private Dictionary<int, WindowInfo> windows = new Dictionary<int, WindowInfo>();
+    private WindowInfo head;
+    private Rect windowRect = new Rect(0, 0, 150, 80);
+    private (int x, int y) margin = (10, 20);
 
 
     [MenuItem("Tools/Pattern Sequence Editor")]
@@ -21,7 +47,7 @@ public class PatternSequenceEditor : EditorWindow
             window.Close();
             window = null;
         }
-        window = EditorWindow.CreateInstance<PatternSequenceEditor>();
+        window = EditorWindow.CreateInstance<PatternSequenceEditorWindow>();
 
         window.ShowUtility();
 
@@ -45,6 +71,8 @@ public class PatternSequenceEditor : EditorWindow
 
     private void OnGUI()
     {
+        if (windows.Count == 0) head = AddWindowInfo(globalID, 0, 0);
+
         mainFormSize.x = window.position.width - snbSize.x - 10;
         mainFormSize.y = snbSize.y = window.position.height;
 
@@ -52,6 +80,7 @@ public class PatternSequenceEditor : EditorWindow
 
         // Main
         EditorGUILayout.BeginVertical("box", GUILayout.Width(mainFormSize.x));
+        DragBackground();
         DisplayMainForm();
         EditorGUILayout.EndVertical();
 
@@ -65,6 +94,22 @@ public class PatternSequenceEditor : EditorWindow
         EditorGUILayout.EndHorizontal();
     }
 
+
+    private void DragBackground()
+    {
+        if (Event.current.keyCode == KeyCode.Space)
+        {
+            rootSpace = Vector2.zero;
+            Repaint();
+        }
+        if (Event.current.type != EventType.MouseDrag) return;
+        if (Event.current.button != 2) return;
+
+        rootSpace.x += Event.current.delta.x;
+        rootSpace.y += Event.current.delta.y;
+
+        Repaint();
+    }
 
     private void DisplayMainForm()
     {
@@ -80,7 +125,71 @@ public class PatternSequenceEditor : EditorWindow
 
         GUILayout.Label($"Selected sequence: \t{targetSequence.name}", EditorStyles.boldLabel);
 
+        GUI.BeginGroup(new Rect(rootSpace.x, rootSpace.y, mainFormSize.x - rootSpace.x + 4, mainFormSize.y - rootSpace.y - 6));
+        BeginWindows();
+
+        Vector2 deltaCenter = new Vector2((position.width - windowRect.width) * 0.5f, position.height * 0.25f - windowRect.height * 0.5f);
+
+        foreach (var pair in windows)
+        {
+            var windowInfo = pair.Value;
+            windowInfo.windowRect = windowRect;
+            windowInfo.margin = margin;
+
+            var rect = windowInfo.Rect;
+            rect.position += deltaCenter;
+            GUI.Window(windowInfo.id, rect, windowInfo.func, string.Empty);
+
+            if (windowInfo.next != null)
+            {
+                var childRect = windowInfo.next.Rect;
+                childRect.position += deltaCenter;
+
+                DrawNodeCurve(Color.white,
+                    new Vector2(rect.x + rect.width, rect.y + rect.height * 0.5f),
+                    new Vector2(childRect.x, childRect.y + childRect.height * 0.5f));
+            }
+            if (windowInfo.alternative != null)
+            {
+                var childRect = windowInfo.alternative.Rect;
+                childRect.position += deltaCenter;
+
+                DrawNodeCurve(Color.white,
+                    new Vector2(rect.x + rect.width * 0.5f, rect.y + rect.height),
+                    new Vector2(childRect.x, childRect.y + childRect.height * 0.5f),
+                    new Vector2(rect.x + rect.width * 0.5f, childRect.y + childRect.height * 0.5f));
+            }
+        }
+
         Space();
+
+        EndWindows();
+        GUI.EndGroup();
+
+
+        void DrawNodeCurve(Color c, Vector2 startPos, Vector2 endPos, params Vector2[] middles)
+        {
+            float distance = Mathf.Abs(startPos.y - endPos.y);
+
+            var handleColor = Handles.color;
+            Handles.color = c;
+
+            if (middles.Length == 0)
+            {
+                Handles.DrawLine(startPos, endPos);
+            }
+            else
+            {
+                Handles.DrawLine(startPos, middles[0]);
+                for (int i = 0; i < middles.Length - 1; ++i)
+                {
+                    Handles.DrawLine(middles[i], middles[i + 1]);
+                }
+                Handles.DrawLine(middles[middles.Length - 1], endPos);
+            }
+
+            Handles.color = handleColor;
+        }
     }
 
     private void DisplaySNB()
@@ -146,6 +255,81 @@ public class PatternSequenceEditor : EditorWindow
     }
 
 
+    private WindowInfo AddWindowInfo(int id, int x, int y, GUI.WindowFunction func = null)
+    {
+        var rect = windowRect;
+        rect.x = windowRect.x + (rect.width + margin.x) * x;
+        rect.y = windowRect.y + (rect.height + margin.y) * y;
+
+        var newInfo = new WindowInfo() { id = id, x = x, y = y, func = func, node = new PatternSequence.Node() };
+        if (newInfo.func == null) newInfo.func = DefaultWindowFunc;
+
+        windows.Add(newInfo.id, newInfo);
+        return newInfo;
+    }
+
+    private void DefaultWindowFunc(int id)
+    {
+        var self = windows[id];
+
+        GUI.Label(new Rect(0, -22, windowRect.width - 45F, windowRect.height), $"{self.id} / ({self.x}, {self.y})");
+
+        if (self.next != null)
+            GUI.Label(new Rect(0, 0, windowRect.width - 45F, windowRect.height), $"Next ({self.next.x}, {self.next.y})");
+        if (self.alternative != null)
+            GUI.Label(new Rect(0, 22, windowRect.width - 45F, windowRect.height), $"Alt ({self.alternative.x}, {self.alternative.y})");
+
+        if (self.IsBranch) return;
+
+        bool createNew = GUI.Button(new Rect(windowRect.width - 45F, 0, 45F, windowRect.height - 25F), "+");
+        bool changeToBranch = GUI.Button(new Rect(windowRect.width - 45F, windowRect.height - 25F, 45F, 25F), "└");
+
+        if (changeToBranch)
+        {
+            self.node = new PatternSequence.Branch();
+
+            if (self.next == null)
+            {
+                self.next = AddWindowInfo(++globalID, self.x + 1, self.y);
+                Arrange(head, self.next, true);
+            }
+
+            self.alternative = AddWindowInfo(++globalID, self.x + 1, self.y + 1);
+            Arrange(head, self.alternative);
+
+            return;
+        }
+
+        if (!createNew) return;
+
+        var info = AddWindowInfo(++globalID, self.x + 1, self.y);
+
+        if (self.next == null)
+        {
+            self.next = info;
+            return;
+        }
+
+        Arrange(head, info, true);
+
+        info.next = self.next;
+        self.next = info;
+
+
+        void Arrange(WindowInfo target, WindowInfo compare, bool justHorizontal = false)
+        {
+            if (target == null || compare == null) return;
+            if (ReferenceEquals(target, compare)) return;
+
+            if (target.y >= compare.y && !justHorizontal) target.y++;
+            if (target.x >= compare.x && target.y == compare.y) target.x++;
+
+            Arrange(target.next, compare, justHorizontal);
+            Arrange(target.alternative, compare, justHorizontal);
+        }
+    }
+
+
     #region Editor Helper
     private void Space(float pixels = -1)
     {
@@ -153,10 +337,10 @@ public class PatternSequenceEditor : EditorWindow
         else GUILayout.Space(pixels);
     }
 
-    private void AlignCenter(bool horizontal, System.Action callback, string style = "")
+    private void AlignCenter(bool horizontal, System.Action callback)
     {
-        if (horizontal) EditorGUILayout.BeginHorizontal(style);
-        else EditorGUILayout.BeginVertical(style);
+        if (horizontal) EditorGUILayout.BeginHorizontal();
+        else EditorGUILayout.BeginVertical();
 
         GUILayout.FlexibleSpace();
         callback?.Invoke();
@@ -165,10 +349,10 @@ public class PatternSequenceEditor : EditorWindow
         if (horizontal) EditorGUILayout.EndHorizontal();
         else EditorGUILayout.EndVertical();
     }
-    private void AlignLeft(bool horizontal, System.Action callback, string style = "")
+    private void AlignLeft(bool horizontal, System.Action callback)
     {
-        if (horizontal) EditorGUILayout.BeginHorizontal(style);
-        else EditorGUILayout.BeginVertical(style);
+        if (horizontal) EditorGUILayout.BeginHorizontal();
+        else EditorGUILayout.BeginVertical();
 
         callback?.Invoke();
         GUILayout.FlexibleSpace();
@@ -176,10 +360,10 @@ public class PatternSequenceEditor : EditorWindow
         if (horizontal) EditorGUILayout.EndHorizontal();
         else EditorGUILayout.EndVertical();
     }
-    private void AlignRight(bool horizontal, System.Action callback, string style = "")
+    private void AlignRight(bool horizontal, System.Action callback)
     {
-        if (horizontal) EditorGUILayout.BeginHorizontal(style);
-        else EditorGUILayout.BeginVertical(style);
+        if (horizontal) EditorGUILayout.BeginHorizontal();
+        else EditorGUILayout.BeginVertical();
 
         GUILayout.FlexibleSpace();
         callback?.Invoke();
