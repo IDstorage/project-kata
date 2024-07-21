@@ -9,7 +9,7 @@
   <img src ="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white">
   <img src ="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white">
   <br>
-  <del>2022.7 ~ 2022.12</del> / <b>Renewal</b> 2023.5 ~
+  <!--<del>2022.7 ~ 2022.12</del> / <b>Renewal</b> 2023.5 ~-->
 </p>
 
 <br>
